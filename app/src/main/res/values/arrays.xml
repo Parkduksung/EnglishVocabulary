@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="home_tab">
+        <item>단어외우기</item>
+        <item>퀴즈</item>
+        <item>즐겨찾기</item>
+        <item>검색</item>
+    </string-array>
+</resources>
