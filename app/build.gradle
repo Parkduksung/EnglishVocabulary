@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -57,10 +58,6 @@ dependencies {
     implementation "androidx.room:room-runtime:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
 
-    //koin
-    implementation "org.koin:koin-androidx-scope:$koinVersion"
-    implementation "org.koin:koin-androidx-ext:$koinVersion"
-
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewModelVersion"
     // LiveData
@@ -75,4 +72,9 @@ dependencies {
     implementation "com.google.code.gson:gson:$gsonVersion"
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+
+    //hilt
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
 }
+

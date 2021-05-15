@@ -9,7 +9,9 @@ import com.example.englishvocabulary.R
 import com.example.englishvocabulary.base.BaseActivity
 import com.example.englishvocabulary.databinding.ActivityHomeBinding
 import com.google.android.material.tabs.TabLayout
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
