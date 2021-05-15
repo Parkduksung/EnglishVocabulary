@@ -13,7 +13,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
         super.onCreate(savedInstanceState)
 
         Handler().postDelayed({
-            startActivity(Intent(this, HomeActivity::class.java))
+            startActivity(HomeActivity.getIntent(this))
             finish()
         }, SPLASH_DELAY_MILLIS)
     }
