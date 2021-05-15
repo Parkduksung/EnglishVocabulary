@@ -6,14 +6,24 @@ import com.example.englishvocabulary.R
 import com.example.englishvocabulary.base.BaseFragment
 import com.example.englishvocabulary.databinding.FragmentStudyBinding
 
+
 class StudyFragment : BaseFragment<FragmentStudyBinding>(R.layout.fragment_study) {
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
     }
+
 
     companion object {
         fun newInstance() =
             StudyFragment()
     }
 }
+
+data class ExcelData(
+    var day: String = "",
+    var word: String = "",
+    var mean: String = "",
+)
