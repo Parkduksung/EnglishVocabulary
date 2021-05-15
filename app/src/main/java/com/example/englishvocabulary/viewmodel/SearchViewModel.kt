@@ -18,13 +18,12 @@ class SearchViewModel @Inject constructor(
 
     val searchWordLiveData = MutableLiveData<String>()
 
-
     fun searchWord() {
         searchWordLiveData.value?.let { searchWord ->
             searchRepository.searchWord(searchWord) {
-                Toast.makeText(App.instance.context(), it, Toast.LENGTH_LONG).show()
+                Toast.makeText(App.instance.context(), it.translated_text[0][0], Toast.LENGTH_LONG)
+                    .show()
             }
-
         }
     }
 }

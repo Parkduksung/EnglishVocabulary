@@ -69,7 +69,6 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:$recyclerviewVersion"
 
     //Retrofit
-    implementation "com.google.code.gson:gson:$gsonVersion"
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
 
