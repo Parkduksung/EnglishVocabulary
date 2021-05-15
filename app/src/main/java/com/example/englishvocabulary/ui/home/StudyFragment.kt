@@ -21,9 +21,3 @@ class StudyFragment : BaseFragment<FragmentStudyBinding>(R.layout.fragment_study
             StudyFragment()
     }
 }
-
-data class ExcelData(
-    var day: String = "",
-    var word: String = "",
-    var mean: String = "",
-)

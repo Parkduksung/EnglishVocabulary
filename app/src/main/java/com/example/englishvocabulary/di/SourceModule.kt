@@ -1,5 +1,7 @@
 package com.example.englishvocabulary.di
 
+import com.example.englishvocabulary.data.source.local.SplashLocalDataSource
+import com.example.englishvocabulary.data.source.local.SplashLocalDataSourceImpl
 import com.example.englishvocabulary.data.source.remote.SearchRemoteDataSource
 import com.example.englishvocabulary.data.source.remote.SearchRemoteDataSourceImpl
 import dagger.Binds
@@ -15,5 +17,10 @@ abstract class DataSourceModule {
     @Singleton
     @Binds
     abstract fun bindSearchRemoteDataSource(searchRemoteDataSourceImpl: SearchRemoteDataSourceImpl): SearchRemoteDataSource
+
+
+    @Singleton
+    @Binds
+    abstract fun bindSplashLocalDataSource(splashLocalDataSourceImpl: SplashLocalDataSourceImpl): SplashLocalDataSource
 
 }
