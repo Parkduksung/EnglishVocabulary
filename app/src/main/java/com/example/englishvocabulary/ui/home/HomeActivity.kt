@@ -8,6 +8,10 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import com.example.englishvocabulary.R
 import com.example.englishvocabulary.base.BaseActivity
 import com.example.englishvocabulary.databinding.ActivityHomeBinding
+import com.example.englishvocabulary.ui.home.bookmark.BookmarkFragment
+import com.example.englishvocabulary.ui.home.quiz.QuizFragment
+import com.example.englishvocabulary.ui.home.search.SearchFragment
+import com.example.englishvocabulary.ui.home.study.StudyFragment
 import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
 

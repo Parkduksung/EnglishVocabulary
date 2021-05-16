@@ -1,22 +1,22 @@
-package com.example.englishvocabulary.ui.home
+package com.example.englishvocabulary.ui.home.adapter.viewholder
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.englishvocabulary.R
 import com.example.englishvocabulary.data.model.ExcelData
-import com.example.englishvocabulary.databinding.ItemStudyBinding
+import com.example.englishvocabulary.databinding.ItemBookmarkBinding
 
-class StudyViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
+class BookmarkViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(
-        R.layout.item_study, parent, false
+        R.layout.item_bookmark, parent, false
     )
 ) {
-    private val binding = ItemStudyBinding.bind(itemView)
+    private val binding = ItemBookmarkBinding.bind(itemView)
 
     fun bind(
         item: ExcelData,
-        itemClickListener: VocaListener
+        itemClickListener: BookmarkListener
     ) {
 
         itemView.setOnClickListener {
@@ -24,14 +24,12 @@ class StudyViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         }
 
         binding.apply {
-            day.text = item.day
             word.text = item.word
-            mean.text = item.mean
         }
     }
 
 }
 
-interface VocaListener {
+interface BookmarkListener {
     fun getItemClick(item: ExcelData)
 }

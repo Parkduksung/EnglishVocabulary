@@ -1,8 +1,10 @@
-package com.example.englishvocabulary.ui.home
+package com.example.englishvocabulary.ui.home.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.englishvocabulary.data.model.ExcelData
+import com.example.englishvocabulary.ui.home.adapter.viewholder.StudyViewHolder
+import com.example.englishvocabulary.ui.home.adapter.viewholder.VocaListener
 
 class StudyAdapter : RecyclerView.Adapter<StudyViewHolder>() {
 

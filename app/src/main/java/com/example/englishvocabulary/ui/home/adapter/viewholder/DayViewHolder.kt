@@ -1,4 +1,4 @@
-package com.example.englishvocabulary.ui.home
+package com.example.englishvocabulary.ui.home.adapter.viewholder
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

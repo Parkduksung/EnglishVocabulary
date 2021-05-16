@@ -1,21 +1,19 @@
-package com.example.englishvocabulary.ui.home
+package com.example.englishvocabulary.ui.home.quiz
 
 import android.os.Bundle
 import android.view.View
 import com.example.englishvocabulary.R
 import com.example.englishvocabulary.base.BaseFragment
-import com.example.englishvocabulary.databinding.FragmentBookmarkBinding
+import com.example.englishvocabulary.databinding.FragmentQuizBinding
 
-class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(R.layout.fragment_bookmark) {
-
+class QuizFragment : BaseFragment<FragmentQuizBinding>(R.layout.fragment_quiz) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
     }
+
     companion object {
         fun newInstance() =
-            BookmarkFragment()
+            QuizFragment()
     }
 }

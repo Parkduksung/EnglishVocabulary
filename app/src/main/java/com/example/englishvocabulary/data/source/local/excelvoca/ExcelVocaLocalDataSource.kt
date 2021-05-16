@@ -1,4 +1,4 @@
-package com.example.englishvocabulary.data.source.local
+package com.example.englishvocabulary.data.source.local.excelvoca
 
 import com.example.englishvocabulary.network.room.entity.ExcelVocaEntity
 

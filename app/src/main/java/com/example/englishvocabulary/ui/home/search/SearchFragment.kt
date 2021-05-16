@@ -1,4 +1,4 @@
-package com.example.englishvocabulary.ui.home
+package com.example.englishvocabulary.ui.home.search
 
 import android.os.Bundle
 import android.view.View

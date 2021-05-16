@@ -1,7 +1,9 @@
-package com.example.englishvocabulary.ui.home
+package com.example.englishvocabulary.ui.home.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.englishvocabulary.ui.home.adapter.viewholder.DayListener
+import com.example.englishvocabulary.ui.home.adapter.viewholder.DayViewHolder
 
 class DayAdapter : RecyclerView.Adapter<DayViewHolder>() {
 

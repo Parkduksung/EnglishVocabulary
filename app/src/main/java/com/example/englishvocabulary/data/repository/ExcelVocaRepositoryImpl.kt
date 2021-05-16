@@ -1,6 +1,6 @@
 package com.example.englishvocabulary.data.repository
 
-import com.example.englishvocabulary.data.source.local.ExcelVocaLocalDataSource
+import com.example.englishvocabulary.data.source.local.excelvoca.ExcelVocaLocalDataSource
 import com.example.englishvocabulary.network.room.entity.ExcelVocaEntity
 import javax.inject.Inject
 

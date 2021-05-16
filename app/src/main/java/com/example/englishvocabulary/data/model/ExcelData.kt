@@ -1,5 +1,6 @@
 package com.example.englishvocabulary.data.model
 
+import com.example.englishvocabulary.network.room.entity.BookmarkEntity
 import com.example.englishvocabulary.network.room.entity.ExcelVocaEntity
 
 data class ExcelData(
@@ -10,7 +11,11 @@ data class ExcelData(
 ) {
     fun toExcelVocaEntity(): ExcelVocaEntity =
         ExcelVocaEntity(
-            0,
-            day, word, mean, like
+            0, day, word, mean, like
+        )
+
+    fun toBookmarkEntity(): BookmarkEntity =
+        BookmarkEntity(
+            0, day, word, mean, like
         )
 }

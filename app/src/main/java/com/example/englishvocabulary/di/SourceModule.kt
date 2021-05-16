@@ -1,7 +1,9 @@
 package com.example.englishvocabulary.di
 
-import com.example.englishvocabulary.data.source.local.ExcelVocaLocalDataSource
-import com.example.englishvocabulary.data.source.local.ExcelVocaLocalDataSourceImpl
+import com.example.englishvocabulary.data.source.local.bookmark.BookmarkLocalDataSource
+import com.example.englishvocabulary.data.source.local.bookmark.BookmarkLocalDataSourceImpl
+import com.example.englishvocabulary.data.source.local.excelvoca.ExcelVocaLocalDataSource
+import com.example.englishvocabulary.data.source.local.excelvoca.ExcelVocaLocalDataSourceImpl
 import com.example.englishvocabulary.data.source.remote.SearchRemoteDataSource
 import com.example.englishvocabulary.data.source.remote.SearchRemoteDataSourceImpl
 import dagger.Binds
@@ -22,5 +24,10 @@ abstract class DataSourceModule {
     @Singleton
     @Binds
     abstract fun bindExcelVocaLocalDataSource(excelVocaLocalDataSourceImpl: ExcelVocaLocalDataSourceImpl): ExcelVocaLocalDataSource
+
+
+    @Singleton
+    @Binds
+    abstract fun bindBookmarkDataSource(bookmarkLocalDataSourceImpl: BookmarkLocalDataSourceImpl): BookmarkLocalDataSource
 
 }
