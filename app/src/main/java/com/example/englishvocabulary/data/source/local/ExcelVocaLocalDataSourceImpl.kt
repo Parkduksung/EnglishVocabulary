@@ -41,6 +41,23 @@ class ExcelVocaLocalDataSourceImpl @Inject constructor(private val excelVocaDao:
         }
     }
 
+    override fun getWantDayExcelData(
+        day: String,
+        callback: (excelList: List<ExcelVocaEntity>) -> Unit
+    ) {
+
+        val appExecutors = AppExecutors()
+
+        appExecutors.diskIO.execute {
+            val getWantDayExcelVocaEntity = excelVocaDao.getDayExcelVocaEntity(wantDay = day)
+
+            appExecutors.mainThread.execute {
+                callback(getWantDayExcelVocaEntity)
+            }
+        }
+
+    }
+
     private fun registerAllReadExcelFileData() {
         getAllReadExcelFileData().forEach { excelData ->
             excelVocaDao.registerExcelVocaEntity(excelData.toExcelVocaEntity())

@@ -15,4 +15,8 @@ interface ExcelVocaDao {
     @Query("SELECT * FROM excel_voca_table")
     fun getAll(): List<ExcelVocaEntity>
 
+
+    @Query("SELECT * FROM excel_voca_table WHERE day = (:wantDay)")
+    fun getDayExcelVocaEntity(wantDay: String): List<ExcelVocaEntity>
+
 }

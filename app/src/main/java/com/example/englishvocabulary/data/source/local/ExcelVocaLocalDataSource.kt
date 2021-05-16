@@ -12,4 +12,8 @@ interface ExcelVocaLocalDataSource {
         callback: (isVerify: Boolean) -> Unit
     )
 
+    fun getWantDayExcelData(
+        day : String,
+        callback: (excelList: List<ExcelVocaEntity>) -> Unit
+    )
 }

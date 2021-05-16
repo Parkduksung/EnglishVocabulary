@@ -14,4 +14,11 @@ class ExcelVocaRepositoryImpl @Inject constructor(private val excelVocaLocalData
     override fun verifyExcelData(callback: (isVerify: Boolean) -> Unit) {
         excelVocaLocalDataSource.verifyExcelData(callback)
     }
+
+    override fun getWantDayExcelData(
+        day: String,
+        callback: (excelList: List<ExcelVocaEntity>) -> Unit
+    ) {
+        excelVocaLocalDataSource.getWantDayExcelData(day, callback)
+    }
 }
