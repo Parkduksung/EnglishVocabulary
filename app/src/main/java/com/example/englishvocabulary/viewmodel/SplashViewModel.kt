@@ -6,21 +6,28 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import com.example.englishvocabulary.base.BaseViewModel
-import com.example.englishvocabulary.data.repository.SplashRepository
+import com.example.englishvocabulary.data.repository.ExcelVocaRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     app: Application,
-    private val splashRepository: SplashRepository
+    private val excelVocaRepository: ExcelVocaRepository
 ) : BaseViewModel(app),
     LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun readExcelFile() {
-        splashRepository.getExcelData {
-            Log.d("결과", it.size.toString())
+    fun verifyExcelVocaData() {
+        excelVocaRepository.getExcelData {
+            if (it.isEmpty()) {
+                excelVocaRepository.verifyExcelData {
+                    Log.d("결과", it.toString())
+                }
+            } else {
+                Log.d("결과", it.size.toString())
+            }
+
         }
     }
 }

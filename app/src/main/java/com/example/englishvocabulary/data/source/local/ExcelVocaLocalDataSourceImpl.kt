@@ -2,21 +2,63 @@ package com.example.englishvocabulary.data.source.local
 
 import com.example.englishvocabulary.App
 import com.example.englishvocabulary.data.model.ExcelData
+import com.example.englishvocabulary.network.room.dao.ExcelVocaDao
+import com.example.englishvocabulary.network.room.entity.ExcelVocaEntity
+import com.example.englishvocabulary.util.AppExecutors
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
 import org.apache.poi.poifs.filesystem.POIFSFileSystem
 import javax.inject.Inject
 
-class SplashLocalDataSourceImpl @Inject constructor() : SplashLocalDataSource {
+class ExcelVocaLocalDataSourceImpl @Inject constructor(private val excelVocaDao: ExcelVocaDao) :
+    ExcelVocaLocalDataSource {
 
-    override fun getExcelData(callback: (excelList: List<ExcelData>) -> Unit) {
+    override fun getExcelData(callback: (excelList: List<ExcelVocaEntity>) -> Unit) {
 
-        val excelDataList = mutableListOf<ExcelData>().apply {
+        val appExecutors = AppExecutors()
+
+        appExecutors.diskIO.execute {
+
+            val getAllExcelVocaEntity = getAllExcelVocaEntity()
+
+            appExecutors.mainThread.execute {
+                callback(getAllExcelVocaEntity)
+            }
+        }
+    }
+
+    override fun verifyExcelData(callback: (isVerify: Boolean) -> Unit) {
+
+        val appExecutors = AppExecutors()
+
+        appExecutors.diskIO.execute {
+
+            if (getAllExcelVocaEntity().isEmpty()) {
+                registerAllReadExcelFileData()
+            }
+            appExecutors.mainThread.execute {
+                callback(true)
+            }
+        }
+    }
+
+    private fun registerAllReadExcelFileData() {
+        getAllReadExcelFileData().forEach { excelData ->
+            excelVocaDao.registerExcelVocaEntity(excelData.toExcelVocaEntity())
+        }
+    }
+
+    private fun getAllExcelVocaEntity(): List<ExcelVocaEntity> {
+        return excelVocaDao.getAll()
+    }
+
+    private fun getAllReadExcelFileData(): List<ExcelData> {
+        return mutableListOf<ExcelData>().apply {
             vocaList.forEach {
                 addAll(readExcelFile(it))
             }
         }
-        callback(excelDataList)
     }
+
 
     private fun readExcelFile(file: String): List<ExcelData> {
 
@@ -50,7 +92,6 @@ class SplashLocalDataSourceImpl @Inject constructor() : SplashLocalDataSource {
                 excelListDataList.add(excelData)
             }
         }
-
         return excelListDataList
     }
 
