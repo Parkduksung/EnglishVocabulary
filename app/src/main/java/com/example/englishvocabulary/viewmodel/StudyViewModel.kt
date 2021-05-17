@@ -1,6 +1,7 @@
 package com.example.englishvocabulary.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.englishvocabulary.base.BaseViewModel
 import com.example.englishvocabulary.data.model.ExcelData
@@ -22,6 +23,11 @@ class StudyViewModel @Inject constructor(
         excelVocaRepository.getWantDayExcelData(day.toLowerCase()) {
             val getAllExcelData = it.map { excelVocaEntity -> excelVocaEntity.toExcelData() }
             _allExcelData.value = getAllExcelData
+        }
+    }
+
+    fun toggleBookmark(isBookmarked: Boolean, item: ExcelData) {
+        excelVocaRepository.toggleBookmarkExcelData(isBookmarked, item) {
         }
     }
 }

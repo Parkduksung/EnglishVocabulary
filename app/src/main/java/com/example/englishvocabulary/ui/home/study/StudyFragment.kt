@@ -30,7 +30,7 @@ class StudyFragment : BaseFragment<FragmentStudyBinding>(R.layout.fragment_study
     private val studyViewModel by viewModels<StudyViewModel>()
 
     override fun getItemClick(item: ExcelData) {
-        Toast.makeText(requireContext(), item.mean, Toast.LENGTH_SHORT).show()
+        studyViewModel.toggleBookmark(true, item)
     }
 
     override fun getItemClick(item: String) {

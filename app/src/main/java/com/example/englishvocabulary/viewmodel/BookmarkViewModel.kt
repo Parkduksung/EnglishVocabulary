@@ -1,57 +1,40 @@
 package com.example.englishvocabulary.viewmodel
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.englishvocabulary.base.BaseViewModel
+import com.example.englishvocabulary.base.ViewState
 import com.example.englishvocabulary.data.model.ExcelData
-import com.example.englishvocabulary.data.repository.BookmarkRepository
-import com.example.englishvocabulary.network.room.entity.BookmarkEntity
+import com.example.englishvocabulary.data.repository.ExcelVocaRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class BookmarkViewModel @Inject constructor(
     app: Application,
-    private val bookmarkRepository: BookmarkRepository
+    private val excelVocaRepository: ExcelVocaRepository
 ) : BaseViewModel(app), LifecycleObserver {
 
     private val _bookmarkListLiveData = MutableLiveData<List<ExcelData>>()
-    val bookmarkListLiveData: LiveData<List<ExcelData>> = _bookmarkListLiveData.distinctUntilChanged()
+    val bookmarkListLiveData: LiveData<List<ExcelData>> = _bookmarkListLiveData
 
-    private val bookmarkList = mutableSetOf<ExcelData>()
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    private fun getAllBookmark() {
-        bookmarkRepository.getAllList { bookmarkEntityList ->
+    fun getAllBookmark() {
+        excelVocaRepository.getAllBookmarkExcelData { bookmarkEntityList ->
             _bookmarkListLiveData.value = bookmarkEntityList.toSet().map { it.toExcelData() }
         }
     }
 
-
-    fun getAddBookmark() {
-        bookmarkRepository.addBookmark(
-            BookmarkEntity(0, "day1", "resume", "이력서", true)
-        ) { isSuccess ->
-            if (isSuccess) {
-                getAllBookmark()
-//                bookmarkList.add(ExcelData("day1", "resume", "이력서", true))
-                Log.d("결과", "등록됨..")
-            }
-        }
-    }
-
     fun deleteBookmark(item: ExcelData) {
-
-        bookmarkRepository.deleteBookmark(
-            item.toBookmarkEntity()
-        ) { isSuccess ->
-            if (isSuccess) {
-                getAllBookmark()
-                Log.d("결과", "등록됨..")
+        excelVocaRepository.toggleBookmarkExcelData(false, item) {
+            if (it) {
+                viewStateChanged(BookmarkViewState.RenewBookmarkAdapter)
             }
         }
-
     }
 
+    sealed class BookmarkViewState : ViewState {
+        object RenewBookmarkAdapter : BookmarkViewState()
+    }
 }

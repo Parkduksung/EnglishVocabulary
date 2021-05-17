@@ -44,6 +44,12 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
                     homeTabList[position]
             }
 
+            homePager.apply {
+                offscreenPageLimit = 4
+                setSwipePagingEnabled(false)
+            }
+
+
             bottomTab.run {
                 addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                     override fun onTabSelected(tab: TabLayout.Tab?) {

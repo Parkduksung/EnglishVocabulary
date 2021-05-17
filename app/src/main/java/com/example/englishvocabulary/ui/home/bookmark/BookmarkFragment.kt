@@ -14,6 +14,7 @@ import com.example.englishvocabulary.ui.home.adapter.BookmarkAdapter
 import com.example.englishvocabulary.ui.home.adapter.viewholder.BookmarkListener
 import com.example.englishvocabulary.viewmodel.BookmarkViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.lang.Thread.sleep
 
 @AndroidEntryPoint
 class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(R.layout.fragment_bookmark),
@@ -29,16 +30,18 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(R.layout.fragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         lifecycle.addObserver(bookmarkViewModel)
 
         bookmarkViewModel.bookmarkListLiveData.observe(viewLifecycleOwner, {
             bookmarkAdapter.addAllBookmarkData(it)
         })
 
-        binding.registerButton.setOnClickListener {
-            bookmarkViewModel.getAddBookmark()
-        }
+        bookmarkViewModel.viewStateLiveData.observe(viewLifecycleOwner, {
+            if (it == BookmarkViewModel.BookmarkViewState.RenewBookmarkAdapter) {
+                bookmarkAdapter.clear()
+                bookmarkViewModel.getAllBookmark()
+            }
+        })
     }
 
     override fun onResume() {

@@ -12,6 +12,45 @@ import javax.inject.Inject
 class ExcelVocaLocalDataSourceImpl @Inject constructor(private val excelVocaDao: ExcelVocaDao) :
     ExcelVocaLocalDataSource {
 
+    override fun toggleBookmarkExcelData(
+        toggleBookmark: Boolean,
+        item: ExcelData,
+        callback: (isSuccess: Boolean) -> Unit
+    ) {
+        val appExecutors = AppExecutors()
+
+        appExecutors.diskIO.execute {
+            val updateExcelData = excelVocaDao.updateBookmarkExcelData(
+                day = item.day,
+                word = item.word,
+                mean = item.mean,
+                toggleBookmark
+            )
+
+            appExecutors.mainThread.execute {
+                if (updateExcelData == 1) {
+                    callback(true)
+                } else {
+                    callback(false)
+                }
+            }
+        }
+    }
+
+    override fun getAllBookmarkExcelData(callback: (excelList: List<ExcelVocaEntity>) -> Unit) {
+        val appExecutors = AppExecutors()
+
+        appExecutors.diskIO.execute {
+
+            val getAllBookmarkExcelData = excelVocaDao.getBookmarkExcelVocaEntity(true)
+
+            appExecutors.mainThread.execute {
+                callback(getAllBookmarkExcelData)
+            }
+        }
+
+    }
+
     override fun getExcelData(callback: (excelList: List<ExcelVocaEntity>) -> Unit) {
 
         val appExecutors = AppExecutors()
