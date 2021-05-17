@@ -1,8 +1,8 @@
 package com.example.englishvocabulary.ui.home.study
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -29,8 +29,8 @@ class StudyFragment : BaseFragment<FragmentStudyBinding>(R.layout.fragment_study
 
     private val studyViewModel by viewModels<StudyViewModel>()
 
-    override fun getItemClick(item: ExcelData) {
-        studyViewModel.toggleBookmark(true, item)
+    override fun getItemClick(isChecked: Boolean, item: ExcelData) {
+        studyViewModel.toggleBookmark(isChecked, item)
     }
 
     override fun getItemClick(item: String) {

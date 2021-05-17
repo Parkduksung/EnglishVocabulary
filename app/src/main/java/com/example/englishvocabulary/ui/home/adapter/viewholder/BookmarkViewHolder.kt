@@ -19,13 +19,15 @@ class BookmarkViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         itemClickListener: BookmarkListener
     ) {
 
-        itemView.setOnClickListener {
-            itemClickListener.getItemClick(item)
-        }
-
         binding.apply {
             word.text = item.word
+            mean.text = item.mean
+
+            bookmark.setOnClickListener {
+                itemClickListener.getItemClick(item)
+            }
         }
+
     }
 
 }

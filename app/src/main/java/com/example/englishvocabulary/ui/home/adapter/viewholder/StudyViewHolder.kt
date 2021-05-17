@@ -18,20 +18,18 @@ class StudyViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         item: ExcelData,
         itemClickListener: VocaListener
     ) {
-
-        itemView.setOnClickListener {
-            itemClickListener.getItemClick(item)
-        }
-
         binding.apply {
-            day.text = item.day
             word.text = item.word
             mean.text = item.mean
+            bookmark.isChecked = item.like
+            bookmark.setOnCheckedChangeListener { _, isChecked ->
+                itemClickListener.getItemClick(isChecked, item)
+            }
         }
     }
 
 }
 
 interface VocaListener {
-    fun getItemClick(item: ExcelData)
+    fun getItemClick(isChecked: Boolean, item: ExcelData)
 }
