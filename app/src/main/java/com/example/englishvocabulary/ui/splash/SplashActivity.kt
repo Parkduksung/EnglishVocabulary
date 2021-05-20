@@ -7,8 +7,12 @@ import com.example.englishvocabulary.R
 import com.example.englishvocabulary.base.BaseActivity
 import com.example.englishvocabulary.databinding.ActivitySplashBinding
 import com.example.englishvocabulary.ui.home.HomeActivity
+import com.example.englishvocabulary.util.ImageUtils
 import com.example.englishvocabulary.viewmodel.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_splash) {
@@ -21,10 +25,16 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
 
         lifecycle.addObserver(splashViewModel)
 
-        Handler().postDelayed({
-            startActivity(HomeActivity.getIntent(this))
+        GlobalScope.launch {
+            binding.image.startAnimation(
+                ImageUtils.blinkAnimation(duration = SPLASH_DELAY_MILLIS)
+            )
+            delay(SPLASH_DELAY_MILLIS)
+            startActivity(HomeActivity.getIntent(this@SplashActivity))
             finish()
-        }, SPLASH_DELAY_MILLIS)
+            this@SplashActivity.finish()
+        }
+
     }
 
 
