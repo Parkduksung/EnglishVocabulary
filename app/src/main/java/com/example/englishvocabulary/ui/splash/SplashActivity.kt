@@ -26,7 +26,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
         lifecycle.addObserver(splashViewModel)
 
         GlobalScope.launch {
-            binding.image.startAnimation(
+            binding.splashContainer.startAnimation(
                 ImageUtils.blinkAnimation(duration = SPLASH_DELAY_MILLIS)
             )
             delay(SPLASH_DELAY_MILLIS)
