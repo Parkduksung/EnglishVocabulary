@@ -14,14 +14,14 @@ import com.example.englishvocabulary.ui.home.adapter.DayAdapter
 import com.example.englishvocabulary.ui.home.adapter.StudyAdapter
 import com.example.englishvocabulary.ui.home.adapter.viewholder.DayListener
 import com.example.englishvocabulary.ui.home.adapter.viewholder.VocaListener
-import com.example.englishvocabulary.ui.home.bookmark.DeleteBookmarkListener
+import com.example.englishvocabulary.ui.home.bookmark.RenewBookmarkListener
 import com.example.englishvocabulary.viewmodel.StudyViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
 class StudyFragment : BaseFragment<FragmentStudyBinding>(R.layout.fragment_study), VocaListener,
-    DayListener, DeleteBookmarkListener {
+    DayListener, RenewBookmarkListener {
 
     private val studyAdapter by lazy { StudyAdapter() }
 
@@ -30,7 +30,7 @@ class StudyFragment : BaseFragment<FragmentStudyBinding>(R.layout.fragment_study
     private val studyViewModel by viewModels<StudyViewModel>()
 
 
-    override fun deleteItem(item: ExcelData) {
+    override fun renewItem(item: ExcelData) {
         if (binding.studyRv.adapter == studyAdapter) {
             studyViewModel.toggleBookmark(!item.like, item)
             studyAdapter.stateChangeBookmark(item)

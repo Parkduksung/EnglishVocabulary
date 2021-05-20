@@ -10,7 +10,7 @@ import com.example.englishvocabulary.base.BaseActivity
 import com.example.englishvocabulary.data.model.ExcelData
 import com.example.englishvocabulary.databinding.ActivityHomeBinding
 import com.example.englishvocabulary.ui.home.bookmark.BookmarkFragment
-import com.example.englishvocabulary.ui.home.bookmark.DeleteBookmarkListener
+import com.example.englishvocabulary.ui.home.bookmark.RenewBookmarkListener
 import com.example.englishvocabulary.ui.home.quiz.QuizFragment
 import com.example.englishvocabulary.ui.home.search.SearchFragment
 import com.example.englishvocabulary.ui.home.study.StudyFragment
@@ -19,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home),
-    DeleteBookmarkListener {
+    RenewBookmarkListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,11 +78,11 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home),
         }
     }
 
-    override fun deleteItem(item: ExcelData) {
+    override fun renewItem(item: ExcelData) {
         supportFragmentManager.fragments.forEach {
             when (it) {
-                is StudyFragment -> {
-                    it.deleteItem(item)
+                is StudyFragment-> {
+                    it.renewItem(item)
                 }
             }
         }

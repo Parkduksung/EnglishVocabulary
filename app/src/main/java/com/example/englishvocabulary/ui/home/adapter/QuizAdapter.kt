@@ -3,6 +3,7 @@ package com.example.englishvocabulary.ui.home.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.englishvocabulary.data.model.ExcelData
+import com.example.englishvocabulary.ui.home.adapter.viewholder.QuizItemListener
 import com.example.englishvocabulary.ui.home.adapter.viewholder.QuizViewHolder
 import com.example.englishvocabulary.ui.home.adapter.viewholder.VocaListener
 
@@ -10,34 +11,38 @@ class QuizAdapter : RecyclerView.Adapter<QuizViewHolder>() {
 
     private val vocaList = mutableListOf<List<ExcelData>>()
 
-//    private lateinit var vocaListener: VocaListener
+    private val shuffledVocaList = mutableListOf<List<ExcelData>>()
+
+    private lateinit var quizItemListener: QuizItemListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuizViewHolder =
         QuizViewHolder(parent)
 
-
     override fun getItemCount(): Int =
         vocaList.size
 
-    override fun onBindViewHolder(holder: QuizViewHolder, position: Int) =
-        holder.bind(vocaList[position])
-
+    override fun onBindViewHolder(holder: QuizViewHolder, position: Int) {
+        holder.apply {
+            setIsRecyclable(false)
+            bind(vocaList[position],shuffledVocaList[position], quizItemListener)
+        }
+    }
 
     fun addAllVocaData(list: List<List<ExcelData>>) {
-        list.forEach {
-            vocaList.add(it)
-        }
+        vocaList.addAll(list)
+        shuffledVocaList.addAll(list.map { it.shuffled() })
         notifyDataSetChanged()
     }
 
     fun clear() {
         vocaList.clear()
+        shuffledVocaList.clear()
         notifyDataSetChanged()
     }
 
-//    fun setVocaItemClickListener(listener: VocaListener) {
-//        vocaListener = listener
-//    }
+    fun setVocaItemClickListener(listener: QuizItemListener) {
+        quizItemListener = listener
+    }
 //
 //    fun stateChangeBookmark(item: ExcelData) {
 //        val index = vocaList.indexOf(item)

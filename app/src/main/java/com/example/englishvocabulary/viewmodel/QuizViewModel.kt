@@ -2,8 +2,10 @@ package com.example.englishvocabulary.viewmodel
 
 import android.app.Application
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.englishvocabulary.App
 import com.example.englishvocabulary.base.BaseViewModel
 import com.example.englishvocabulary.data.model.ExcelData
 import com.example.englishvocabulary.data.repository.ExcelVocaRepository
@@ -22,10 +24,17 @@ class QuizViewModel @Inject constructor(
 
     fun getAllExcelVoca() {
         excelVocaRepository.getExcelData { excelVocaEntityList ->
-            val getAllExcelData = excelVocaEntityList.map { it.toExcelData() }
+            val getAllExcelData = excelVocaEntityList.map { it.toExcelData() }.shuffled()
             _quizList.value = getAllExcelData.chunked(4).subList(0, 10)
         }
     }
 
+    fun addBookmarkItem(item: ExcelData) {
+        excelVocaRepository.toggleBookmarkExcelData(toggleBookmark = true, item) {
+            if(it){
+                Toast.makeText(App.instance.context(), "즐겨찾기에 추가되었습니다.", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
 
 }

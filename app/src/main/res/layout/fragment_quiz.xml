@@ -11,11 +11,154 @@
         android:layout_height="match_parent">
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/quiz_rv"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/start_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@id/start_tv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent=".8">
+
+                <TextView
+                    android:id="@+id/content1_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/quiz_content1"
+                    android:textSize="35sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias=".05"
+                    app:layout_constraintWidth_percent=".8" />
+
+                <TextView
+                    android:id="@+id/content2_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:autoSizeMaxTextSize="25sp"
+                    android:autoSizeMinTextSize="18dp"
+                    android:autoSizeTextType="uniform"
+                    android:gravity="center_vertical"
+                    android:text="@string/quiz_content2"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_percent=".1"
+                    app:layout_constraintHorizontal_bias=".0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias=".3" />
+
+                <TextView
+                    android:id="@+id/content3_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:autoSizeMaxTextSize="25sp"
+                    android:autoSizeMinTextSize="18dp"
+                    android:autoSizeTextType="uniform"
+                    android:gravity="center_vertical"
+                    android:text="@string/quiz_content3"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_percent=".1"
+                    app:layout_constraintHorizontal_bias=".0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias=".5" />
+
+                <TextView
+                    android:id="@+id/content4_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:autoSizeMaxTextSize="25sp"
+                    android:autoSizeMinTextSize="18dp"
+                    android:autoSizeTextType="uniform"
+                    android:gravity="center_vertical"
+                    android:text="@string/quiz_content4"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_percent=".1"
+                    app:layout_constraintHorizontal_bias=".0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias=".7" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <TextView
+                android:id="@+id/start_tv"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/selector_border"
+                android:gravity="center"
+                android:text="@string/quiz_start"
+                android:textColor="@drawable/selector_text"
+                android:textSize="35sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent=".15"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias=".9"
+                app:layout_constraintWidth_percent=".5" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/quiz_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/back_button"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/ic_back"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="H,1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias=".0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias=".0"
+                app:layout_constraintWidth_percent=".1" />
+
+            <ImageView
+                android:id="@+id/refresh_button"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/ic_refresh"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="H,1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias=".0"
+                app:layout_constraintWidth_percent=".1" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/quiz_rv"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/back_button" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,9 +1,10 @@
 package com.example.englishvocabulary.ui.home.adapter.viewholder
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.englishvocabulary.App
 import com.example.englishvocabulary.R
@@ -18,36 +19,49 @@ class QuizViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     private val binding = ItemQuizBinding.bind(itemView)
 
     fun bind(
-        item: List<ExcelData>
+        item: List<ExcelData>,
+        shuffled : List<ExcelData>,
+        listener: QuizItemListener
     ) {
 
-        val resultItem = item.shuffled()[0]
+        val resultItem = item[0]
 
-        val shuffleList = item.shuffled()
+//        val shuffleList = item.shuffled()
 
         binding.apply {
             word.text = resultItem.word
 
-            mean1.text = shuffleList[0].mean
-            mean2.text = shuffleList[1].mean
-            mean3.text = shuffleList[2].mean
-            mean4.text = shuffleList[3].mean
+            mean1.text = shuffled[0].mean
+            mean2.text = shuffled[1].mean
+            mean3.text = shuffled[2].mean
+            mean4.text = shuffled[3].mean
 
             mean1.setOnClickListener { mean1.checkAnswer(resultItem.mean) }
             mean2.setOnClickListener { mean2.checkAnswer(resultItem.mean) }
             mean3.setOnClickListener { mean3.checkAnswer(resultItem.mean) }
             mean4.setOnClickListener { mean4.checkAnswer(resultItem.mean) }
-
         }
+
+        itemView.setOnLongClickListener {
+            listener.getItem(resultItem)
+            false
+        }
+
     }
 
 }
 
-fun TextView.checkAnswer(answer: String) {
+interface QuizItemListener {
+    fun getItem(item: ExcelData)
+}
 
+@SuppressLint("ResourceAsColor")
+fun TextView.checkAnswer(answer: String) {
     if (this.text == answer) {
-        Toast.makeText(App.instance.context(), "맞음.", Toast.LENGTH_LONG).show()
+        setBackgroundResource(R.drawable.shape_border_true)
+        setTextColor(ContextCompat.getColor(App.instance.context(), R.color.white))
     } else {
-        Toast.makeText(App.instance.context(), "틀림.", Toast.LENGTH_LONG).show()
+        setBackgroundResource(R.drawable.shape_border_false)
+        setTextColor(ContextCompat.getColor(App.instance.context(), R.color.white))
     }
 }

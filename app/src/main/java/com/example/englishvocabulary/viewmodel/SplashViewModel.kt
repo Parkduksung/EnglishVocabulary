@@ -22,12 +22,8 @@ class SplashViewModel @Inject constructor(
         excelVocaRepository.getExcelData {
             if (it.isEmpty()) {
                 excelVocaRepository.verifyExcelData {
-                    Log.d("결과", it.toString())
                 }
-            } else {
-                Log.d("결과", it.size.toString())
             }
-
         }
     }
 }

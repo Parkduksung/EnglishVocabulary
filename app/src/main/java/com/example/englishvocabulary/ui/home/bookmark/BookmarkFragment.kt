@@ -22,18 +22,18 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(R.layout.fragment
 
     private val bookmarkViewModel by viewModels<BookmarkViewModel>()
 
-    private lateinit var deleteBookmarkListener: DeleteBookmarkListener
+    private lateinit var renewBookmarkListener: RenewBookmarkListener
 
     override fun onAttach(activity: Activity) {
         super.onAttach(activity)
-        (activity as? DeleteBookmarkListener)?.let {
-            deleteBookmarkListener = it
+        (activity as? RenewBookmarkListener)?.let {
+            renewBookmarkListener = it
         }
     }
 
     override fun getItemClick(item: ExcelData) {
         bookmarkViewModel.deleteBookmark(item)
-        deleteBookmarkListener.deleteItem(item)
+        renewBookmarkListener.renewItem(item)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -77,6 +77,6 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(R.layout.fragment
     }
 }
 
-interface DeleteBookmarkListener {
-    fun deleteItem(item: ExcelData)
+interface RenewBookmarkListener {
+    fun renewItem(item: ExcelData)
 }
