@@ -8,8 +8,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp">
-
+        android:layout_height="300dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/shape_border">
 
         <TextView
             android:id="@+id/word"
@@ -23,6 +24,19 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias=".2" />
 
+        <TextView
+            android:id="@+id/mean"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:autoSizeMaxTextSize="25sp"
+            android:autoSizeMinTextSize="5dp"
+            android:autoSizeTextType="uniform"
+            app:layout_constraintWidth_percent=".8"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/word" />
+
         <CheckBox
             android:id="@+id/bookmark"
             android:layout_width="wrap_content"
@@ -31,22 +45,12 @@
             android:button="@null"
             android:gravity="center"
             android:textSize="25sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/word"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias=".95"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@id/word"
+            app:layout_constraintTop_toTopOf="@id/word" />
 
-        <TextView
-            android:id="@+id/mean"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="25sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias=".0"
-            app:layout_constraintStart_toStartOf="@id/word"
-            app:layout_constraintTop_toBottomOf="@id/word" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

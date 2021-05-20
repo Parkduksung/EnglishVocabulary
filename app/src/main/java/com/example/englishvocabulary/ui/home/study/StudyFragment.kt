@@ -1,7 +1,6 @@
 package com.example.englishvocabulary.ui.home.study
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -15,19 +14,26 @@ import com.example.englishvocabulary.ui.home.adapter.DayAdapter
 import com.example.englishvocabulary.ui.home.adapter.StudyAdapter
 import com.example.englishvocabulary.ui.home.adapter.viewholder.DayListener
 import com.example.englishvocabulary.ui.home.adapter.viewholder.VocaListener
+import com.example.englishvocabulary.ui.home.bookmark.DeleteBookmarkListener
 import com.example.englishvocabulary.viewmodel.StudyViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
 class StudyFragment : BaseFragment<FragmentStudyBinding>(R.layout.fragment_study), VocaListener,
-    DayListener {
+    DayListener, DeleteBookmarkListener {
 
     private val studyAdapter by lazy { StudyAdapter() }
 
     private val dayAdapter by lazy { DayAdapter() }
 
     private val studyViewModel by viewModels<StudyViewModel>()
+
+
+    override fun deleteItem(item: ExcelData) {
+        studyViewModel.toggleBookmark(!item.like, item)
+        studyAdapter.stateChangeBookmark(item)
+    }
 
     override fun getItemClick(isChecked: Boolean, item: ExcelData) {
         studyViewModel.toggleBookmark(isChecked, item)

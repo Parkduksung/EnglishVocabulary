@@ -1,9 +1,8 @@
 package com.example.englishvocabulary.ui.home.bookmark
 
+import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.englishvocabulary.R
@@ -14,7 +13,6 @@ import com.example.englishvocabulary.ui.home.adapter.BookmarkAdapter
 import com.example.englishvocabulary.ui.home.adapter.viewholder.BookmarkListener
 import com.example.englishvocabulary.viewmodel.BookmarkViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.lang.Thread.sleep
 
 @AndroidEntryPoint
 class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(R.layout.fragment_bookmark),
@@ -24,8 +22,18 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(R.layout.fragment
 
     private val bookmarkViewModel by viewModels<BookmarkViewModel>()
 
+    private lateinit var deleteBookmarkListener: DeleteBookmarkListener
+
+    override fun onAttach(activity: Activity) {
+        super.onAttach(activity)
+        (activity as? DeleteBookmarkListener)?.let {
+            deleteBookmarkListener = it
+        }
+    }
+
     override fun getItemClick(item: ExcelData) {
         bookmarkViewModel.deleteBookmark(item)
+        deleteBookmarkListener.deleteItem(item)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -67,4 +75,8 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(R.layout.fragment
         fun newInstance() =
             BookmarkFragment()
     }
+}
+
+interface DeleteBookmarkListener {
+    fun deleteItem(item: ExcelData)
 }

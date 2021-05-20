@@ -7,8 +7,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.example.englishvocabulary.R
 import com.example.englishvocabulary.base.BaseActivity
+import com.example.englishvocabulary.data.model.ExcelData
 import com.example.englishvocabulary.databinding.ActivityHomeBinding
 import com.example.englishvocabulary.ui.home.bookmark.BookmarkFragment
+import com.example.englishvocabulary.ui.home.bookmark.DeleteBookmarkListener
 import com.example.englishvocabulary.ui.home.quiz.QuizFragment
 import com.example.englishvocabulary.ui.home.search.SearchFragment
 import com.example.englishvocabulary.ui.home.study.StudyFragment
@@ -16,7 +18,8 @@ import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
+class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home),
+    DeleteBookmarkListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,6 +74,16 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
                 getTabAt(1)?.setIcon(R.drawable.ic_quiz)
                 getTabAt(2)?.setIcon(R.drawable.ic_bookmark)
                 getTabAt(3)?.setIcon(R.drawable.ic_search)
+            }
+        }
+    }
+
+    override fun deleteItem(item: ExcelData) {
+        supportFragmentManager.fragments.forEach {
+            when (it) {
+                is StudyFragment -> {
+                    it.deleteItem(item)
+                }
             }
         }
     }
