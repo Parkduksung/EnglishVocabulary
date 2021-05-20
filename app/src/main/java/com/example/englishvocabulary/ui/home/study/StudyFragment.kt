@@ -31,8 +31,10 @@ class StudyFragment : BaseFragment<FragmentStudyBinding>(R.layout.fragment_study
 
 
     override fun deleteItem(item: ExcelData) {
-        studyViewModel.toggleBookmark(!item.like, item)
-        studyAdapter.stateChangeBookmark(item)
+        if (binding.studyRv.adapter == studyAdapter) {
+            studyViewModel.toggleBookmark(!item.like, item)
+            studyAdapter.stateChangeBookmark(item)
+        }
     }
 
     override fun getItemClick(isChecked: Boolean, item: ExcelData) {
