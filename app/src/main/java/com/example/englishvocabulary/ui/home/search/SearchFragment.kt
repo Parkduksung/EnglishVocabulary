@@ -19,6 +19,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
         binding.viewModel = searchViewModel
 
+        searchViewModel.translateWordLiveData.observe(viewLifecycleOwner, {
+            binding.translateTv.text = it
+        })
     }
 
     companion object {

@@ -6,4 +6,5 @@
     <string name="quiz_content2">- 단어장에 있는 단어들 중 무작위로 10개를 뽑아서 문제를 제출합니다.</string>
     <string name="quiz_content3">- 해당 단어를 꾹 누를시, 즐겨찾기에 추가됩니다.</string>
     <string name="quiz_content4">- 새로운 문제를 풀 경우 리프레시 버튼을 누르면 됩니다.</string>
+    <string name="search_translate_content">번역할 문장을 입력하세요.</string>
 </resources>
