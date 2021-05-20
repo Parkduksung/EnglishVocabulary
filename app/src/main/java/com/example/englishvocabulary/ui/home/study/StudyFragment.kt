@@ -31,6 +31,7 @@ class StudyFragment : BaseFragment<FragmentStudyBinding>(R.layout.fragment_study
 
     override fun getItemClick(isChecked: Boolean, item: ExcelData) {
         studyViewModel.toggleBookmark(isChecked, item)
+        studyAdapter.stateChangeBookmark(item)
     }
 
     override fun getItemClick(item: String) {

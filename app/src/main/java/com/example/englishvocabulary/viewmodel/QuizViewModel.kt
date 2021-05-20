@@ -12,5 +12,5 @@ class QuizViewModel @Inject constructor(
     app: Application,
     private val excelVocaRepository: ExcelVocaRepository
 ) : BaseViewModel(app) {
-
+    
 }

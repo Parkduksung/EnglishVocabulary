@@ -2,7 +2,10 @@ package com.example.englishvocabulary.ui.home.adapter.viewholder
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.englishvocabulary.App
 import com.example.englishvocabulary.R
 import com.example.englishvocabulary.data.model.ExcelData
 import com.example.englishvocabulary.databinding.ItemStudyBinding
@@ -22,8 +25,9 @@ class StudyViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
             word.text = item.word
             mean.text = item.mean
             bookmark.isChecked = item.like
-            bookmark.setOnCheckedChangeListener { _, isChecked ->
-                itemClickListener.getItemClick(isChecked, item)
+
+            bookmark.setOnClickListener {
+                itemClickListener.getItemClick(!item.like, item)
             }
         }
     }
