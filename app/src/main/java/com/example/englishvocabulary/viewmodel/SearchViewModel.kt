@@ -24,6 +24,7 @@ class SearchViewModel @Inject constructor(
     private val _translateWordLiveData = MutableLiveData<String>()
     val translateWordLiveData: LiveData<String> = _translateWordLiveData
 
+    //kakao Api 번역.
     fun searchWord() {
         searchWordLiveData.value?.let { searchWord ->
             searchRepository.searchKakaoWord(searchWord) {

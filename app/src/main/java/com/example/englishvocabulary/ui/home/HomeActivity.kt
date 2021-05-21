@@ -24,6 +24,12 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        startViewPagerAndTabLayout()
+    }
+
+
+    private fun startViewPagerAndTabLayout(){
+
         val homeTabList = resources.getStringArray(R.array.home_tab)
 
         binding.run {
@@ -77,6 +83,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home),
             }
         }
     }
+
 
     override fun renewItem(item: ExcelData) {
         supportFragmentManager.fragments.forEach {

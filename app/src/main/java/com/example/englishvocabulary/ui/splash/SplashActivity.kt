@@ -25,6 +25,13 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
 
         lifecycle.addObserver(splashViewModel)
 
+        startSplashAndRoute()
+
+    }
+
+
+    // 화면 전환
+    private fun startSplashAndRoute(){
         GlobalScope.launch {
             binding.splashContainer.startAnimation(
                 ImageUtils.blinkAnimation(duration = SPLASH_DELAY_MILLIS)
@@ -34,9 +41,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
             finish()
             this@SplashActivity.finish()
         }
-
     }
-
 
     override fun onDestroy() {
         lifecycle.removeObserver(splashViewModel)

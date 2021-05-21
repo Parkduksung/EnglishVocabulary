@@ -19,6 +19,7 @@ class BookmarkViewModel @Inject constructor(
     val bookmarkListLiveData: LiveData<List<ExcelData>> = _bookmarkListLiveData
 
 
+    // 다른페이지에서 다시 돌아올때 갱신되게끔 하기 위해 생명주기를 onResume 에 불리게끔 설정.
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun getAllBookmark() {
         excelVocaRepository.getAllBookmarkExcelData { bookmarkEntityList ->
@@ -26,6 +27,7 @@ class BookmarkViewModel @Inject constructor(
         }
     }
 
+    // 즐겨찾기 삭제
     fun deleteBookmark(item: ExcelData) {
         excelVocaRepository.toggleBookmarkExcelData(false, item) {
             if (it) {

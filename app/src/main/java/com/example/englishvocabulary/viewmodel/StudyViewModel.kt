@@ -19,6 +19,7 @@ class StudyViewModel @Inject constructor(
     private val _allExcelData = MutableLiveData<List<ExcelData>>()
     val allExcelData: LiveData<List<ExcelData>> = _allExcelData
 
+    // 날짜에 따른 ExcelVoca 얻어오기.
     fun getAllExcelVoca(day: String) {
         excelVocaRepository.getWantDayExcelData(day.toLowerCase()) {
             val getAllExcelData = it.map { excelVocaEntity -> excelVocaEntity.toExcelData() }
@@ -26,6 +27,7 @@ class StudyViewModel @Inject constructor(
         }
     }
 
+    // 즐겨찾기 on/off
     fun toggleBookmark(isBookmarked: Boolean, item: ExcelData) {
         excelVocaRepository.toggleBookmarkExcelData(isBookmarked, item) {
         }

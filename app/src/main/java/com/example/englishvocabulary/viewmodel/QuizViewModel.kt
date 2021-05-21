@@ -22,6 +22,7 @@ class QuizViewModel @Inject constructor(
     private val _quizList = MutableLiveData<List<List<ExcelData>>>()
     val quizList: LiveData<List<List<ExcelData>>> = _quizList
 
+    //전체 데이터를 가져와 무작위로 섞고 4개에 1쌍인 리스트를 10개로 묶은 결과를 얻는 메서드
     fun getAllExcelVoca() {
         excelVocaRepository.getExcelData { excelVocaEntityList ->
             val getAllExcelData = excelVocaEntityList.map { it.toExcelData() }.shuffled()
@@ -29,6 +30,7 @@ class QuizViewModel @Inject constructor(
         }
     }
 
+    // 롱클릭시 즐겨찾기 추가.
     fun addBookmarkItem(item: ExcelData) {
         excelVocaRepository.toggleBookmarkExcelData(toggleBookmark = true, item) {
             if(it){

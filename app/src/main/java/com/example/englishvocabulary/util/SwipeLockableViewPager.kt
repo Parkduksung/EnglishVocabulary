@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import androidx.viewpager.widget.ViewPager
 
+// viewPager Swipe on/off
 class SwipeLockableViewPager(context: Context, attrs: AttributeSet) : ViewPager(context, attrs) {
     private var swipeEnabled = false
 
