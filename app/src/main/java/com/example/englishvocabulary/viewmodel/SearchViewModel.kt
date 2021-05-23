@@ -25,11 +25,21 @@ class SearchViewModel @Inject constructor(
     val translateWordLiveData: LiveData<String> = _translateWordLiveData
 
     //kakao Api 번역.
-    fun searchWord() {
+    fun searchKakaoWord() {
         searchWordLiveData.value?.let { searchWord ->
             searchRepository.searchKakaoWord(searchWord) {
                 _translateWordLiveData.value = it.translated_text[0][0]
             }
+        }
+    }
+
+    fun searchNaverWord() {
+        searchWordLiveData.value?.let { searchWord ->
+
+            searchRepository.searchNaverWord(searchWord) {
+                Log.d("결과", searchWord)
+            }
+
         }
     }
 
