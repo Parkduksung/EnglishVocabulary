@@ -1,14 +1,13 @@
 package com.example.englishvocabulary.ui.splash
 
 import android.os.Bundle
-import android.os.Handler
 import androidx.activity.viewModels
 import com.example.englishvocabulary.R
 import com.example.englishvocabulary.base.BaseActivity
+import com.example.englishvocabulary.base.ViewState
 import com.example.englishvocabulary.databinding.ActivitySplashBinding
 import com.example.englishvocabulary.ui.home.HomeActivity
 import com.example.englishvocabulary.util.ImageUtils
-import com.example.englishvocabulary.viewmodel.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -25,13 +24,12 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
 
         lifecycle.addObserver(splashViewModel)
 
-        startSplashAndRoute()
+        initViewModel()
 
     }
 
-
     // 화면 전환
-    private fun startSplashAndRoute(){
+    private fun startSplashAndRoute() {
         GlobalScope.launch {
             binding.splashContainer.startAnimation(
                 ImageUtils.blinkAnimation(duration = SPLASH_DELAY_MILLIS)
@@ -41,6 +39,16 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
             finish()
             this@SplashActivity.finish()
         }
+    }
+
+    private fun initViewModel() {
+        splashViewModel.viewStateLiveData.observe(this, { viewState: ViewState? ->
+            (viewState as? SplashViewModel.SplashViewState)?.let { onChangedViewState(viewState) }
+        })
+    }
+
+    private fun onChangedViewState(viewState: SplashViewModel.SplashViewState) = when (viewState) {
+        SplashViewModel.SplashViewState.RouteMain -> startSplashAndRoute()
     }
 
     override fun onDestroy() {
