@@ -28,4 +28,6 @@ interface ExcelVocaRepository {
         callback: (excelList: List<ExcelVocaEntity>) -> Unit
     )
 
+    suspend fun checkExistExcelVoca(): Boolean
+
 }

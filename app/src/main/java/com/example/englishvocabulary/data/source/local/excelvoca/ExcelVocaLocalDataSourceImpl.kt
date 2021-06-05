@@ -5,12 +5,18 @@ import com.example.englishvocabulary.data.model.ExcelData
 import com.example.englishvocabulary.network.room.dao.ExcelVocaDao
 import com.example.englishvocabulary.network.room.entity.ExcelVocaEntity
 import com.example.englishvocabulary.util.AppExecutors
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
 import org.apache.poi.poifs.filesystem.POIFSFileSystem
 import javax.inject.Inject
 
 class ExcelVocaLocalDataSourceImpl @Inject constructor(private val excelVocaDao: ExcelVocaDao) :
     ExcelVocaLocalDataSource {
+
+    override suspend fun checkExistExcelVoca(): Boolean = withContext(Dispatchers.IO) {
+        return@withContext excelVocaDao.getAll().isNotEmpty()
+    }
 
     override fun toggleBookmarkExcelData(
         toggleBookmark: Boolean,

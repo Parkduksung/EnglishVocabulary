@@ -3,6 +3,8 @@ package com.example.englishvocabulary.data.repository
 import com.example.englishvocabulary.data.model.ExcelData
 import com.example.englishvocabulary.data.source.local.excelvoca.ExcelVocaLocalDataSource
 import com.example.englishvocabulary.network.room.entity.ExcelVocaEntity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ExcelVocaRepositoryImpl @Inject constructor(private val excelVocaLocalDataSource: ExcelVocaLocalDataSource) :
@@ -33,5 +35,9 @@ class ExcelVocaRepositoryImpl @Inject constructor(private val excelVocaLocalData
 
     override fun getAllBookmarkExcelData(callback: (excelList: List<ExcelVocaEntity>) -> Unit) {
         excelVocaLocalDataSource.getAllBookmarkExcelData(callback)
+    }
+
+    override suspend fun checkExistExcelVoca(): Boolean = withContext(Dispatchers.IO){
+        return@withContext excelVocaLocalDataSource.checkExistExcelVoca()
     }
 }
