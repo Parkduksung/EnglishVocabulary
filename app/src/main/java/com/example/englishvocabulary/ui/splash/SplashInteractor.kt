@@ -11,18 +11,11 @@ class SplashInteractor @Inject constructor(private val excelVocaRepository: Exce
 
     suspend fun checkExistExcelVoca(): Boolean = withContext(Dispatchers.IO){
 
-//        var isExist = false
-//
-//
-//
-//        excelVocaRepository.getExcelData {
-//            isExist = if (it.isNotEmpty()) {
-//                verifyExcelData()
-//            } else {
-//                true
-//            }
-//        }
-        return@withContext excelVocaRepository.checkExistExcelVoca()
+        if(excelVocaRepository.checkExistExcelVoca()){
+            return@withContext true
+        }else{
+            return@withContext verifyExcelData()
+        }
     }
 
     private fun verifyExcelData(): Boolean {
@@ -35,7 +28,6 @@ class SplashInteractor @Inject constructor(private val excelVocaRepository: Exce
 
         return checkVerify
     }
-
 
 
 }
