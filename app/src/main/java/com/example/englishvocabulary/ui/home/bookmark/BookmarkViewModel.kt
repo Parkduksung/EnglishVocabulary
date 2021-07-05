@@ -1,4 +1,4 @@
-package com.example.englishvocabulary.viewmodel
+package com.example.englishvocabulary.ui.home.bookmark
 
 import android.app.Application
 import androidx.lifecycle.*

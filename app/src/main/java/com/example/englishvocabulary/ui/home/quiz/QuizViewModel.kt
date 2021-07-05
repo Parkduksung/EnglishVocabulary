@@ -1,7 +1,6 @@
-package com.example.englishvocabulary.viewmodel
+package com.example.englishvocabulary.ui.home.quiz
 
 import android.app.Application
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

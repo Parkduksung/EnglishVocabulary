@@ -15,7 +15,6 @@ import com.example.englishvocabulary.ui.home.adapter.StudyAdapter
 import com.example.englishvocabulary.ui.home.adapter.viewholder.DayListener
 import com.example.englishvocabulary.ui.home.adapter.viewholder.VocaListener
 import com.example.englishvocabulary.ui.home.bookmark.RenewBookmarkListener
-import com.example.englishvocabulary.viewmodel.StudyViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 

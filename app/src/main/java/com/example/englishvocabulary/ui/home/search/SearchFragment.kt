@@ -6,7 +6,6 @@ import androidx.fragment.app.viewModels
 import com.example.englishvocabulary.R
 import com.example.englishvocabulary.base.BaseFragment
 import com.example.englishvocabulary.databinding.FragmentSearchBinding
-import com.example.englishvocabulary.viewmodel.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

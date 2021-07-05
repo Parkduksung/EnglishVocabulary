@@ -11,7 +11,6 @@ import com.example.englishvocabulary.data.model.ExcelData
 import com.example.englishvocabulary.databinding.FragmentBookmarkBinding
 import com.example.englishvocabulary.ui.home.adapter.BookmarkAdapter
 import com.example.englishvocabulary.ui.home.adapter.viewholder.BookmarkListener
-import com.example.englishvocabulary.viewmodel.BookmarkViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

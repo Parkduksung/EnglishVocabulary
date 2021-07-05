@@ -1,14 +1,11 @@
-package com.example.englishvocabulary.viewmodel
+package com.example.englishvocabulary.ui.home.search
 
 import android.app.Application
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.englishvocabulary.App
 import com.example.englishvocabulary.base.BaseViewModel
 import com.example.englishvocabulary.data.repository.SearchRepository
-import com.example.englishvocabulary.ui.home.search.Papago
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

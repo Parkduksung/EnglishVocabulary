@@ -1,7 +1,6 @@
-package com.example.englishvocabulary.viewmodel
+package com.example.englishvocabulary.ui.home.study
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.englishvocabulary.base.BaseViewModel
 import com.example.englishvocabulary.data.model.ExcelData

@@ -3,7 +3,6 @@ package com.example.englishvocabulary.ui.home.quiz
 import android.app.Activity
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,9 +12,7 @@ import com.example.englishvocabulary.data.model.ExcelData
 import com.example.englishvocabulary.databinding.FragmentQuizBinding
 import com.example.englishvocabulary.ui.home.adapter.QuizAdapter
 import com.example.englishvocabulary.ui.home.adapter.viewholder.QuizItemListener
-import com.example.englishvocabulary.ui.home.adapter.viewholder.VocaListener
 import com.example.englishvocabulary.ui.home.bookmark.RenewBookmarkListener
-import com.example.englishvocabulary.viewmodel.QuizViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
