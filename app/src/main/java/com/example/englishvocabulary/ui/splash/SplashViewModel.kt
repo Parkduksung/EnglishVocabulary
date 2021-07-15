@@ -15,19 +15,16 @@ import javax.inject.Inject
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     app: Application
-) : BaseViewModel(app),
-    LifecycleObserver {
-
-
-    @Inject
-    lateinit var excelVocaRepository: ExcelVocaRepository
+) : BaseViewModel(app) {
 
     @Inject
     lateinit var splashInteractor: SplashInteractor
 
+    init {
+        verifyExcelVocaData()
+    }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun verifyExcelVocaData() {
+    private fun verifyExcelVocaData() {
         viewModelScope.launch {
             if (splashInteractor.checkExistExcelVoca()) {
                 withContext(Dispatchers.Main) {

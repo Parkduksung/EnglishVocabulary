@@ -22,11 +22,20 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        lifecycle.addObserver(splashViewModel)
-
         initViewModel()
 
     }
+
+    private fun initViewModel() {
+        splashViewModel.viewStateLiveData.observe(this, { viewState: ViewState? ->
+            (viewState as? SplashViewModel.SplashViewState)?.let { onChangedViewState(viewState) }
+        })
+    }
+
+    private fun onChangedViewState(viewState: SplashViewModel.SplashViewState) = when (viewState) {
+        SplashViewModel.SplashViewState.RouteMain -> startSplashAndRoute()
+    }
+
 
     // 화면 전환
     private fun startSplashAndRoute() {
@@ -41,20 +50,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
         }
     }
 
-    private fun initViewModel() {
-        splashViewModel.viewStateLiveData.observe(this, { viewState: ViewState? ->
-            (viewState as? SplashViewModel.SplashViewState)?.let { onChangedViewState(viewState) }
-        })
-    }
-
-    private fun onChangedViewState(viewState: SplashViewModel.SplashViewState) = when (viewState) {
-        SplashViewModel.SplashViewState.RouteMain -> startSplashAndRoute()
-    }
-
-    override fun onDestroy() {
-        lifecycle.removeObserver(splashViewModel)
-        super.onDestroy()
-    }
 
     companion object {
         private const val SPLASH_DELAY_MILLIS = 1500L
