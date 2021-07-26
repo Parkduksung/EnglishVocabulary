@@ -2,6 +2,7 @@ package com.example.englishvocabulary.ui.splash
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import com.example.englishvocabulary.R
 import com.example.englishvocabulary.base.BaseActivity
@@ -33,7 +34,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
     private fun onChangedViewState(viewState: SplashViewModel.SplashViewState) = when (viewState) {
         SplashViewModel.SplashViewState.SplashAnimation -> startSplashAnimation()
         SplashViewModel.SplashViewState.RouteMain -> startRouteMain()
-
+        SplashViewModel.SplashViewState.Error -> startError()
     }
 
 
@@ -49,5 +50,13 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             }
         )
+    }
+
+    private fun startError() {
+        Toast.makeText(
+            this@SplashActivity,
+            "잠시후 시도해 주세요..",
+            Toast.LENGTH_LONG
+        ).show()
     }
 }

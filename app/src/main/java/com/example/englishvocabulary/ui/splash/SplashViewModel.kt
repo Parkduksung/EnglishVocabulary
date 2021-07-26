@@ -27,18 +27,25 @@ class SplashViewModel @Inject constructor(
 
     private fun verifyExcelVocaData() {
         viewModelScope.launch {
+
+            viewStateChanged(SplashViewState.SplashAnimation)
+
             if (splashInteractor.checkExistExcelVoca()) {
-                startSplashAndRoute(SPLASH_DELAY_MILLIS)
+                startRoute(SPLASH_DELAY_MILLIS)
             } else {
-                // 실패 메세지를 띄우던 exception 처리가 필요함.
+                if (splashInteractor.registerExcelVocaData()) {
+                    startRoute(SPLASH_DELAY_MILLIS)
+                } else {
+                    viewStateChanged(SplashViewState.Error)
+                    TODO("ErrorType 들에 대한 대응처리 할 것.")
+                }
             }
         }
     }
 
 
-    private fun startSplashAndRoute(delayTime: Long) {
+    private fun startRoute(delayTime: Long) {
         viewModelScope.launch {
-            viewStateChanged(SplashViewState.SplashAnimation)
             delay(delayTime)
             viewStateChanged(SplashViewState.RouteMain)
         }
@@ -48,9 +55,11 @@ class SplashViewModel @Inject constructor(
     sealed class SplashViewState : ViewState {
         object SplashAnimation : SplashViewState()
         object RouteMain : SplashViewState()
+        object Error : SplashViewState()
     }
 
     companion object {
         private const val SPLASH_DELAY_MILLIS = 1500L
     }
+
 }
