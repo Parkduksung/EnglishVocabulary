@@ -14,10 +14,6 @@ class ExcelVocaRepositoryImpl @Inject constructor(private val excelVocaLocalData
         excelVocaLocalDataSource.getExcelData(callback)
     }
 
-    override fun verifyExcelData(callback: (isVerify: Boolean) -> Unit) {
-        excelVocaLocalDataSource.verifyExcelData(callback)
-    }
-
     override fun getWantDayExcelData(
         day: String,
         callback: (excelList: List<ExcelVocaEntity>) -> Unit
@@ -39,5 +35,9 @@ class ExcelVocaRepositoryImpl @Inject constructor(private val excelVocaLocalData
 
     override suspend fun checkExistExcelVoca(): Boolean = withContext(Dispatchers.IO){
         return@withContext excelVocaLocalDataSource.checkExistExcelVoca()
+    }
+
+    override suspend fun registerExcelVocaData(): Boolean  = withContext(Dispatchers.IO){
+        return@withContext excelVocaLocalDataSource.registerExcelVocaData()
     }
 }

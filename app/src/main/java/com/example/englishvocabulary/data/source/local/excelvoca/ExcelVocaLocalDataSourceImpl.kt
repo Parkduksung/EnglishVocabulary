@@ -18,6 +18,13 @@ class ExcelVocaLocalDataSourceImpl @Inject constructor(private val excelVocaDao:
         return@withContext excelVocaDao.getAll().isNotEmpty()
     }
 
+    override suspend fun registerExcelVocaData(): Boolean = withContext(Dispatchers.IO) {
+        getAllReadExcelFileData().forEach { excelData ->
+            excelVocaDao.registerExcelVocaEntity(excelData.toExcelVocaEntity())
+        }
+        return@withContext excelVocaDao.getAll().isNotEmpty()
+    }
+
     override fun toggleBookmarkExcelData(
         toggleBookmark: Boolean,
         item: ExcelData,
@@ -67,21 +74,6 @@ class ExcelVocaLocalDataSourceImpl @Inject constructor(private val excelVocaDao:
 
             appExecutors.mainThread.execute {
                 callback(getAllExcelVocaEntity)
-            }
-        }
-    }
-
-    override fun verifyExcelData(callback: (isVerify: Boolean) -> Unit) {
-
-        val appExecutors = AppExecutors()
-
-        appExecutors.diskIO.execute {
-
-            if (getAllExcelVocaEntity().isEmpty()) {
-                registerAllReadExcelFileData()
-            }
-            appExecutors.mainThread.execute {
-                callback(true)
             }
         }
     }
