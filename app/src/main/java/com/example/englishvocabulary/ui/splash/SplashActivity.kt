@@ -55,7 +55,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
     private fun startError() {
         Toast.makeText(
             this@SplashActivity,
-            "잠시후 시도해 주세요..",
+            R.string.splash_error_message,
             Toast.LENGTH_LONG
         ).show()
     }
