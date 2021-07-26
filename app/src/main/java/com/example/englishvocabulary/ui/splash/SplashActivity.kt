@@ -1,5 +1,6 @@
 package com.example.englishvocabulary.ui.splash
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.example.englishvocabulary.R
@@ -9,9 +10,6 @@ import com.example.englishvocabulary.databinding.ActivitySplashBinding
 import com.example.englishvocabulary.ui.home.HomeActivity
 import com.example.englishvocabulary.util.ImageUtils
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_splash) {
@@ -33,25 +31,23 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
     }
 
     private fun onChangedViewState(viewState: SplashViewModel.SplashViewState) = when (viewState) {
-        SplashViewModel.SplashViewState.RouteMain -> startSplashAndRoute()
+        SplashViewModel.SplashViewState.SplashAnimation -> startSplashAnimation()
+        SplashViewModel.SplashViewState.RouteMain -> startRouteMain()
+
     }
 
 
-    // 화면 전환
-    private fun startSplashAndRoute() {
-        GlobalScope.launch {
-            binding.splashContainer.startAnimation(
-                ImageUtils.blinkAnimation(duration = SPLASH_DELAY_MILLIS)
-            )
-            delay(SPLASH_DELAY_MILLIS)
-            startActivity(HomeActivity.getIntent(this@SplashActivity))
-            finish()
-            this@SplashActivity.finish()
-        }
+    private fun startSplashAnimation() {
+        binding.splashContainer.startAnimation(
+            ImageUtils.blinkAnimation()
+        )
     }
 
-
-    companion object {
-        private const val SPLASH_DELAY_MILLIS = 1500L
+    private fun startRouteMain() {
+        startActivity(
+            HomeActivity.getIntent(this@SplashActivity).apply {
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            }
+        )
     }
 }
