@@ -2,7 +2,6 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -16,7 +15,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "com.example.englishvocabulary.CustomTestRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildFeatures {
@@ -72,12 +71,6 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
 
-    //hilt
-    //noinspection GradleDependency
-    implementation "com.google.dagger:hilt-android:$hilt_version"
-    kapt "com.google.dagger:hilt-compiler:$hilt_version"
-
-
     //poi (Read Excel File)
     implementation files('libs/poi-3.7.jar')
 }
@@ -101,21 +94,4 @@ dependencies {
 
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.2'
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
-}
-
-dependencies {
-    // For Robolectric tests.
-    testImplementation("com.google.dagger:hilt-android-testing:2.35")
-    // ...with Kotlin.
-    kaptTest("com.google.dagger:hilt-android-compiler:2.35")
-    // ...with Java.
-    testAnnotationProcessor("com.google.dagger:hilt-android-compiler:2.35")
-
-
-    // For instrumented tests.
-    androidTestImplementation("com.google.dagger:hilt-android-testing:2.35")
-    // ...with Kotlin.
-    kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.35")
-    // ...with Java.
-    androidTestAnnotationProcessor("com.google.dagger:hilt-android-compiler:2.35")
 }
