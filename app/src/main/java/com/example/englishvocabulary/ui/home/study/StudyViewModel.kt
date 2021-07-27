@@ -1,19 +1,19 @@
 package com.example.englishvocabulary.ui.home.study
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.englishvocabulary.base.BaseViewModel
 import com.example.englishvocabulary.data.model.ExcelData
 import com.example.englishvocabulary.data.repository.ExcelVocaRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import org.koin.java.KoinJavaComponent.inject
 
-@HiltViewModel
-class StudyViewModel @Inject constructor(
-    app: Application,
-    private val excelVocaRepository: ExcelVocaRepository
-) :
-    BaseViewModel(app), LifecycleObserver {
+class StudyViewModel(
+    app: Application
+) : BaseViewModel(app), LifecycleObserver {
+
+    private val excelVocaRepository by inject(ExcelVocaRepository::class.java)
 
     private val _allExcelData = MutableLiveData<List<ExcelData>>()
     val allExcelData: LiveData<List<ExcelData>> = _allExcelData

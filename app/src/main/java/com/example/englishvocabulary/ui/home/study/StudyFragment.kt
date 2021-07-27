@@ -15,10 +15,8 @@ import com.example.englishvocabulary.ui.home.adapter.StudyAdapter
 import com.example.englishvocabulary.ui.home.adapter.viewholder.DayListener
 import com.example.englishvocabulary.ui.home.adapter.viewholder.VocaListener
 import com.example.englishvocabulary.ui.home.bookmark.RenewBookmarkListener
-import dagger.hilt.android.AndroidEntryPoint
 
 
-@AndroidEntryPoint
 class StudyFragment : BaseFragment<FragmentStudyBinding>(R.layout.fragment_study), VocaListener,
     DayListener, RenewBookmarkListener {
 
