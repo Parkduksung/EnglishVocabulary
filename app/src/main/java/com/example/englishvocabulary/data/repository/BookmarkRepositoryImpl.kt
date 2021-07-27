@@ -2,10 +2,12 @@ package com.example.englishvocabulary.data.repository
 
 import com.example.englishvocabulary.data.source.local.bookmark.BookmarkLocalDataSource
 import com.example.englishvocabulary.network.room.entity.BookmarkEntity
-import javax.inject.Inject
+import org.koin.java.KoinJavaComponent.inject
 
-class BookmarkRepositoryImpl @Inject constructor(private val bookmarkLocalDataSource: BookmarkLocalDataSource) :
-    BookmarkRepository {
+class BookmarkRepositoryImpl : BookmarkRepository {
+
+    private val bookmarkLocalDataSource by inject(BookmarkLocalDataSource::class.java)
+
     override fun getAllList(callback: (getList: List<BookmarkEntity>) -> Unit) {
         bookmarkLocalDataSource.getAllList(callback)
     }
