@@ -15,11 +15,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    app: Application
+    app: Application,
+    private val splashInteractor: SplashInteractor
 ) : BaseViewModel(app) {
-
-    @Inject
-    lateinit var splashInteractor: SplashInteractor
 
     init {
         verifyExcelVocaData()
