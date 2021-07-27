@@ -1,6 +1,7 @@
 package com.example.englishvocabulary.ui.home.bookmark
 
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -11,9 +12,7 @@ import com.example.englishvocabulary.data.model.ExcelData
 import com.example.englishvocabulary.databinding.FragmentBookmarkBinding
 import com.example.englishvocabulary.ui.home.adapter.BookmarkAdapter
 import com.example.englishvocabulary.ui.home.adapter.viewholder.BookmarkListener
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(R.layout.fragment_bookmark),
     BookmarkListener {
 
@@ -23,8 +22,8 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(R.layout.fragment
 
     private lateinit var renewBookmarkListener: RenewBookmarkListener
 
-    override fun onAttach(activity: Activity) {
-        super.onAttach(activity)
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
         (activity as? RenewBookmarkListener)?.let {
             renewBookmarkListener = it
         }

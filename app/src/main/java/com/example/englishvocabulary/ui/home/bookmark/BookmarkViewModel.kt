@@ -6,14 +6,13 @@ import com.example.englishvocabulary.base.BaseViewModel
 import com.example.englishvocabulary.base.ViewState
 import com.example.englishvocabulary.data.model.ExcelData
 import com.example.englishvocabulary.data.repository.ExcelVocaRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import org.koin.java.KoinJavaComponent.inject
 
-@HiltViewModel
-class BookmarkViewModel @Inject constructor(
-    app: Application,
-    private val excelVocaRepository: ExcelVocaRepository
+class BookmarkViewModel(
+    app: Application
 ) : BaseViewModel(app), LifecycleObserver {
+
+    private val excelVocaRepository by inject(ExcelVocaRepository::class.java)
 
     private val _bookmarkListLiveData = MutableLiveData<List<ExcelData>>()
     val bookmarkListLiveData: LiveData<List<ExcelData>> = _bookmarkListLiveData
