@@ -2,27 +2,26 @@ package com.example.englishvocabulary.data.source.local.excelvoca
 
 import com.example.englishvocabulary.App
 import com.example.englishvocabulary.data.model.ExcelData
-import com.example.englishvocabulary.network.room.dao.ExcelVocaDao
+import com.example.englishvocabulary.network.room.database.ExcelVocaDatabase
 import com.example.englishvocabulary.network.room.entity.ExcelVocaEntity
 import com.example.englishvocabulary.util.AppExecutors
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
 import org.apache.poi.poifs.filesystem.POIFSFileSystem
-import javax.inject.Inject
+import org.koin.java.KoinJavaComponent.inject
 
-class ExcelVocaLocalDataSourceImpl @Inject constructor(private val excelVocaDao: ExcelVocaDao) :
-    ExcelVocaLocalDataSource {
+class ExcelVocaLocalDataSourceImpl : ExcelVocaLocalDataSource {
+
+    private val excelVocaDatabase by inject(ExcelVocaDatabase::class.java)
 
     override suspend fun checkExistExcelVoca(): Boolean = withContext(Dispatchers.IO) {
-        return@withContext excelVocaDao.getAll().isNotEmpty()
+        return@withContext excelVocaDatabase.excelVocaDao().getAll().isNotEmpty()
     }
 
     override suspend fun registerExcelVocaData(): Boolean = withContext(Dispatchers.IO) {
-        getAllReadExcelFileData().forEach { excelData ->
-            excelVocaDao.registerExcelVocaEntity(excelData.toExcelVocaEntity())
-        }
-        return@withContext excelVocaDao.getAll().isNotEmpty()
+        registerAllReadExcelFileData()
+        return@withContext excelVocaDatabase.excelVocaDao().getAll().isNotEmpty()
     }
 
     override fun toggleBookmarkExcelData(
@@ -33,7 +32,7 @@ class ExcelVocaLocalDataSourceImpl @Inject constructor(private val excelVocaDao:
         val appExecutors = AppExecutors()
 
         appExecutors.diskIO.execute {
-            val updateExcelData = excelVocaDao.updateBookmarkExcelData(
+            val updateExcelData = excelVocaDatabase.excelVocaDao().updateBookmarkExcelData(
                 day = item.day,
                 word = item.word,
                 mean = item.mean,
@@ -55,7 +54,8 @@ class ExcelVocaLocalDataSourceImpl @Inject constructor(private val excelVocaDao:
 
         appExecutors.diskIO.execute {
 
-            val getAllBookmarkExcelData = excelVocaDao.getBookmarkExcelVocaEntity(true)
+            val getAllBookmarkExcelData =
+                excelVocaDatabase.excelVocaDao().getBookmarkExcelVocaEntity(true)
 
             appExecutors.mainThread.execute {
                 callback(getAllBookmarkExcelData)
@@ -86,7 +86,8 @@ class ExcelVocaLocalDataSourceImpl @Inject constructor(private val excelVocaDao:
         val appExecutors = AppExecutors()
 
         appExecutors.diskIO.execute {
-            val getWantDayExcelVocaEntity = excelVocaDao.getDayExcelVocaEntity(wantDay = day)
+            val getWantDayExcelVocaEntity =
+                excelVocaDatabase.excelVocaDao().getDayExcelVocaEntity(wantDay = day)
 
             appExecutors.mainThread.execute {
                 callback(getWantDayExcelVocaEntity)
@@ -97,12 +98,12 @@ class ExcelVocaLocalDataSourceImpl @Inject constructor(private val excelVocaDao:
 
     private fun registerAllReadExcelFileData() {
         getAllReadExcelFileData().forEach { excelData ->
-            excelVocaDao.registerExcelVocaEntity(excelData.toExcelVocaEntity())
+            excelVocaDatabase.excelVocaDao().registerExcelVocaEntity(excelData.toExcelVocaEntity())
         }
     }
 
     private fun getAllExcelVocaEntity(): List<ExcelVocaEntity> {
-        return excelVocaDao.getAll()
+        return excelVocaDatabase.excelVocaDao().getAll()
     }
 
     private fun getAllReadExcelFileData(): List<ExcelData> {

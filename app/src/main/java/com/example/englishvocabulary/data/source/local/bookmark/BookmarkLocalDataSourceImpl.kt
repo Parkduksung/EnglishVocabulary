@@ -1,18 +1,20 @@
 package com.example.englishvocabulary.data.source.local.bookmark
 
-import com.example.englishvocabulary.network.room.dao.BookmarkDao
+import com.example.englishvocabulary.network.room.database.BookmarkDatabase
 import com.example.englishvocabulary.network.room.entity.BookmarkEntity
 import com.example.englishvocabulary.util.AppExecutors
-import javax.inject.Inject
+import org.koin.java.KoinJavaComponent.inject
 
-class BookmarkLocalDataSourceImpl @Inject constructor(private val bookmarkDao: BookmarkDao) :
-    BookmarkLocalDataSource {
+class BookmarkLocalDataSourceImpl : BookmarkLocalDataSource {
+
+    private val bookmarkDatabase by inject(BookmarkDatabase::class.java)
+
     override fun getAllList(callback: (getList: List<BookmarkEntity>) -> Unit) {
 
         val appExecutors = AppExecutors()
 
         appExecutors.diskIO.execute {
-            val bookmarkList = bookmarkDao.getAll()
+            val bookmarkList = bookmarkDatabase.bookmarkDao().getAll()
 
             appExecutors.mainThread.execute {
                 callback(bookmarkList)
@@ -29,7 +31,7 @@ class BookmarkLocalDataSourceImpl @Inject constructor(private val bookmarkDao: B
 
         appExecutors.diskIO.execute {
 
-            val addBookmark = bookmarkDao.addBookmark(bookmarkEntity)
+            val addBookmark = bookmarkDatabase.bookmarkDao().addBookmark(bookmarkEntity)
 
             appExecutors.mainThread.execute {
                 if (addBookmark >= 1) {
@@ -50,7 +52,7 @@ class BookmarkLocalDataSourceImpl @Inject constructor(private val bookmarkDao: B
 
         appExecutors.diskIO.execute {
 
-            val deleteBookmark = bookmarkDao.deleteBookmark(bookmarkEntity.word)
+            val deleteBookmark = bookmarkDatabase.bookmarkDao().deleteBookmark(bookmarkEntity.word)
 
             appExecutors.mainThread.execute {
                 if (deleteBookmark >= 1) {
