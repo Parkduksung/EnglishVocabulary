@@ -2,6 +2,12 @@ package com.example.englishvocabulary.koin
 
 import androidx.room.Room
 import com.example.englishvocabulary.data.repository.*
+import com.example.englishvocabulary.data.source.local.bookmark.BookmarkLocalDataSource
+import com.example.englishvocabulary.data.source.local.bookmark.BookmarkLocalDataSourceImpl
+import com.example.englishvocabulary.data.source.local.excelvoca.ExcelVocaLocalDataSource
+import com.example.englishvocabulary.data.source.local.excelvoca.ExcelVocaLocalDataSourceImpl
+import com.example.englishvocabulary.data.source.remote.SearchRemoteDataSource
+import com.example.englishvocabulary.data.source.remote.SearchRemoteDataSourceImpl
 import com.example.englishvocabulary.network.api.KakaoApi
 import com.example.englishvocabulary.network.api.NaverApi
 import com.example.englishvocabulary.network.room.database.BookmarkDatabase
@@ -36,6 +42,12 @@ class AppKoinSetup : KoinBaseSetup() {
         single<SearchRepository> { SearchRepositoryImpl() }
         single<BookmarkRepository> { BookmarkRepositoryImpl() }
         single<ExcelVocaRepository> { ExcelVocaRepositoryImpl() }
+    }
+
+    private val sourceModule = module {
+        single<BookmarkLocalDataSource> { BookmarkLocalDataSourceImpl() }
+        single<ExcelVocaLocalDataSource> { ExcelVocaLocalDataSourceImpl() }
+        single<SearchRemoteDataSource> { SearchRemoteDataSourceImpl() }
     }
 
 
