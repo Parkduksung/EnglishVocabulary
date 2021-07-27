@@ -15,9 +15,7 @@ import com.example.englishvocabulary.ui.home.quiz.QuizFragment
 import com.example.englishvocabulary.ui.home.search.SearchFragment
 import com.example.englishvocabulary.ui.home.study.StudyFragment
 import com.google.android.material.tabs.TabLayout
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home),
     RenewBookmarkListener {
 
@@ -62,10 +60,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home),
             bottomTab.run {
                 addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                     override fun onTabSelected(tab: TabLayout.Tab?) {
-                        val position = tab?.position
-//                        if (position != null) {
-//                            setToolbarTitle(homeTabList[position])
-//                        }
                     }
 
                     override fun onTabUnselected(tab: TabLayout.Tab?) {
