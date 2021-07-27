@@ -4,10 +4,11 @@ import com.example.englishvocabulary.data.source.remote.SearchRemoteDataSource
 import com.example.englishvocabulary.network.response.KakaoDetachResponse
 import com.example.englishvocabulary.network.response.KakaoSearchResponse
 import com.example.englishvocabulary.network.response.NaverSearchResponse
-import javax.inject.Inject
+import org.koin.java.KoinJavaComponent.inject
 
-class SearchRepositoryImpl @Inject constructor(private val searchRemoteDataSource: SearchRemoteDataSource) :
-    SearchRepository {
+class SearchRepositoryImpl : SearchRepository {
+
+    private val searchRemoteDataSource by inject(SearchRemoteDataSource::class.java)
 
     override fun searchKakaoWord(word: String, callback: (text: KakaoSearchResponse) -> Unit) {
         searchRemoteDataSource.searchKakaoWord(word, callback)
