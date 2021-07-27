@@ -8,15 +8,14 @@ import com.example.englishvocabulary.App
 import com.example.englishvocabulary.base.BaseViewModel
 import com.example.englishvocabulary.data.model.ExcelData
 import com.example.englishvocabulary.data.repository.ExcelVocaRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import org.koin.java.KoinJavaComponent.inject
 
 
-@HiltViewModel
-class QuizViewModel @Inject constructor(
-    app: Application,
-    private val excelVocaRepository: ExcelVocaRepository
+class QuizViewModel(
+    app: Application
 ) : BaseViewModel(app) {
+
+    private val excelVocaRepository by inject(ExcelVocaRepository::class.java)
 
     private val _quizList = MutableLiveData<List<List<ExcelData>>>()
     val quizList: LiveData<List<List<ExcelData>>> = _quizList
@@ -32,7 +31,7 @@ class QuizViewModel @Inject constructor(
     // 롱클릭시 즐겨찾기 추가.
     fun addBookmarkItem(item: ExcelData) {
         excelVocaRepository.toggleBookmarkExcelData(toggleBookmark = true, item) {
-            if(it){
+            if (it) {
                 Toast.makeText(App.instance.context(), "즐겨찾기에 추가되었습니다.", Toast.LENGTH_LONG).show()
             }
         }

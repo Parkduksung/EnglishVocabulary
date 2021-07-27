@@ -1,6 +1,7 @@
 package com.example.englishvocabulary.ui.home.quiz
 
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -13,9 +14,7 @@ import com.example.englishvocabulary.databinding.FragmentQuizBinding
 import com.example.englishvocabulary.ui.home.adapter.QuizAdapter
 import com.example.englishvocabulary.ui.home.adapter.viewholder.QuizItemListener
 import com.example.englishvocabulary.ui.home.bookmark.RenewBookmarkListener
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class QuizFragment : BaseFragment<FragmentQuizBinding>(R.layout.fragment_quiz), QuizItemListener {
 
     private val quizViewModel by viewModels<QuizViewModel>()
@@ -24,8 +23,8 @@ class QuizFragment : BaseFragment<FragmentQuizBinding>(R.layout.fragment_quiz), 
 
     private lateinit var renewBookmarkListener: RenewBookmarkListener
 
-    override fun onAttach(activity: Activity) {
-        super.onAttach(activity)
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
         (activity as? RenewBookmarkListener)?.let {
             renewBookmarkListener = it
         }
