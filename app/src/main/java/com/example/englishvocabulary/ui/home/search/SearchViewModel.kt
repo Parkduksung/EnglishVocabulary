@@ -6,15 +6,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.englishvocabulary.base.BaseViewModel
 import com.example.englishvocabulary.data.repository.SearchRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import org.koin.java.KoinJavaComponent.inject
 
-@HiltViewModel
-class SearchViewModel @Inject constructor(
-    app: Application,
-    private val searchRepository: SearchRepository
+class SearchViewModel(
+    app: Application
 ) :
     BaseViewModel(app) {
+
+    private val searchRepository by inject(SearchRepository::class.java)
 
     val searchWordLiveData = MutableLiveData<String>()
 

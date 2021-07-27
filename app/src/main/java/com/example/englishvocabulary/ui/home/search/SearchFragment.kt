@@ -6,9 +6,7 @@ import androidx.fragment.app.viewModels
 import com.example.englishvocabulary.R
 import com.example.englishvocabulary.base.BaseFragment
 import com.example.englishvocabulary.databinding.FragmentSearchBinding
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_search) {
 
     private val searchViewModel by viewModels<SearchViewModel>()
