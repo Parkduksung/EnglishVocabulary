@@ -5,10 +5,11 @@ import com.example.englishvocabulary.data.source.local.excelvoca.ExcelVocaLocalD
 import com.example.englishvocabulary.network.room.entity.ExcelVocaEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
+import org.koin.java.KoinJavaComponent.inject
 
-class ExcelVocaRepositoryImpl @Inject constructor(private val excelVocaLocalDataSource: ExcelVocaLocalDataSource) :
-    ExcelVocaRepository {
+class ExcelVocaRepositoryImpl : ExcelVocaRepository {
+
+    private val excelVocaLocalDataSource by inject(ExcelVocaLocalDataSource::class.java)
 
     override fun getExcelData(callback: (excelList: List<ExcelVocaEntity>) -> Unit) {
         excelVocaLocalDataSource.getExcelData(callback)
@@ -33,11 +34,11 @@ class ExcelVocaRepositoryImpl @Inject constructor(private val excelVocaLocalData
         excelVocaLocalDataSource.getAllBookmarkExcelData(callback)
     }
 
-    override suspend fun checkExistExcelVoca(): Boolean = withContext(Dispatchers.IO){
+    override suspend fun checkExistExcelVoca(): Boolean = withContext(Dispatchers.IO) {
         return@withContext excelVocaLocalDataSource.checkExistExcelVoca()
     }
 
-    override suspend fun registerExcelVocaData(): Boolean  = withContext(Dispatchers.IO){
+    override suspend fun registerExcelVocaData(): Boolean = withContext(Dispatchers.IO) {
         return@withContext excelVocaLocalDataSource.registerExcelVocaData()
     }
 }
