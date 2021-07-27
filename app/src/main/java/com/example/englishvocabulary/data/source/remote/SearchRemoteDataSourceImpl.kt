@@ -8,16 +8,15 @@ import com.example.englishvocabulary.network.api.NaverApi.Companion.CLIENT_SECRE
 import com.example.englishvocabulary.network.response.KakaoDetachResponse
 import com.example.englishvocabulary.network.response.KakaoSearchResponse
 import com.example.englishvocabulary.network.response.NaverSearchResponse
+import org.koin.java.KoinJavaComponent.inject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import javax.inject.Inject
 
-class SearchRemoteDataSourceImpl @Inject constructor(
-    private val kakaoApi: KakaoApi,
-    private val naverApi: NaverApi
-) :
-    SearchRemoteDataSource {
+class SearchRemoteDataSourceImpl : SearchRemoteDataSource {
+
+    private val kakaoApi by inject(KakaoApi::class.java)
+    private val naverApi by inject(NaverApi::class.java)
 
     override fun searchKakaoWord(word: String, callback: (text: KakaoSearchResponse) -> Unit) {
 
@@ -43,7 +42,10 @@ class SearchRemoteDataSourceImpl @Inject constructor(
                     call: Call<NaverSearchResponse>,
                     response: Response<NaverSearchResponse>
                 ) {
-                    Log.d("결과", response.body()?.naverSearchMessage?.naverSearchResult?.translatedText ?: "null")
+                    Log.d("결과",
+                        response.body()?.naverSearchMessage?.naverSearchResult?.translatedText
+                            ?: "null"
+                    )
 //                    response.body()?.naverSearchMessage?.naverSearchResult?.translatedText
                     response.body()?.let(callback)
                 }
