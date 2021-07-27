@@ -10,9 +10,7 @@ import com.example.englishvocabulary.base.ViewState
 import com.example.englishvocabulary.databinding.ActivitySplashBinding
 import com.example.englishvocabulary.ui.home.HomeActivity
 import com.example.englishvocabulary.util.ImageUtils
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_splash) {
 
 

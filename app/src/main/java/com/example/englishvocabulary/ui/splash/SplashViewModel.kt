@@ -1,23 +1,17 @@
 package com.example.englishvocabulary.ui.splash
 
 import android.app.Application
-import android.util.Log
-import androidx.lifecycle.*
 import com.example.englishvocabulary.base.BaseViewModel
 import com.example.englishvocabulary.base.ViewState
-import com.example.englishvocabulary.data.repository.ExcelVocaRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import javax.inject.Inject
+import org.koin.java.KoinJavaComponent.inject
 
-@HiltViewModel
-class SplashViewModel @Inject constructor(
+class SplashViewModel(
     app: Application,
-    private val splashInteractor: SplashInteractor
 ) : BaseViewModel(app) {
+
+    private val splashInteractor by inject(SplashInteractor::class.java)
 
     init {
         verifyExcelVocaData()
