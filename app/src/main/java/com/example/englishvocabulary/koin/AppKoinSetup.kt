@@ -94,7 +94,10 @@ class AppKoinSetup : KoinBaseSetup() {
         return listOf(
             interactorModule,
             apiModule,
-            databaseModule
+            databaseModule,
+            viewModelModule,
+            repositoryModule,
+            sourceModule
         )
     }
 
