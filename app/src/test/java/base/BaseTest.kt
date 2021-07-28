@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.englishvocabulary.koin.KoinBaseSetup
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.setMain
 import org.junit.After
@@ -40,6 +41,7 @@ abstract class BaseTest {
         }
     }
 
+    @ExperimentalCoroutinesApi
     @Before
     open fun setup() {
         Dispatchers.setMain(TestCoroutineDispatcher())

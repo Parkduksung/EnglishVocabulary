@@ -24,6 +24,8 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
     }
 
     private fun initViewModel() {
+        lifecycle.addObserver(splashViewModel)
+
         splashViewModel.viewStateLiveData.observe(this, { viewState: ViewState? ->
             (viewState as? SplashViewModel.SplashViewState)?.let { onChangedViewState(viewState) }
         })
@@ -56,5 +58,10 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
             R.string.splash_error_message,
             Toast.LENGTH_LONG
         ).show()
+    }
+
+    override fun onDestroy() {
+        lifecycle.removeObserver(splashViewModel)
+        super.onDestroy()
     }
 }
