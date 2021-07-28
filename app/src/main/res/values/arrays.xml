@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="home_tab">
+    <string-array name="array_tab_name">
         <item>단어외우기</item>
         <item>퀴즈</item>
         <item>즐겨찾기</item>
         <item>검색</item>
     </string-array>
+
+    <integer-array name="array_tab_icon">
+        <item>@drawable/ic_study</item>
+        <item>@drawable/ic_quiz</item>
+        <item>@drawable/ic_bookmark</item>
+        <item>@drawable/ic_search</item>
+    </integer-array>
 </resources>
