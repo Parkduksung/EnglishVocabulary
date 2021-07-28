@@ -35,12 +35,14 @@ class SplashViewModelTest : ViewModelBaseTest() {
     }
 
 
+    // 시작하였을때 애니메이션이 잘 되는지 확인한다.
     @Test
-    fun start() = runBlocking {
+    fun startTest() = runBlocking {
         splashViewModel.startSplash()
         Mockito.verify(viewStateObserver).onChanged(SplashViewModel.SplashViewState.SplashAnimation)
     }
 
+    // ExcelVocaData 가 존재하는지 확인한다.
     @Test
     fun checkExistExcelVocaTest() = runBlocking {
         Mockito.`when`(splashInteractor.checkExistExcelVoca()).thenReturn(true)
@@ -48,17 +50,18 @@ class SplashViewModelTest : ViewModelBaseTest() {
         Mockito.verify(viewStateObserver).onChanged(SplashViewModel.SplashViewState.RouteMain)
     }
 
+    // ExcelVocaData 가 존재하지 않았을때 ExcelVocaData 잘 저장되는지 확인한다.
     @Test
-    fun checkExistExcelVocaTest1() = runBlocking {
+    fun checkRegisterExcelVocaDataTest() = runBlocking {
         Mockito.`when`(splashInteractor.checkExistExcelVoca()).thenReturn(false)
         Mockito.`when`(splashInteractor.registerExcelVocaData()).thenReturn(true)
         splashViewModel.verifyExcelVocaData()
         Mockito.verify(viewStateObserver).onChanged(SplashViewModel.SplashViewState.RouteMain)
     }
 
-
+    // ExcelVocaData 저장되지 않았을때, 에러가 뜨지는 확인한다.
     @Test
-    fun checkExistExcelVocaTest2() = runBlocking {
+    fun checkErrorTest() = runBlocking {
         Mockito.`when`(splashInteractor.checkExistExcelVoca()).thenReturn(false)
         Mockito.`when`(splashInteractor.registerExcelVocaData()).thenReturn(false)
         splashViewModel.verifyExcelVocaData()
