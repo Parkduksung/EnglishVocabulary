@@ -4,13 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.englishvocabulary.R
 import com.example.englishvocabulary.base.BaseActivity
 import com.example.englishvocabulary.data.model.ExcelData
 import com.example.englishvocabulary.databinding.ActivityHomeBinding
+import com.example.englishvocabulary.ui.home.adapter.FragmentPagerAdapter
 import com.example.englishvocabulary.ui.home.bookmark.BookmarkFragment
 import com.example.englishvocabulary.ui.home.bookmark.RenewBookmarkListener
 import com.example.englishvocabulary.ui.home.quiz.QuizFragment
@@ -87,11 +85,3 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home),
     }
 }
 
-class FragmentPagerAdapter(
-    private val fragmentList: List<Fragment>,
-    fragmentActivity: FragmentActivity
-) : FragmentStateAdapter(fragmentActivity) {
-
-    override fun getItemCount() = fragmentList.size
-    override fun createFragment(position: Int) = fragmentList[position]
-}
