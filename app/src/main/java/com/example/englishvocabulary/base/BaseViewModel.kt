@@ -13,7 +13,8 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
     private val _viewStateLiveData = MutableLiveData<ViewState>()
     val viewStateLiveData: LiveData<ViewState> = _viewStateLiveData
 
-    protected val viewModelScope = CoroutineScope(Dispatchers.Main)
+    protected val viewModelMainScope = CoroutineScope(Dispatchers.Main)
+    protected val viewModelIOScope = CoroutineScope(Dispatchers.IO)
 
     protected fun viewStateChanged(viewState: ViewState) {
         _viewStateLiveData.value = viewState
@@ -22,7 +23,8 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
 
     override fun onCleared() {
         super.onCleared()
-        viewModelScope.cancel()
+        viewModelMainScope.cancel()
+        viewModelIOScope.cancel()
     }
 }
 

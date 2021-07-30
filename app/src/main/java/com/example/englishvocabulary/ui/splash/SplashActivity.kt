@@ -19,8 +19,13 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        initUi()
         initViewModel()
 
+    }
+
+    private fun initUi() {
+        startSplashAnimation()
     }
 
     private fun initViewModel() {
@@ -32,7 +37,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
     }
 
     private fun onChangedViewState(viewState: SplashViewModel.SplashViewState) = when (viewState) {
-        SplashViewModel.SplashViewState.SplashAnimation -> startSplashAnimation()
         SplashViewModel.SplashViewState.RouteMain -> startRouteMain()
         SplashViewModel.SplashViewState.Error -> startError()
     }

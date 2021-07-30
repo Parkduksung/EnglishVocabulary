@@ -6,6 +6,8 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import com.example.englishvocabulary.base.BaseViewModel
 import com.example.englishvocabulary.base.ViewState
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
@@ -17,39 +19,37 @@ class SplashViewModel(
     private val splashInteractor by inject(SplashInteractor::class.java)
 
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun verifyExcelVocaData() {
-        viewModelScope.launch {
+        viewModelIOScope.launch {
+            delay(SPLASH_DELAY_MILLIS)
             if (splashInteractor.checkExistExcelVoca()) {
-                viewStateChanged(SplashViewState.RouteMain)
+                viewModelMainScope.launch {
+                    viewStateChanged(SplashViewState.RouteMain)
+                }
             } else {
                 if (splashInteractor.registerExcelVocaData()) {
-                    viewStateChanged(SplashViewState.RouteMain)
+                    viewModelMainScope.launch {
+                        viewStateChanged(SplashViewState.RouteMain)
+                    }
                 } else {
-                    viewStateChanged(SplashViewState.Error)
+                    viewModelMainScope.launch {
+                        viewStateChanged(SplashViewState.Error)
+                    }
 //                    TODO("ErrorType 들에 대한 대응처리 할 것.")
                 }
             }
         }
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun startSplash() {
-        viewModelScope.launch {
-            viewStateChanged(SplashViewState.SplashAnimation)
-            delay(SPLASH_DELAY_MILLIS)
-            verifyExcelVocaData()
-        }
-    }
-
 
     sealed class SplashViewState : ViewState {
-        object SplashAnimation : SplashViewState()
         object RouteMain : SplashViewState()
         object Error : SplashViewState()
     }
 
     companion object {
-        private const val SPLASH_DELAY_MILLIS = 1000L
+        const val SPLASH_DELAY_MILLIS = 1000L
     }
 
 }

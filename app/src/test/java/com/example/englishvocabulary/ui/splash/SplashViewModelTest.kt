@@ -1,7 +1,9 @@
 package com.example.englishvocabulary.ui.splash
 
 import base.ViewModelBaseTest
+import com.example.englishvocabulary.ui.splash.SplashViewModel.Companion.SPLASH_DELAY_MILLIS
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -35,18 +37,12 @@ class SplashViewModelTest : ViewModelBaseTest() {
     }
 
 
-    // 시작하였을때 애니메이션이 잘 되는지 확인한다.
-    @Test
-    fun startTest() = runBlocking {
-        splashViewModel.startSplash()
-        Mockito.verify(viewStateObserver).onChanged(SplashViewModel.SplashViewState.SplashAnimation)
-    }
-
     // ExcelVocaData 가 존재하는지 확인한다.
     @Test
     fun checkExistExcelVocaTest() = runBlocking {
         Mockito.`when`(splashInteractor.checkExistExcelVoca()).thenReturn(true)
         splashViewModel.verifyExcelVocaData()
+        delay(SPLASH_DELAY_MILLIS)
         Mockito.verify(viewStateObserver).onChanged(SplashViewModel.SplashViewState.RouteMain)
     }
 
@@ -56,6 +52,7 @@ class SplashViewModelTest : ViewModelBaseTest() {
         Mockito.`when`(splashInteractor.checkExistExcelVoca()).thenReturn(false)
         Mockito.`when`(splashInteractor.registerExcelVocaData()).thenReturn(true)
         splashViewModel.verifyExcelVocaData()
+        delay(SPLASH_DELAY_MILLIS)
         Mockito.verify(viewStateObserver).onChanged(SplashViewModel.SplashViewState.RouteMain)
     }
 
@@ -65,6 +62,7 @@ class SplashViewModelTest : ViewModelBaseTest() {
         Mockito.`when`(splashInteractor.checkExistExcelVoca()).thenReturn(false)
         Mockito.`when`(splashInteractor.registerExcelVocaData()).thenReturn(false)
         splashViewModel.verifyExcelVocaData()
+        delay(SPLASH_DELAY_MILLIS)
         Mockito.verify(viewStateObserver).onChanged(SplashViewModel.SplashViewState.Error)
     }
 
