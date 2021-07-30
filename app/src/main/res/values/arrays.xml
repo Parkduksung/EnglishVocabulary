@@ -7,10 +7,10 @@
         <item>검색</item>
     </string-array>
 
-    <integer-array name="array_tab_icon">
+    <array name="array_tab_icon">
         <item>@drawable/ic_study</item>
         <item>@drawable/ic_quiz</item>
         <item>@drawable/ic_bookmark</item>
         <item>@drawable/ic_search</item>
-    </integer-array>
+    </array>
 </resources>

@@ -54,14 +54,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home),
 
     private val tabConfigurationStrategy =
         TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-
-            val nameArray = resources.getStringArray(R.array.array_tab_name).toList()
-            val iconArray = resources.getIntArray(R.array.array_tab_icon).toList()
-
-            val tabInfoArray = (nameArray zip iconArray)
-
-            tab.text = tabInfoArray[position].first
-            tab.setIcon(tabInfoArray[position].second)
+            tab.text = resources.getStringArray(R.array.array_tab_name)[position]
+            tab.icon = resources.obtainTypedArray(R.array.array_tab_icon).getDrawable(position)
         }
 
 
