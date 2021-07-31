@@ -2,6 +2,7 @@ package com.example.englishvocabulary.data.source.local.excelvoca
 
 import com.example.englishvocabulary.data.model.ExcelData
 import com.example.englishvocabulary.network.room.entity.ExcelVocaEntity
+import com.example.englishvocabulary.util.Result
 
 interface ExcelVocaLocalDataSource {
 
@@ -9,14 +10,10 @@ interface ExcelVocaLocalDataSource {
         callback: (excelList: List<ExcelVocaEntity>) -> Unit
     )
 
-    fun getWantDayExcelData(
-        day : String,
-        callback: (excelList: List<ExcelVocaEntity>) -> Unit
-    )
 
     fun toggleBookmarkExcelData(
         toggleBookmark: Boolean,
-        item : ExcelData,
+        item: ExcelData,
         callback: (isSuccess: Boolean) -> Unit
     )
 
@@ -26,4 +23,9 @@ interface ExcelVocaLocalDataSource {
     suspend fun checkExistExcelVoca(): Boolean
 
     suspend fun registerExcelVocaData(): Boolean
+
+    suspend fun getWantDayExcelVocaData(
+        wantDay: String
+    ): Result<List<ExcelVocaEntity>>
+
 }

@@ -5,6 +5,7 @@ import com.example.englishvocabulary.data.model.ExcelData
 import com.example.englishvocabulary.network.room.database.ExcelVocaDatabase
 import com.example.englishvocabulary.network.room.entity.ExcelVocaEntity
 import com.example.englishvocabulary.util.AppExecutors
+import com.example.englishvocabulary.util.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
@@ -23,6 +24,19 @@ class ExcelVocaLocalDataSourceImpl : ExcelVocaLocalDataSource {
         registerAllReadExcelFileData()
         return@withContext excelVocaDatabase.excelVocaDao().getAll().isNotEmpty()
     }
+
+    override suspend fun getWantDayExcelVocaData(wantDay: String): Result<List<ExcelVocaEntity>> =
+        withContext(Dispatchers.IO) {
+            when (val getWantExceVocaResult =
+                excelVocaDatabase.excelVocaDao().getDayExcelVocaEntity(wantDay = wantDay)) {
+                is Result.Success -> {
+                    return@withContext Result.success(getWantExceVocaResult.value)
+                }
+                is Result.Failure -> {
+                    return@withContext Result.failure(getWantExceVocaResult.throwable)
+                }
+            }
+        }
 
     override fun toggleBookmarkExcelData(
         toggleBookmark: Boolean,
@@ -76,24 +90,6 @@ class ExcelVocaLocalDataSourceImpl : ExcelVocaLocalDataSource {
                 callback(getAllExcelVocaEntity)
             }
         }
-    }
-
-    override fun getWantDayExcelData(
-        day: String,
-        callback: (excelList: List<ExcelVocaEntity>) -> Unit
-    ) {
-
-        val appExecutors = AppExecutors()
-
-        appExecutors.diskIO.execute {
-            val getWantDayExcelVocaEntity =
-                excelVocaDatabase.excelVocaDao().getDayExcelVocaEntity(wantDay = day)
-
-            appExecutors.mainThread.execute {
-                callback(getWantDayExcelVocaEntity)
-            }
-        }
-
     }
 
     private fun registerAllReadExcelFileData() {

@@ -3,6 +3,7 @@ package com.example.englishvocabulary.data.repository
 import com.example.englishvocabulary.data.model.ExcelData
 import com.example.englishvocabulary.data.source.local.excelvoca.ExcelVocaLocalDataSource
 import com.example.englishvocabulary.network.room.entity.ExcelVocaEntity
+import com.example.englishvocabulary.util.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.koin.java.KoinJavaComponent.inject
@@ -15,12 +16,6 @@ class ExcelVocaRepositoryImpl : ExcelVocaRepository {
         excelVocaLocalDataSource.getExcelData(callback)
     }
 
-    override fun getWantDayExcelData(
-        day: String,
-        callback: (excelList: List<ExcelVocaEntity>) -> Unit
-    ) {
-        excelVocaLocalDataSource.getWantDayExcelData(day, callback)
-    }
 
     override fun toggleBookmarkExcelData(
         toggleBookmark: Boolean,
@@ -41,4 +36,9 @@ class ExcelVocaRepositoryImpl : ExcelVocaRepository {
     override suspend fun registerExcelVocaData(): Boolean = withContext(Dispatchers.IO) {
         return@withContext excelVocaLocalDataSource.registerExcelVocaData()
     }
+
+    override suspend fun getWantDayExcelVocaData(wantDay: String): Result<List<ExcelVocaEntity>> =
+        withContext(Dispatchers.IO) {
+            return@withContext excelVocaLocalDataSource.getWantDayExcelVocaData(wantDay)
+        }
 }

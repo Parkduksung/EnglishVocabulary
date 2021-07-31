@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.englishvocabulary.network.room.entity.ExcelVocaEntity
+import com.example.englishvocabulary.util.Result
 
 @Dao
 interface ExcelVocaDao {
@@ -17,7 +18,7 @@ interface ExcelVocaDao {
 
 
     @Query("SELECT * FROM excel_voca_table WHERE day = (:wantDay)")
-    fun getDayExcelVocaEntity(wantDay: String): List<ExcelVocaEntity>
+    fun getDayExcelVocaEntity(wantDay: String): Result<List<ExcelVocaEntity>>
 
     @Query("UPDATE excel_voca_table SET `like` = (:like) WHERE  day = (:day) AND word = (:word) AND mean = (:mean)")
     fun updateBookmarkExcelData(
