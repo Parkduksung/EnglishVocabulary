@@ -5,8 +5,11 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.englishvocabulary.base.BaseViewModel
+import com.example.englishvocabulary.base.ViewState
 import com.example.englishvocabulary.data.model.ExcelData
 import com.example.englishvocabulary.data.repository.ExcelVocaRepository
+import com.example.englishvocabulary.util.Result
+import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
 
 class StudyViewModel(
@@ -18,11 +21,19 @@ class StudyViewModel(
     private val _allExcelData = MutableLiveData<List<ExcelData>>()
     val allExcelData: LiveData<List<ExcelData>> = _allExcelData
 
+
     // 날짜에 따른 ExcelVoca 얻어오기.
     fun getAllExcelVoca(day: String) {
-        excelVocaRepository.getWantDayExcelData(day.toLowerCase()) {
-            val getAllExcelData = it.map { excelVocaEntity -> excelVocaEntity.toExcelData() }
-            _allExcelData.value = getAllExcelData
+
+        viewModelIOScope.launch {
+            when (val result = excelVocaRepository.getWantDayExcelVocaData(wantDay = day)) {
+                is Result.Success -> {
+                    viewStateChanged(StudyViewState.ExcelVoca(result.value.map { it.toExcelData() }))
+                }
+                is Result.Failure -> {
+                    viewStateChanged(StudyViewState.Error(result.throwable.message!!))
+                }
+            }
         }
     }
 
@@ -30,5 +41,11 @@ class StudyViewModel(
     fun toggleBookmark(isBookmarked: Boolean, item: ExcelData) {
         excelVocaRepository.toggleBookmarkExcelData(isBookmarked, item) {
         }
+    }
+
+
+    sealed class StudyViewState : ViewState {
+        data class Error(val errorMessage: String) : StudyViewState()
+        data class ExcelVoca(val wandData: List<ExcelData>) : StudyViewState()
     }
 }
