@@ -2,12 +2,14 @@ package com.example.englishvocabulary.ui.home.study
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.englishvocabulary.R
 import com.example.englishvocabulary.base.BaseFragment
+import com.example.englishvocabulary.base.ViewState
 import com.example.englishvocabulary.data.model.ExcelData
 import com.example.englishvocabulary.databinding.FragmentStudyBinding
 import com.example.englishvocabulary.ui.home.adapter.DayAdapter
@@ -15,6 +17,7 @@ import com.example.englishvocabulary.ui.home.adapter.StudyAdapter
 import com.example.englishvocabulary.ui.home.adapter.viewholder.DayListener
 import com.example.englishvocabulary.ui.home.adapter.viewholder.VocaListener
 import com.example.englishvocabulary.ui.home.bookmark.RenewBookmarkListener
+import com.example.englishvocabulary.ui.splash.SplashViewModel
 
 
 class StudyFragment : BaseFragment<FragmentStudyBinding>(R.layout.fragment_study), VocaListener,
@@ -49,14 +52,8 @@ class StudyFragment : BaseFragment<FragmentStudyBinding>(R.layout.fragment_study
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initViewModel()
         startDayAdapter()
-
-        lifecycle.addObserver(studyViewModel)
-
-        studyViewModel.allExcelData.observe(viewLifecycleOwner, {
-            studyAdapter.addAllVocaData(it)
-        })
-
 
         binding.backButton.setOnClickListener {
             binding.contentContainer.isVisible = false
@@ -64,6 +61,27 @@ class StudyFragment : BaseFragment<FragmentStudyBinding>(R.layout.fragment_study
         }
 
     }
+
+    private fun initViewModel() {
+        lifecycle.addObserver(studyViewModel)
+
+        studyViewModel.viewStateLiveData.observe(requireActivity()) { viewState: ViewState? ->
+            (viewState as? StudyViewModel.StudyViewState)?.let { onChangedViewState(viewState) }
+        }
+
+    }
+
+    private fun onChangedViewState(viewState: StudyViewModel.StudyViewState) {
+        when (viewState) {
+            is StudyViewModel.StudyViewState.Error -> {
+                Toast.makeText(requireContext(), viewState.errorMessage, Toast.LENGTH_LONG).show()
+            }
+            is StudyViewModel.StudyViewState.ExcelVoca -> {
+                studyAdapter.addAllVocaData(viewState.wandData)
+            }
+        }
+    }
+
 
     private fun startDayAdapter() {
         binding.studyRv.run {

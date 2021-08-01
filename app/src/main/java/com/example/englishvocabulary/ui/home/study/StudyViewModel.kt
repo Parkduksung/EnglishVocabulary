@@ -18,10 +18,6 @@ class StudyViewModel(
 
     private val excelVocaRepository by inject(ExcelVocaRepository::class.java)
 
-    private val _allExcelData = MutableLiveData<List<ExcelData>>()
-    val allExcelData: LiveData<List<ExcelData>> = _allExcelData
-
-
     // 날짜에 따른 ExcelVoca 얻어오기.
     fun getAllExcelVoca(day: String) {
 
