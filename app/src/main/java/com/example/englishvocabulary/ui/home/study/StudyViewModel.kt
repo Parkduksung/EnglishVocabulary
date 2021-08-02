@@ -22,7 +22,7 @@ class StudyViewModel(
     fun getAllExcelVoca(day: String) {
 
         viewModelIOScope.launch {
-            when (val result = excelVocaRepository.getWantDayExcelVocaData(wantDay = day)) {
+            when (val result = excelVocaRepository.getWantDayExcelVocaData(wantDay = day.toLowerCase())) {
                 is Result.Success -> {
                     viewStateChanged(StudyViewState.ExcelVoca(result.value.map { it.toExcelData() }))
                 }
