@@ -20,8 +20,7 @@ class StudyViewModel(
 
     // 날짜에 따른 ExcelVoca 얻어오기.
     fun getAllExcelVoca(day: String) {
-
-        viewModelIOScope.launch {
+        viewModelMainScope.launch {
             when (val result = excelVocaRepository.getWantDayExcelVocaData(wantDay = day.toLowerCase())) {
                 is Result.Success -> {
                     viewStateChanged(StudyViewState.ExcelVoca(result.value.map { it.toExcelData() }))
