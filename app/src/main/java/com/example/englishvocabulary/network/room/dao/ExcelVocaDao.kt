@@ -18,7 +18,7 @@ interface ExcelVocaDao {
 
 
     @Query("SELECT * FROM excel_voca_table WHERE day = (:wantDay)")
-    fun getDayExcelVocaEntity(wantDay: String): Result<List<ExcelVocaEntity>>
+    fun getDayExcelVocaEntity(wantDay: String): List<ExcelVocaEntity>
 
     @Query("UPDATE excel_voca_table SET `like` = (:like) WHERE  day = (:day) AND word = (:word) AND mean = (:mean)")
     fun updateBookmarkExcelData(

@@ -27,14 +27,13 @@ class ExcelVocaLocalDataSourceImpl : ExcelVocaLocalDataSource {
 
     override suspend fun getWantDayExcelVocaData(wantDay: String): Result<List<ExcelVocaEntity>> =
         withContext(Dispatchers.IO) {
-            when (val getWantExceVocaResult =
-                excelVocaDatabase.excelVocaDao().getDayExcelVocaEntity(wantDay = wantDay)) {
-                is Result.Success -> {
-                    return@withContext Result.success(getWantExceVocaResult.value)
-                }
-                is Result.Failure -> {
-                    return@withContext Result.failure(getWantExceVocaResult.throwable)
-                }
+            val getWantExceVocaResult =
+                excelVocaDatabase.excelVocaDao().getDayExcelVocaEntity(wantDay = wantDay)
+
+            if (!getWantExceVocaResult.isNullOrEmpty()) {
+                return@withContext Result.success(getWantExceVocaResult)
+            } else {
+                return@withContext Result.failure(Throwable("ExcelVoca is Null Or Empty"))
             }
         }
 
