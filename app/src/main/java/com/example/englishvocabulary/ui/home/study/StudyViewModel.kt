@@ -14,8 +14,6 @@ class StudyViewModel(
     app: Application
 ) : BaseViewModel(app), LifecycleObserver {
 
-    private val excelVocaRepository by inject(ExcelVocaRepository::class.java)
-
     private val studyInteractor by inject(StudyInteractor::class.java)
 
     // 날짜에 따른 ExcelVoca 얻어오기.
@@ -32,14 +30,20 @@ class StudyViewModel(
         }
     }
 
-    // 즐겨찾기 on/off
+    // 즐겨찾기 On/Off
     fun toggleBookmark(isBookmarked: Boolean, item: ExcelData) {
-        excelVocaRepository.toggleBookmarkExcelData(isBookmarked, item) {
+        viewModelMainScope.launch {
+            if (studyInteractor.toggleBookmarkExcelData(isBookmarked, item)) {
+                viewStateChanged(StudyViewState.ToggleBookMark)
+            } else {
+                viewStateChanged(StudyViewState.Error("Bookmark Error"))
+            }
         }
     }
 
 
     sealed class StudyViewState : ViewState {
+        object ToggleBookMark : StudyViewState()
         data class Error(val errorMessage: String) : StudyViewState()
         data class ExcelVoca(val wandData: List<ExcelData>) : StudyViewState()
     }

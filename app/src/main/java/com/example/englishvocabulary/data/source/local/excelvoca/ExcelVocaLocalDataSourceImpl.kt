@@ -25,34 +25,26 @@ class ExcelVocaLocalDataSourceImpl : ExcelVocaLocalDataSource {
         return@withContext excelVocaDatabase.excelVocaDao().getAll().isNotEmpty()
     }
 
-    override suspend fun getWantDayExcelVocaData(wantDay: String): List<ExcelVocaEntity> = withContext(Dispatchers.IO){
-        return@withContext excelVocaDatabase.excelVocaDao().getDayExcelVocaEntity(wantDay)
-    }
-
-
-    override fun toggleBookmarkExcelData(
-        toggleBookmark: Boolean,
-        item: ExcelData,
-        callback: (isSuccess: Boolean) -> Unit
-    ) {
-        val appExecutors = AppExecutors()
-
-        appExecutors.diskIO.execute {
-            val updateExcelData = excelVocaDatabase.excelVocaDao().updateBookmarkExcelData(
-                day = item.day,
-                word = item.word,
-                mean = item.mean,
-                toggleBookmark
-            )
-
-            appExecutors.mainThread.execute {
-                if (updateExcelData == 1) {
-                    callback(true)
-                } else {
-                    callback(false)
-                }
-            }
+    override suspend fun getWantDayExcelVocaData(wantDay: String): List<ExcelVocaEntity> =
+        withContext(Dispatchers.IO) {
+            return@withContext excelVocaDatabase.excelVocaDao().getDayExcelVocaEntity(wantDay)
         }
+
+
+    override suspend fun toggleBookmarkExcelData(
+        toggleBookmark: Boolean,
+        item: ExcelData
+    ): Boolean = withContext(Dispatchers.IO) {
+
+        val updateExcelData = excelVocaDatabase.excelVocaDao().updateBookmarkExcelData(
+            day = item.day,
+            word = item.word,
+            mean = item.mean,
+            toggleBookmark
+        )
+
+        // 1일경우 제대로 쿼리 성공. 그외 실패.
+        return@withContext updateExcelData == 1
     }
 
     override fun getAllBookmarkExcelData(callback: (excelList: List<ExcelVocaEntity>) -> Unit) {

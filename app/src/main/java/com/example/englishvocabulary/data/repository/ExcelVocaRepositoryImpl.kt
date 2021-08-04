@@ -16,13 +16,11 @@ class ExcelVocaRepositoryImpl : ExcelVocaRepository {
         excelVocaLocalDataSource.getExcelData(callback)
     }
 
-
-    override fun toggleBookmarkExcelData(
+    override suspend fun toggleBookmarkExcelData(
         toggleBookmark: Boolean,
         item: ExcelData,
-        callback: (isSuccess: Boolean) -> Unit
-    ) {
-        excelVocaLocalDataSource.toggleBookmarkExcelData(toggleBookmark, item, callback)
+    ): Boolean = withContext(Dispatchers.IO) {
+        return@withContext excelVocaLocalDataSource.toggleBookmarkExcelData(toggleBookmark, item)
     }
 
     override fun getAllBookmarkExcelData(callback: (excelList: List<ExcelVocaEntity>) -> Unit) {

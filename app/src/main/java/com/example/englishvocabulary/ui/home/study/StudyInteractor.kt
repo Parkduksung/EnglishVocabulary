@@ -1,5 +1,6 @@
 package com.example.englishvocabulary.ui.home.study
 
+import com.example.englishvocabulary.data.model.ExcelData
 import com.example.englishvocabulary.data.repository.ExcelVocaRepository
 import com.example.englishvocabulary.network.room.entity.ExcelVocaEntity
 import com.example.englishvocabulary.util.Result
@@ -14,6 +15,11 @@ class StudyInteractor {
     suspend fun getWantExcelVocaData(wantDay: String): Result<List<ExcelVocaEntity>> =
         withContext(Dispatchers.IO) {
             return@withContext excelVocaRepository.getWantDayExcelVocaData(wantDay)
+        }
+
+    suspend fun toggleBookmarkExcelData(isBookmarked: Boolean, item: ExcelData): Boolean =
+        withContext(Dispatchers.IO) {
+            return@withContext excelVocaRepository.toggleBookmarkExcelData(isBookmarked, item)
         }
 
 }
