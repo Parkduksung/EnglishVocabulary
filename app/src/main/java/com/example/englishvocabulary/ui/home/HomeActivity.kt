@@ -4,9 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import com.example.englishvocabulary.R
 import com.example.englishvocabulary.base.BaseActivity
+import com.example.englishvocabulary.base.ViewState
 import com.example.englishvocabulary.databinding.ActivityHomeBinding
 import com.example.englishvocabulary.ui.home.adapter.FragmentPagerAdapter
 import com.example.englishvocabulary.ui.home.bookmark.BookmarkFragment
@@ -23,6 +25,31 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
         super.onCreate(savedInstanceState)
 
         initViewPager()
+        initViewModel()
+    }
+
+
+    private fun initViewModel() {
+        homeViewModel.viewStateLiveData.observe(this) { viewState: ViewState? ->
+            (viewState as? HomeViewModel.HomeViewState)?.let { onChangedViewState(viewState) }
+        }
+    }
+
+    private fun onChangedViewState(viewState: HomeViewModel.HomeViewState) {
+        when (viewState) {
+
+            is HomeViewModel.HomeViewState.Error -> {
+                Toast.makeText(this, viewState.errorMessage, Toast.LENGTH_SHORT).show()
+            }
+
+            is HomeViewModel.HomeViewState.AddBookmark -> {
+                Toast.makeText(this, "즐겨찾기가 추가되었습니다.", Toast.LENGTH_SHORT).show()
+            }
+
+            is HomeViewModel.HomeViewState.DeleteBookmark -> {
+                Toast.makeText(this, "즐겨찾기가 제거되었습니다.", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
 

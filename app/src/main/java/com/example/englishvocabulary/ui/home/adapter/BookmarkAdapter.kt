@@ -37,12 +37,16 @@ class BookmarkAdapter : RecyclerView.Adapter<BookmarkViewHolder>() {
         bookmarkListener = listener
     }
 
-    fun toggleBookmark(item : ExcelData){
-        if(bookmarkList.contains(item)){
-            val index = bookmarkList.indexOf(item)
-            bookmarkList[index].like = !bookmarkList[index].like
-            notifyItemChanged(index)
+    fun deleteBookmark(item: ExcelData) {
+        if (bookmarkList.contains(item)) {
+            bookmarkList.remove(item)
+            notifyDataSetChanged()
         }
+    }
+
+    fun addBookmark(item: ExcelData) {
+        bookmarkList.add(item)
+        notifyItemChanged(bookmarkList.lastIndex)
     }
 
 }

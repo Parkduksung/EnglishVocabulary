@@ -27,7 +27,6 @@ class QuizFragment : BaseFragment<FragmentQuizBinding>(R.layout.fragment_quiz), 
 
     override fun getItem(item: ExcelData) {
         homeViewModel.toggleBookmark(isBookmarked = true, item)
-        Toast.makeText(requireContext(), "즐겨찾기에 추가되었습니다.", Toast.LENGTH_LONG).show()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

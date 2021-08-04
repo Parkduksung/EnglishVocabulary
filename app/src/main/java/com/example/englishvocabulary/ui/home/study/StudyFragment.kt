@@ -32,7 +32,7 @@ class StudyFragment : BaseFragment<FragmentStudyBinding>(R.layout.fragment_study
     private val homeViewModel by activityViewModels<HomeViewModel>()
 
     override fun getItemClick(isChecked: Boolean, item: ExcelData) {
-        homeViewModel.toggleBookmark(isChecked,item)
+        homeViewModel.toggleBookmark(isChecked, item)
     }
 
     override fun getItemClick(item: String) {
@@ -65,7 +65,10 @@ class StudyFragment : BaseFragment<FragmentStudyBinding>(R.layout.fragment_study
         homeViewModel.viewStateLiveData.observe(requireActivity()) { viewState: ViewState? ->
             (viewState as? HomeViewModel.HomeViewState)?.let { homeViewState ->
                 when (homeViewState) {
-                    is HomeViewModel.HomeViewState.ToggleBookMark -> {
+                    is HomeViewModel.HomeViewState.AddBookmark -> {
+                        studyAdapter.stateChangeBookmark(homeViewState.excelData)
+                    }
+                    is HomeViewModel.HomeViewState.DeleteBookmark -> {
                         studyAdapter.stateChangeBookmark(homeViewState.excelData)
                     }
                 }

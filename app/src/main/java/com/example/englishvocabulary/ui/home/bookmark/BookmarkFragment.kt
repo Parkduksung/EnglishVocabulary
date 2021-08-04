@@ -1,7 +1,5 @@
 package com.example.englishvocabulary.ui.home.bookmark
 
-import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
@@ -34,15 +32,13 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(R.layout.fragment
 
         startBookmarkAdapter()
 
-        bookmarkViewModel.bookmarkListLiveData.observe(viewLifecycleOwner, {
-            bookmarkAdapter.addAllBookmarkData(it)
-        })
-
         homeViewModel.viewStateLiveData.observe(requireActivity()) { homeViewState ->
             when (homeViewState) {
-                is HomeViewModel.HomeViewState.ToggleBookMark -> {
-                    bookmarkAdapter.clear()
-                    bookmarkViewModel.getAllBookmark()
+                is HomeViewModel.HomeViewState.AddBookmark -> {
+                    bookmarkAdapter.addBookmark(homeViewState.excelData)
+                }
+                is HomeViewModel.HomeViewState.DeleteBookmark -> {
+                    bookmarkAdapter.deleteBookmark(homeViewState.excelData)
                 }
             }
         }
@@ -55,7 +51,7 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(R.layout.fragment
             layoutManager = LinearLayoutManager(requireContext())
             bookmarkAdapter.setBookmarkItemClickListener(this@BookmarkFragment)
         }
-        bookmarkViewModel.getAllBookmark()
+        bookmarkViewModel.getAllBookmark(bookmarkAdapter)
     }
 
     override fun onDestroy() {

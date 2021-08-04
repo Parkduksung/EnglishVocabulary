@@ -17,7 +17,11 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
     fun toggleBookmark(isBookmarked: Boolean, item: ExcelData) {
         viewModelMainScope.launch {
             if (studyInteractor.toggleBookmarkExcelData(isBookmarked, item)) {
-                viewStateChanged(HomeViewState.ToggleBookMark(item))
+                if (isBookmarked) {
+                    viewStateChanged(HomeViewState.AddBookmark(item))
+                } else {
+                    viewStateChanged(HomeViewState.DeleteBookmark(item))
+                }
             } else {
                 viewStateChanged(HomeViewState.Error("Bookmark Error"))
             }
@@ -26,7 +30,8 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
 
     sealed class HomeViewState : ViewState {
         data class Error(val errorMessage: String) : HomeViewState()
-        data class ToggleBookMark(val excelData: ExcelData) : HomeViewState()
+        data class AddBookmark(val excelData: ExcelData) : HomeViewState()
+        data class DeleteBookmark(val excelData: ExcelData) : HomeViewState()
     }
 
 }
