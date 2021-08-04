@@ -34,13 +34,10 @@ class QuizViewModel(
 
     // 롱클릭시 즐겨찾기 추가.
     fun addBookmarkItem(item: ExcelData) {
-
         viewModelMainScope.launch {
             if (studyInteractor.toggleBookmarkExcelData(true, item)) {
                 Toast.makeText(App.instance.context(), "즐겨찾기에 추가되었습니다.", Toast.LENGTH_LONG).show()
             }
         }
-
     }
-
 }
