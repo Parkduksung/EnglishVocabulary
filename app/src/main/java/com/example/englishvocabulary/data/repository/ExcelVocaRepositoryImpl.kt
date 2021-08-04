@@ -37,8 +37,16 @@ class ExcelVocaRepositoryImpl : ExcelVocaRepository {
         return@withContext excelVocaLocalDataSource.registerExcelVocaData()
     }
 
+
     override suspend fun getWantDayExcelVocaData(wantDay: String): Result<List<ExcelVocaEntity>> =
         withContext(Dispatchers.IO) {
-            return@withContext excelVocaLocalDataSource.getWantDayExcelVocaData(wantDay)
+
+            val getWantDayExcelVocaData = excelVocaLocalDataSource.getWantDayExcelVocaData(wantDay)
+
+            if (!getWantDayExcelVocaData.isNullOrEmpty()) {
+                return@withContext Result.success(getWantDayExcelVocaData)
+            } else {
+                return@withContext Result.failure(Throwable("Specific Excel Voca is Empty Or Null"))
+            }
         }
 }

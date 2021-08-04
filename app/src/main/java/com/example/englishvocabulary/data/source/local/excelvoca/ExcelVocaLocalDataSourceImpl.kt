@@ -25,17 +25,10 @@ class ExcelVocaLocalDataSourceImpl : ExcelVocaLocalDataSource {
         return@withContext excelVocaDatabase.excelVocaDao().getAll().isNotEmpty()
     }
 
-    override suspend fun getWantDayExcelVocaData(wantDay: String): Result<List<ExcelVocaEntity>> =
-        withContext(Dispatchers.IO) {
-            val getWantExceVocaResult =
-                excelVocaDatabase.excelVocaDao().getDayExcelVocaEntity(wantDay = wantDay)
+    override suspend fun getWantDayExcelVocaData(wantDay: String): List<ExcelVocaEntity> = withContext(Dispatchers.IO){
+        return@withContext excelVocaDatabase.excelVocaDao().getDayExcelVocaEntity(wantDay)
+    }
 
-            if (!getWantExceVocaResult.isNullOrEmpty()) {
-                return@withContext Result.success(getWantExceVocaResult)
-            } else {
-                return@withContext Result.failure(Throwable("ExcelVoca is Null Or Empty"))
-            }
-        }
 
     override fun toggleBookmarkExcelData(
         toggleBookmark: Boolean,

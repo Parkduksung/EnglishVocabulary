@@ -27,6 +27,6 @@ interface ExcelVocaLocalDataSource {
 
     suspend fun getWantDayExcelVocaData(
         wantDay: String
-    ): Result<List<ExcelVocaEntity>>
+    ): List<ExcelVocaEntity>
 
 }
