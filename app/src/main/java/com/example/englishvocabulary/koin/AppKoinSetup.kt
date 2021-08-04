@@ -15,6 +15,7 @@ import com.example.englishvocabulary.network.room.database.ExcelVocaDatabase
 import com.example.englishvocabulary.ui.home.bookmark.BookmarkViewModel
 import com.example.englishvocabulary.ui.home.quiz.QuizViewModel
 import com.example.englishvocabulary.ui.home.search.SearchViewModel
+import com.example.englishvocabulary.ui.home.study.StudyInteractor
 import com.example.englishvocabulary.ui.home.study.StudyViewModel
 import com.example.englishvocabulary.ui.splash.SplashInteractor
 import com.example.englishvocabulary.ui.splash.SplashViewModel
@@ -28,6 +29,7 @@ class AppKoinSetup : KoinBaseSetup() {
 
     private val interactorModule = module {
         factory { SplashInteractor() }
+        factory { StudyInteractor() }
     }
 
     private val viewModelModule = module {
