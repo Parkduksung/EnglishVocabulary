@@ -8,6 +8,8 @@ import com.example.englishvocabulary.App
 import com.example.englishvocabulary.base.BaseViewModel
 import com.example.englishvocabulary.data.model.ExcelData
 import com.example.englishvocabulary.data.repository.ExcelVocaRepository
+import com.example.englishvocabulary.ui.home.study.StudyInteractor
+import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
 
 
@@ -16,6 +18,8 @@ class QuizViewModel(
 ) : BaseViewModel(app) {
 
     private val excelVocaRepository by inject(ExcelVocaRepository::class.java)
+
+    private val studyInteractor by inject(StudyInteractor::class.java)
 
     private val _quizList = MutableLiveData<List<List<ExcelData>>>()
     val quizList: LiveData<List<List<ExcelData>>> = _quizList
@@ -30,11 +34,13 @@ class QuizViewModel(
 
     // 롱클릭시 즐겨찾기 추가.
     fun addBookmarkItem(item: ExcelData) {
-        excelVocaRepository.toggleBookmarkExcelData(toggleBookmark = true, item) {
-            if (it) {
+
+        viewModelMainScope.launch {
+            if (studyInteractor.toggleBookmarkExcelData(true, item)) {
                 Toast.makeText(App.instance.context(), "즐겨찾기에 추가되었습니다.", Toast.LENGTH_LONG).show()
             }
         }
+
     }
 
 }
