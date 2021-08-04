@@ -44,7 +44,7 @@ class QuizViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
 
         itemView.setOnLongClickListener {
             listener.getItem(resultItem)
-            false
+            true
         }
 
     }

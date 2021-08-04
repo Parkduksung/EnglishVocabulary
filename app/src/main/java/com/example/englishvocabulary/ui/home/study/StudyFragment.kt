@@ -17,7 +17,6 @@ import com.example.englishvocabulary.ui.home.adapter.StudyAdapter
 import com.example.englishvocabulary.ui.home.adapter.viewholder.DayListener
 import com.example.englishvocabulary.ui.home.adapter.viewholder.VocaListener
 import com.example.englishvocabulary.ui.home.bookmark.RenewBookmarkListener
-import com.example.englishvocabulary.ui.splash.SplashViewModel
 
 
 class StudyFragment : BaseFragment<FragmentStudyBinding>(R.layout.fragment_study), VocaListener,
@@ -39,7 +38,6 @@ class StudyFragment : BaseFragment<FragmentStudyBinding>(R.layout.fragment_study
 
     override fun getItemClick(isChecked: Boolean, item: ExcelData) {
         studyViewModel.toggleBookmark(isChecked, item)
-        studyAdapter.stateChangeBookmark(item)
     }
 
     override fun getItemClick(item: String) {
@@ -78,6 +76,9 @@ class StudyFragment : BaseFragment<FragmentStudyBinding>(R.layout.fragment_study
             }
             is StudyViewModel.StudyViewState.ExcelVoca -> {
                 studyAdapter.addAllVocaData(viewState.wandData)
+            }
+            is StudyViewModel.StudyViewState.ToggleBookMark -> {
+                studyAdapter.stateChangeBookmark(viewState.excelData)
             }
         }
     }

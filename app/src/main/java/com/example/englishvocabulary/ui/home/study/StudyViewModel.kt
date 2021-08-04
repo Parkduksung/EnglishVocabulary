@@ -5,7 +5,6 @@ import androidx.lifecycle.LifecycleObserver
 import com.example.englishvocabulary.base.BaseViewModel
 import com.example.englishvocabulary.base.ViewState
 import com.example.englishvocabulary.data.model.ExcelData
-import com.example.englishvocabulary.data.repository.ExcelVocaRepository
 import com.example.englishvocabulary.util.Result
 import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
@@ -34,7 +33,7 @@ class StudyViewModel(
     fun toggleBookmark(isBookmarked: Boolean, item: ExcelData) {
         viewModelMainScope.launch {
             if (studyInteractor.toggleBookmarkExcelData(isBookmarked, item)) {
-                viewStateChanged(StudyViewState.ToggleBookMark)
+                viewStateChanged(StudyViewState.ToggleBookMark(item))
             } else {
                 viewStateChanged(StudyViewState.Error("Bookmark Error"))
             }
@@ -43,7 +42,7 @@ class StudyViewModel(
 
 
     sealed class StudyViewState : ViewState {
-        object ToggleBookMark : StudyViewState()
+        data class ToggleBookMark(val excelData: ExcelData) : StudyViewState()
         data class Error(val errorMessage: String) : StudyViewState()
         data class ExcelVoca(val wandData: List<ExcelData>) : StudyViewState()
     }

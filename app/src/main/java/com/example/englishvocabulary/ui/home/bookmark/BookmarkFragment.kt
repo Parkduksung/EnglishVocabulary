@@ -31,7 +31,6 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(R.layout.fragment
 
     override fun getItemClick(item: ExcelData) {
         bookmarkViewModel.deleteBookmark(item)
-        renewBookmarkListener.renewItem(item)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,7 +42,8 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(R.layout.fragment
         })
 
         bookmarkViewModel.viewStateLiveData.observe(viewLifecycleOwner, {
-            if (it == BookmarkViewModel.BookmarkViewState.RenewBookmarkAdapter) {
+            if (it is BookmarkViewModel.BookmarkViewState.RenewBookmarkAdapter) {
+                renewBookmarkListener.renewItem(it.excelData)
                 bookmarkAdapter.clear()
                 bookmarkViewModel.getAllBookmark()
             }

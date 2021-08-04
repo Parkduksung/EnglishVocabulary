@@ -33,12 +33,12 @@ class BookmarkViewModel(
     fun deleteBookmark(item: ExcelData) {
         viewModelMainScope.launch {
             if(studyInteractor.toggleBookmarkExcelData(false, item)){
-                viewStateChanged(BookmarkViewState.RenewBookmarkAdapter)
+                viewStateChanged(BookmarkViewState.RenewBookmarkAdapter(item))
             }
         }
     }
 
     sealed class BookmarkViewState : ViewState {
-        object RenewBookmarkAdapter : BookmarkViewState()
+        data class RenewBookmarkAdapter(val excelData: ExcelData) : BookmarkViewState()
     }
 }
