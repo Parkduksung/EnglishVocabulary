@@ -12,6 +12,7 @@ import com.example.englishvocabulary.network.api.KakaoApi
 import com.example.englishvocabulary.network.api.NaverApi
 import com.example.englishvocabulary.network.room.database.BookmarkDatabase
 import com.example.englishvocabulary.network.room.database.ExcelVocaDatabase
+import com.example.englishvocabulary.ui.home.HomeViewModel
 import com.example.englishvocabulary.ui.home.bookmark.BookmarkViewModel
 import com.example.englishvocabulary.ui.home.quiz.QuizViewModel
 import com.example.englishvocabulary.ui.home.search.SearchViewModel
@@ -38,6 +39,7 @@ class AppKoinSetup : KoinBaseSetup() {
         viewModel { SearchViewModel(get()) }
         viewModel { QuizViewModel(get()) }
         viewModel { BookmarkViewModel(get()) }
+        viewModel { HomeViewModel(get()) }
     }
 
     private val repositoryModule = module {

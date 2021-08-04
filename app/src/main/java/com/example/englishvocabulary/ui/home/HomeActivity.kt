@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import com.example.englishvocabulary.R
 import com.example.englishvocabulary.base.BaseActivity
 import com.example.englishvocabulary.data.model.ExcelData
@@ -19,6 +20,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home),
     RenewBookmarkListener {
 
+    private val homeViewModel by viewModels<HomeViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
