@@ -29,20 +29,8 @@ class StudyViewModel(
         }
     }
 
-    // 즐겨찾기 On/Off
-    fun toggleBookmark(isBookmarked: Boolean, item: ExcelData) {
-        viewModelMainScope.launch {
-            if (studyInteractor.toggleBookmarkExcelData(isBookmarked, item)) {
-                viewStateChanged(StudyViewState.ToggleBookMark(item))
-            } else {
-                viewStateChanged(StudyViewState.Error("Bookmark Error"))
-            }
-        }
-    }
-
 
     sealed class StudyViewState : ViewState {
-        data class ToggleBookMark(val excelData: ExcelData) : StudyViewState()
         data class Error(val errorMessage: String) : StudyViewState()
         data class ExcelVoca(val wandData: List<ExcelData>) : StudyViewState()
     }

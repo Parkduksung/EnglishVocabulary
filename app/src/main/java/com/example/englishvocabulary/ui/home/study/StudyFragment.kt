@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,15 +13,15 @@ import com.example.englishvocabulary.base.BaseFragment
 import com.example.englishvocabulary.base.ViewState
 import com.example.englishvocabulary.data.model.ExcelData
 import com.example.englishvocabulary.databinding.FragmentStudyBinding
+import com.example.englishvocabulary.ui.home.HomeViewModel
 import com.example.englishvocabulary.ui.home.adapter.DayAdapter
 import com.example.englishvocabulary.ui.home.adapter.StudyAdapter
 import com.example.englishvocabulary.ui.home.adapter.viewholder.DayListener
 import com.example.englishvocabulary.ui.home.adapter.viewholder.VocaListener
-import com.example.englishvocabulary.ui.home.bookmark.RenewBookmarkListener
 
 
 class StudyFragment : BaseFragment<FragmentStudyBinding>(R.layout.fragment_study), VocaListener,
-    DayListener, RenewBookmarkListener {
+    DayListener {
 
     private val studyAdapter by lazy { StudyAdapter() }
 
@@ -28,16 +29,10 @@ class StudyFragment : BaseFragment<FragmentStudyBinding>(R.layout.fragment_study
 
     private val studyViewModel by viewModels<StudyViewModel>()
 
-
-    override fun renewItem(item: ExcelData) {
-        if (binding.studyRv.adapter == studyAdapter) {
-            studyViewModel.toggleBookmark(!item.like, item)
-            studyAdapter.stateChangeBookmark(item)
-        }
-    }
+    private val homeViewModel by activityViewModels<HomeViewModel>()
 
     override fun getItemClick(isChecked: Boolean, item: ExcelData) {
-        studyViewModel.toggleBookmark(isChecked, item)
+        homeViewModel.toggleBookmark(isChecked,item)
     }
 
     override fun getItemClick(item: String) {
@@ -67,7 +62,17 @@ class StudyFragment : BaseFragment<FragmentStudyBinding>(R.layout.fragment_study
             (viewState as? StudyViewModel.StudyViewState)?.let { onChangedViewState(viewState) }
         }
 
+        homeViewModel.viewStateLiveData.observe(requireActivity()) { viewState: ViewState? ->
+            (viewState as? HomeViewModel.HomeViewState)?.let { homeViewState ->
+                when (homeViewState) {
+                    is HomeViewModel.HomeViewState.ToggleBookMark -> {
+                        studyAdapter.stateChangeBookmark(homeViewState.excelData)
+                    }
+                }
+            }
+        }
     }
+
 
     private fun onChangedViewState(viewState: StudyViewModel.StudyViewState) {
         when (viewState) {
@@ -76,9 +81,6 @@ class StudyFragment : BaseFragment<FragmentStudyBinding>(R.layout.fragment_study
             }
             is StudyViewModel.StudyViewState.ExcelVoca -> {
                 studyAdapter.addAllVocaData(viewState.wandData)
-            }
-            is StudyViewModel.StudyViewState.ToggleBookMark -> {
-                studyAdapter.stateChangeBookmark(viewState.excelData)
             }
         }
     }

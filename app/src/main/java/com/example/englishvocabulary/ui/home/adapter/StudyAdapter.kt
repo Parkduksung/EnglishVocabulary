@@ -38,9 +38,11 @@ class StudyAdapter : RecyclerView.Adapter<StudyViewHolder>() {
     }
 
     fun stateChangeBookmark(item: ExcelData) {
-        val index = vocaList.indexOf(item)
-        vocaList[index].like = !vocaList[index].like
-        notifyItemChanged(index)
+        if(vocaList.contains(item)){
+            val index = vocaList.indexOf(item)
+            vocaList[index].like = !vocaList[index].like
+            notifyItemChanged(index)
+        }
     }
 
 }

@@ -1,19 +1,21 @@
 package com.example.englishvocabulary.ui.home.quiz
 
-import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.englishvocabulary.App
 import com.example.englishvocabulary.R
 import com.example.englishvocabulary.base.BaseFragment
+import com.example.englishvocabulary.base.ViewState
 import com.example.englishvocabulary.data.model.ExcelData
 import com.example.englishvocabulary.databinding.FragmentQuizBinding
+import com.example.englishvocabulary.ui.home.HomeViewModel
 import com.example.englishvocabulary.ui.home.adapter.QuizAdapter
 import com.example.englishvocabulary.ui.home.adapter.viewholder.QuizItemListener
-import com.example.englishvocabulary.ui.home.bookmark.RenewBookmarkListener
 
 class QuizFragment : BaseFragment<FragmentQuizBinding>(R.layout.fragment_quiz), QuizItemListener {
 
@@ -21,18 +23,11 @@ class QuizFragment : BaseFragment<FragmentQuizBinding>(R.layout.fragment_quiz), 
 
     private val quizAdapter by lazy { QuizAdapter() }
 
-    private lateinit var renewBookmarkListener: RenewBookmarkListener
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        (activity as? RenewBookmarkListener)?.let {
-            renewBookmarkListener = it
-        }
-    }
+    private val homeViewModel by activityViewModels<HomeViewModel>()
 
     override fun getItem(item: ExcelData) {
-        quizViewModel.addBookmarkItem(item)
-        renewBookmarkListener.renewItem(item)
+        homeViewModel.toggleBookmark(isBookmarked = true, item)
+        Toast.makeText(requireContext(), "즐겨찾기에 추가되었습니다.", Toast.LENGTH_LONG).show()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,6 +51,7 @@ class QuizFragment : BaseFragment<FragmentQuizBinding>(R.layout.fragment_quiz), 
         binding.refreshButton.setOnClickListener {
             startQuizAdapter()
         }
+
     }
 
     private fun toggleContentAndQuiz(isStart: Boolean) {

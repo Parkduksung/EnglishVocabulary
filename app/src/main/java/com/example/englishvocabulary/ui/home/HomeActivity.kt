@@ -7,18 +7,15 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import com.example.englishvocabulary.R
 import com.example.englishvocabulary.base.BaseActivity
-import com.example.englishvocabulary.data.model.ExcelData
 import com.example.englishvocabulary.databinding.ActivityHomeBinding
 import com.example.englishvocabulary.ui.home.adapter.FragmentPagerAdapter
 import com.example.englishvocabulary.ui.home.bookmark.BookmarkFragment
-import com.example.englishvocabulary.ui.home.bookmark.RenewBookmarkListener
 import com.example.englishvocabulary.ui.home.quiz.QuizFragment
 import com.example.englishvocabulary.ui.home.search.SearchFragment
 import com.example.englishvocabulary.ui.home.study.StudyFragment
 import com.google.android.material.tabs.TabLayoutMediator
 
-class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home),
-    RenewBookmarkListener {
+class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home) {
 
     private val homeViewModel by viewModels<HomeViewModel>()
 
@@ -59,17 +56,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(R.layout.activity_home),
             tab.text = resources.getStringArray(R.array.array_tab_name)[position]
             tab.icon = resources.obtainTypedArray(R.array.array_tab_icon).getDrawable(position)
         }
-
-
-    override fun renewItem(item: ExcelData) {
-        supportFragmentManager.fragments.forEach {
-            when (it) {
-                is StudyFragment -> {
-                    it.renewItem(item)
-                }
-            }
-        }
-    }
 
 
     companion object {

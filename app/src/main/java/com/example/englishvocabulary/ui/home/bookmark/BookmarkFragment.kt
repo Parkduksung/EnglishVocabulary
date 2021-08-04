@@ -4,12 +4,14 @@ import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.englishvocabulary.R
 import com.example.englishvocabulary.base.BaseFragment
 import com.example.englishvocabulary.data.model.ExcelData
 import com.example.englishvocabulary.databinding.FragmentBookmarkBinding
+import com.example.englishvocabulary.ui.home.HomeViewModel
 import com.example.englishvocabulary.ui.home.adapter.BookmarkAdapter
 import com.example.englishvocabulary.ui.home.adapter.viewholder.BookmarkListener
 
@@ -20,39 +22,30 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(R.layout.fragment
 
     private val bookmarkViewModel by viewModels<BookmarkViewModel>()
 
-    private lateinit var renewBookmarkListener: RenewBookmarkListener
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        (activity as? RenewBookmarkListener)?.let {
-            renewBookmarkListener = it
-        }
-    }
+    private val homeViewModel by activityViewModels<HomeViewModel>()
 
     override fun getItemClick(item: ExcelData) {
-        bookmarkViewModel.deleteBookmark(item)
+        homeViewModel.toggleBookmark(isBookmarked = false, item)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         lifecycle.addObserver(bookmarkViewModel)
 
+        startBookmarkAdapter()
+
         bookmarkViewModel.bookmarkListLiveData.observe(viewLifecycleOwner, {
             bookmarkAdapter.addAllBookmarkData(it)
         })
 
-        bookmarkViewModel.viewStateLiveData.observe(viewLifecycleOwner, {
-            if (it is BookmarkViewModel.BookmarkViewState.RenewBookmarkAdapter) {
-                renewBookmarkListener.renewItem(it.excelData)
-                bookmarkAdapter.clear()
-                bookmarkViewModel.getAllBookmark()
+        homeViewModel.viewStateLiveData.observe(requireActivity()) { homeViewState ->
+            when (homeViewState) {
+                is HomeViewModel.HomeViewState.ToggleBookMark -> {
+                    bookmarkAdapter.clear()
+                    bookmarkViewModel.getAllBookmark()
+                }
             }
-        })
-    }
-
-    override fun onResume() {
-        startBookmarkAdapter()
-        super.onResume()
+        }
     }
 
     private fun startBookmarkAdapter() {
@@ -62,6 +55,7 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(R.layout.fragment
             layoutManager = LinearLayoutManager(requireContext())
             bookmarkAdapter.setBookmarkItemClickListener(this@BookmarkFragment)
         }
+        bookmarkViewModel.getAllBookmark()
     }
 
     override fun onDestroy() {
@@ -73,8 +67,4 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(R.layout.fragment
         fun newInstance() =
             BookmarkFragment()
     }
-}
-
-interface RenewBookmarkListener {
-    fun renewItem(item: ExcelData)
 }
