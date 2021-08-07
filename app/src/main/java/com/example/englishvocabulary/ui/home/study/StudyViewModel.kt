@@ -29,9 +29,23 @@ class StudyViewModel(
         }
     }
 
+    fun routeDetail(day: String) {
+        viewModelMainScope.launch {
+            viewStateChanged(StudyViewState.RouteDetail(day))
+        }
+    }
+
+    fun routeContent() {
+        viewModelMainScope.launch {
+            viewStateChanged(StudyViewState.RouteContent)
+        }
+    }
+
 
     sealed class StudyViewState : ViewState {
         data class Error(val errorMessage: String) : StudyViewState()
         data class ExcelVoca(val wandData: List<ExcelData>) : StudyViewState()
+        data class RouteDetail(val day: String) : StudyViewState()
+        object RouteContent : StudyViewState()
     }
 }

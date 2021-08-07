@@ -53,7 +53,27 @@ class StudyFragment : BaseFragment<FragmentStudyMainBinding>(R.layout.fragment_s
             }
             is StudyViewModel.StudyViewState.ExcelVoca -> {
             }
+
+            is StudyViewModel.StudyViewState.RouteDetail -> {
+                routeDetailFragment()
+            }
+
+            is StudyViewModel.StudyViewState.RouteContent -> {
+                routeContentFragment()
+            }
         }
+    }
+
+    private fun routeDetailFragment() {
+        childFragmentManager.beginTransaction()
+            .replace(R.id.study_container, StudyDetailFragment())
+            .commit()
+    }
+
+    private fun routeContentFragment() {
+        childFragmentManager.beginTransaction()
+            .replace(R.id.study_container, StudyContentFragment())
+            .commit()
     }
 
     override fun onDestroyView() {

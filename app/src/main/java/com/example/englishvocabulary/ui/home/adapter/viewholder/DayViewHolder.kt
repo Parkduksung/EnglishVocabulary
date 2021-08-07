@@ -19,7 +19,7 @@ class DayViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     ) {
 
         itemView.setOnClickListener {
-            itemClickListener.getItemClick(item)
+            itemClickListener.clickDay(item)
         }
 
         binding.apply {
@@ -30,5 +30,5 @@ class DayViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
 }
 
 interface DayListener {
-    fun getItemClick(item: String)
+    fun clickDay(day: String)
 }
