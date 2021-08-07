@@ -15,11 +15,25 @@ class StudyDetailFragment :
 
     private val detailAdapter by lazy { DetailAdapter() }
 
+    private val receiveBundleDay by lazy { requireArguments().getString(KEY_DAY) }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = studyViewModel
 
+    }
 
+
+    companion object {
+
+        private const val KEY_DAY = "key_day"
+
+        fun newInstance(detailDay: String): StudyDetailFragment =
+            StudyDetailFragment().apply {
+                arguments = Bundle().apply {
+                    putString(KEY_DAY, detailDay)
+                }
+            }
 
     }
 }

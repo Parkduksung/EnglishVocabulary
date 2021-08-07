@@ -12,7 +12,7 @@ import com.example.englishvocabulary.databinding.FragmentStudyMainBinding
 import com.example.englishvocabulary.ui.home.HomeViewModel
 
 
-class StudyFragment : BaseFragment<FragmentStudyMainBinding>(R.layout.fragment_study_main){
+class StudyFragment : BaseFragment<FragmentStudyMainBinding>(R.layout.fragment_study_main) {
 
     private val studyViewModel by viewModels<StudyViewModel>()
 
@@ -55,7 +55,7 @@ class StudyFragment : BaseFragment<FragmentStudyMainBinding>(R.layout.fragment_s
             }
 
             is StudyViewModel.StudyViewState.RouteDetail -> {
-                routeDetailFragment()
+                routeDetailFragment(viewState.day)
             }
 
             is StudyViewModel.StudyViewState.RouteContent -> {
@@ -64,9 +64,9 @@ class StudyFragment : BaseFragment<FragmentStudyMainBinding>(R.layout.fragment_s
         }
     }
 
-    private fun routeDetailFragment() {
+    private fun routeDetailFragment(day: String) {
         childFragmentManager.beginTransaction()
-            .replace(R.id.study_container, StudyDetailFragment())
+            .replace(R.id.study_container, StudyDetailFragment.newInstance(detailDay = day))
             .commit()
     }
 
