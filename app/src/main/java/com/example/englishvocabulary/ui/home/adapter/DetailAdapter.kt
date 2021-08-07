@@ -6,7 +6,7 @@ import com.example.englishvocabulary.data.model.ExcelData
 import com.example.englishvocabulary.ui.home.adapter.viewholder.StudyViewHolder
 import com.example.englishvocabulary.ui.home.adapter.viewholder.VocaListener
 
-class StudyAdapter : RecyclerView.Adapter<StudyViewHolder>() {
+class DetailAdapter : RecyclerView.Adapter<StudyViewHolder>() {
 
     private val vocaList = mutableListOf<ExcelData>()
 

@@ -4,6 +4,9 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.example.englishvocabulary.ui.home.study.StudyViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,6 +29,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="@drawable/ic_back"
+                android:onClick="@{() -> viewModel.routeContent()}"
                 android:padding="30dp"
                 app:layout_constraintBottom_toBottomOf="@id/content_tv"
                 app:layout_constraintDimensionRatio="W,1:1"
