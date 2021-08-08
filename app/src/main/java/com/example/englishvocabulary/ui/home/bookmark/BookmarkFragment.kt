@@ -23,7 +23,7 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(R.layout.fragment
     private val homeViewModel by activityViewModels<HomeViewModel>()
 
     override fun getItemClick(item: ExcelData) {
-        homeViewModel.toggleBookmark(isBookmarked = false, item)
+        homeViewModel.toggleBookmark(item)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

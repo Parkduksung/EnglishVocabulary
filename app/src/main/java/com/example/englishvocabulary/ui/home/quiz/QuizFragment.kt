@@ -26,7 +26,7 @@ class QuizFragment : BaseFragment<FragmentQuizBinding>(R.layout.fragment_quiz), 
     private val homeViewModel by activityViewModels<HomeViewModel>()
 
     override fun getItem(item: ExcelData) {
-        homeViewModel.toggleBookmark(isBookmarked = true, item)
+        homeViewModel.toggleBookmark(item)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

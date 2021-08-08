@@ -51,8 +51,6 @@ class StudyFragment : BaseFragment<FragmentStudyMainBinding>(R.layout.fragment_s
             is StudyViewModel.StudyViewState.Error -> {
                 Toast.makeText(requireContext(), viewState.errorMessage, Toast.LENGTH_LONG).show()
             }
-            is StudyViewModel.StudyViewState.ExcelVoca -> {
-            }
 
             is StudyViewModel.StudyViewState.RouteDetail -> {
                 routeDetailFragment(viewState.day)
@@ -60,6 +58,10 @@ class StudyFragment : BaseFragment<FragmentStudyMainBinding>(R.layout.fragment_s
 
             is StudyViewModel.StudyViewState.RouteContent -> {
                 routeContentFragment()
+            }
+
+            is StudyViewModel.StudyViewState.ToggleBookmark -> {
+                homeViewModel.toggleBookmark(viewState.excelData)
             }
         }
     }

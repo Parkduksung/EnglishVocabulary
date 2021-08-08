@@ -27,7 +27,7 @@ class StudyViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
             bookmark.isChecked = item.like
 
             bookmark.setOnClickListener {
-                itemClickListener.getItemClick(!item.like, item)
+                itemClickListener.getItemClick(item)
             }
         }
     }
@@ -35,5 +35,5 @@ class StudyViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
 }
 
 interface VocaListener {
-    fun getItemClick(isChecked: Boolean, item: ExcelData)
+    fun getItemClick(item: ExcelData)
 }

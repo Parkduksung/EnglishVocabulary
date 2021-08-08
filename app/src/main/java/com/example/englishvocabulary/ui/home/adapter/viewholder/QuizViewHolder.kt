@@ -26,7 +26,6 @@ class QuizViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
 
         val resultItem = item[0]
 
-//        val shuffleList = item.shuffled()
 
         binding.apply {
             word.text = resultItem.word

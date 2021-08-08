@@ -19,8 +19,8 @@ class StudyDetailFragment :
 
     private val receiveBundleDay by lazy { requireArguments().getString(KEY_DAY) }
 
-    override fun getItemClick(isChecked: Boolean, item: ExcelData) {
-
+    override fun getItemClick(item: ExcelData) {
+        studyViewModel.toggleBookmark(item)
     }
 
 
