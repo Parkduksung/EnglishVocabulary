@@ -46,11 +46,18 @@ class StudyViewModel(
         }
     }
 
+    fun toggleBookmark(excelData: ExcelData) {
+        viewModelMainScope.launch {
+            viewStateChanged(StudyViewState.ToggleBookmark(excelData))
+        }
+    }
+
 
     sealed class StudyViewState : ViewState {
         data class Error(val errorMessage: String) : StudyViewState()
         data class ExcelVoca(val wandData: List<ExcelData>) : StudyViewState()
         data class RouteDetail(val day: String) : StudyViewState()
+        data class ToggleBookmark(val excelData: ExcelData) : StudyViewState()
         object RouteContent : StudyViewState()
     }
 }
