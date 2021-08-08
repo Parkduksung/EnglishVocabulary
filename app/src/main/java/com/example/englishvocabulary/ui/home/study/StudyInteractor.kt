@@ -17,9 +17,9 @@ class StudyInteractor {
             return@withContext excelVocaRepository.getWantDayExcelVocaData(wantDay)
         }
 
-    suspend fun toggleBookmarkExcelData(isBookmarked: Boolean, item: ExcelData): Boolean =
+    suspend fun toggleBookmarkExcelData(item: ExcelData): Result<ExcelVocaEntity> =
         withContext(Dispatchers.IO) {
-            return@withContext excelVocaRepository.toggleBookmarkExcelData(isBookmarked, item)
+            return@withContext excelVocaRepository.toggleBookmarkExcelData(item)
         }
 
 }

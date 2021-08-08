@@ -12,9 +12,8 @@ interface ExcelVocaLocalDataSource {
 
 
     suspend fun toggleBookmarkExcelData(
-        toggleBookmark: Boolean,
         item: ExcelData
-    ): Boolean
+    ): Result<ExcelVocaEntity>
 
     fun getAllBookmarkExcelData(
         callback: (excelList: List<ExcelVocaEntity>) -> Unit

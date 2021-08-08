@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.englishvocabulary.network.room.entity.ExcelVocaEntity
-import com.example.englishvocabulary.util.Result
 
 @Dao
 interface ExcelVocaDao {

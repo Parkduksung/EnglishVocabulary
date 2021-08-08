@@ -32,19 +32,21 @@ class ExcelVocaLocalDataSourceImpl : ExcelVocaLocalDataSource {
 
 
     override suspend fun toggleBookmarkExcelData(
-        toggleBookmark: Boolean,
         item: ExcelData
-    ): Boolean = withContext(Dispatchers.IO) {
+    ): Result<ExcelVocaEntity> = withContext(Dispatchers.IO) {
 
         val updateExcelData = excelVocaDatabase.excelVocaDao().updateBookmarkExcelData(
             day = item.day,
             word = item.word,
             mean = item.mean,
-            toggleBookmark
+            like = !item.like
         )
 
-        // 1일경우 제대로 쿼리 성공. 그외 실패.
-        return@withContext updateExcelData == 1
+        return@withContext if(updateExcelData == 1){
+            Result.success(updateExcelData)
+        } else{
+            Result.failure(Throwable())
+        }
     }
 
     override fun getAllBookmarkExcelData(callback: (excelList: List<ExcelVocaEntity>) -> Unit) {
