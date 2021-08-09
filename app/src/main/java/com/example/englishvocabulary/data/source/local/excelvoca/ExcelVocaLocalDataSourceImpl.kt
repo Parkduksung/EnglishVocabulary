@@ -42,9 +42,10 @@ class ExcelVocaLocalDataSourceImpl : ExcelVocaLocalDataSource {
             like = !item.like
         )
 
-        return@withContext if(updateExcelData == 1){
-            Result.success(updateExcelData)
-        } else{
+        return@withContext if (updateExcelData == 1) {
+            val updateVocaEntity = item.toExcelVocaEntity().copy(like = !item.like)
+            Result.success(updateVocaEntity)
+        } else {
             Result.failure(Throwable())
         }
     }
