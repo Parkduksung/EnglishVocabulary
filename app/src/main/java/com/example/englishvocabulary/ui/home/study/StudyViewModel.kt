@@ -17,17 +17,13 @@ class StudyViewModel(
 
     fun getAllExcelVoca(day: String?) {
         viewModelMainScope.launch {
-            if (!day.isNullOrEmpty()) {
-                when (val result = studyInteractor.getWantExcelVocaData(wantDay = day.toLowerCase())) {
-                    is Result.Success -> {
-                        viewStateChanged(StudyViewState.ExcelVoca(result.value.map { it.toExcelData() }))
-                    }
-                    is Result.Failure -> {
-                        viewStateChanged(StudyViewState.Error(result.throwable.message!!))
-                    }
+            when (val result = studyInteractor.getWantExcelVocaData(wantDay = day)) {
+                is Result.Success -> {
+                    viewStateChanged(StudyViewState.ExcelVoca(result.value.map { it.toExcelData() }))
                 }
-            } else {
-                viewStateChanged(StudyViewState.Error("dayValue is Null or Empty!"))
+                is Result.Failure -> {
+                    viewStateChanged(StudyViewState.Error(result.throwable.message!!))
+                }
             }
         }
     }
