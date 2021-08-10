@@ -37,8 +37,10 @@ class StudyFragment : BaseFragment<FragmentStudyMainBinding>(R.layout.fragment_s
             (viewState as? HomeViewModel.HomeViewState)?.let { homeViewState ->
                 when (homeViewState) {
                     is HomeViewModel.HomeViewState.AddBookmark -> {
+                        studyViewModel.addBookmark(homeViewState.excelData)
                     }
                     is HomeViewModel.HomeViewState.DeleteBookmark -> {
+                        studyViewModel.deleteBookmark(homeViewState.excelData)
                     }
                 }
             }

@@ -41,8 +41,19 @@ class StudyDetailFragment :
 
     private fun initViewModel() {
         studyViewModel.viewStateLiveData.observe(viewLifecycleOwner) { viewState ->
-            if (viewState is StudyViewModel.StudyViewState.ExcelVoca) {
-                detailAdapter.addAllVocaData(viewState.wandData)
+
+            when (viewState) {
+                is StudyViewModel.StudyViewState.ExcelVoca -> {
+                    detailAdapter.addAllVocaData(viewState.wandData)
+                }
+
+                is StudyViewModel.StudyViewState.AddBookmark -> {
+                    detailAdapter.stateChangeBookmark(viewState.excelData)
+                }
+
+                is StudyViewModel.StudyViewState.DeleteBookmark -> {
+                    detailAdapter.stateChangeBookmark(viewState.excelData)
+                }
             }
         }
     }

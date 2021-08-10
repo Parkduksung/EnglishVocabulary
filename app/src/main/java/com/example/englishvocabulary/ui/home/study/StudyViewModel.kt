@@ -52,12 +52,26 @@ class StudyViewModel(
         }
     }
 
+    fun addBookmark(excelData: ExcelData) {
+        viewModelMainScope.launch {
+            viewStateChanged(StudyViewState.AddBookmark(excelData))
+        }
+    }
+
+    fun deleteBookmark(excelData: ExcelData) {
+        viewModelMainScope.launch {
+            viewStateChanged(StudyViewState.DeleteBookmark(excelData))
+        }
+    }
+
 
     sealed class StudyViewState : ViewState {
         data class Error(val errorMessage: String) : StudyViewState()
         data class ExcelVoca(val wandData: List<ExcelData>) : StudyViewState()
         data class RouteDetail(val day: String) : StudyViewState()
         data class ToggleBookmark(val excelData: ExcelData) : StudyViewState()
+        data class AddBookmark(val excelData: ExcelData) : StudyViewState()
+        data class DeleteBookmark(val excelData: ExcelData) : StudyViewState()
         object RouteContent : StudyViewState()
     }
 }
