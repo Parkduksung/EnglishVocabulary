@@ -30,25 +30,16 @@ class StudyFragment : BaseFragment<FragmentStudyMainBinding>(R.layout.fragment_s
         lifecycle.addObserver(studyViewModel)
 
         studyViewModel.viewStateLiveData.observe(requireActivity()) { viewState: ViewState? ->
-            (viewState as? StudyViewModel.StudyViewState)?.let { onChangedViewState(viewState) }
+            (viewState as? StudyViewModel.StudyViewState)?.let { onChangedStudyViewState(viewState) }
         }
 
         homeViewModel.viewStateLiveData.observe(requireActivity()) { viewState: ViewState? ->
-            (viewState as? HomeViewModel.HomeViewState)?.let { homeViewState ->
-                when (homeViewState) {
-                    is HomeViewModel.HomeViewState.AddBookmark -> {
-                        studyViewModel.addBookmark(homeViewState.excelData)
-                    }
-                    is HomeViewModel.HomeViewState.DeleteBookmark -> {
-                        studyViewModel.deleteBookmark(homeViewState.excelData)
-                    }
-                }
-            }
+            (viewState as? HomeViewModel.HomeViewState)?.let { onChangeHomeViewState(viewState) }
         }
     }
 
 
-    private fun onChangedViewState(viewState: StudyViewModel.StudyViewState) {
+    private fun onChangedStudyViewState(viewState: StudyViewModel.StudyViewState) {
         when (viewState) {
             is StudyViewModel.StudyViewState.Error -> {
                 Toast.makeText(requireContext(), viewState.errorMessage, Toast.LENGTH_LONG).show()
@@ -64,6 +55,17 @@ class StudyFragment : BaseFragment<FragmentStudyMainBinding>(R.layout.fragment_s
 
             is StudyViewModel.StudyViewState.ToggleBookmark -> {
                 homeViewModel.toggleBookmark(viewState.excelData)
+            }
+        }
+    }
+
+    private fun onChangeHomeViewState(viewState: HomeViewModel.HomeViewState) {
+        when (viewState) {
+            is HomeViewModel.HomeViewState.AddBookmark -> {
+                studyViewModel.addBookmark(viewState.excelData)
+            }
+            is HomeViewModel.HomeViewState.DeleteBookmark -> {
+                studyViewModel.deleteBookmark(viewState.excelData)
             }
         }
     }

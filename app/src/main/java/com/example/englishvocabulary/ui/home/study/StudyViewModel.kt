@@ -15,12 +15,10 @@ class StudyViewModel(
 
     private val studyInteractor by inject(StudyInteractor::class.java)
 
-    // 날짜에 따른 ExcelVoca 얻어오기.
     fun getAllExcelVoca(day: String?) {
         viewModelMainScope.launch {
             if (!day.isNullOrEmpty()) {
-                when (val result =
-                    studyInteractor.getWantExcelVocaData(wantDay = day.toLowerCase())) {
+                when (val result = studyInteractor.getWantExcelVocaData(wantDay = day.toLowerCase())) {
                     is Result.Success -> {
                         viewStateChanged(StudyViewState.ExcelVoca(result.value.map { it.toExcelData() }))
                     }
