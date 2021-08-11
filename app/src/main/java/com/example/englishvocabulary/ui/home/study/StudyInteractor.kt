@@ -14,7 +14,7 @@ class StudyInteractor {
 
     suspend fun getWantExcelVocaData(wantDay: String?): Result<List<ExcelVocaEntity>> =
         withContext(Dispatchers.IO) {
-            return@withContext if (checkValidDay(wantDay)) {
+            return@withContext if (!checkValidDay(wantDay)) {
                 Result.failure(Throwable("dayValue is Null or Empty!"))
             } else {
                 excelVocaRepository.getWantDayExcelVocaData(wantDay!!.toLowerCase())
