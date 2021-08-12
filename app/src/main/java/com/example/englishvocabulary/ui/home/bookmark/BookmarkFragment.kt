@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.englishvocabulary.R
 import com.example.englishvocabulary.base.BaseFragment
+import com.example.englishvocabulary.base.ViewState
 import com.example.englishvocabulary.data.model.ExcelData
 import com.example.englishvocabulary.databinding.FragmentBookmarkBinding
 import com.example.englishvocabulary.ui.home.HomeViewModel
@@ -28,18 +29,49 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(R.layout.fragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        initUi()
+        initViewModel()
+
+    }
+
+    private fun initUi() {
+        startBookmarkAdapter()
+    }
+
+    private fun initViewModel() {
         lifecycle.addObserver(bookmarkViewModel)
 
-        startBookmarkAdapter()
+        homeViewModel.viewStateLiveData.observe(viewLifecycleOwner) { viewState: ViewState? ->
+            (viewState as? HomeViewModel.HomeViewState)?.let { onChangedHomeViewState(viewState) }
 
-        homeViewModel.viewStateLiveData.observe(requireActivity()) { homeViewState ->
-            when (homeViewState) {
-                is HomeViewModel.HomeViewState.AddBookmark -> {
-                    bookmarkAdapter.addBookmark(homeViewState.excelData)
-                }
-                is HomeViewModel.HomeViewState.DeleteBookmark -> {
-                    bookmarkAdapter.deleteBookmark(homeViewState.excelData)
-                }
+        }
+
+        bookmarkViewModel.viewStateLiveData.observe(viewLifecycleOwner) { viewState: ViewState? ->
+            (viewState as? BookmarkViewModel.BookmarkViewState)?.let {
+                onChangedBookmarkViewState(viewState)
+            }
+        }
+    }
+
+
+    private fun onChangedBookmarkViewState(viewState: BookmarkViewModel.BookmarkViewState) {
+        when (viewState) {
+            is BookmarkViewModel.BookmarkViewState.BookmarkList -> {
+                bookmarkAdapter.addAllBookmarkData(viewState.bookmarkList)
+            }
+        }
+    }
+
+
+    private fun onChangedHomeViewState(viewState: HomeViewModel.HomeViewState) {
+        when (viewState) {
+            is HomeViewModel.HomeViewState.AddBookmark -> {
+                bookmarkAdapter.addBookmark(viewState.excelData)
+            }
+            is HomeViewModel.HomeViewState.DeleteBookmark -> {
+                bookmarkAdapter.deleteBookmark(viewState.excelData)
             }
         }
     }
@@ -51,11 +83,10 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(R.layout.fragment
             layoutManager = LinearLayoutManager(requireContext())
             bookmarkAdapter.setBookmarkItemClickListener(this@BookmarkFragment)
         }
-        bookmarkViewModel.getAllBookmark(bookmarkAdapter)
+        bookmarkViewModel.getAllBookmark()
     }
 
     override fun onDestroy() {
-        lifecycle.removeObserver(bookmarkViewModel)
         super.onDestroy()
     }
 
@@ -64,3 +95,4 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(R.layout.fragment
             BookmarkFragment()
     }
 }
+

@@ -17,10 +17,18 @@ class BookmarkViewModel(
 
     private val excelVocaRepository by inject(ExcelVocaRepository::class.java)
 
-    fun getAllBookmark(adapter: BookmarkAdapter) {
-        excelVocaRepository.getAllBookmarkExcelData { bookmarkEntityList ->
-            adapter.addAllBookmarkData(bookmarkEntityList.toSet().map { it.toExcelData() })
+    fun getAllBookmark() {
+        viewModelMainScope.launch {
+            excelVocaRepository.getAllBookmarkExcelData { bookmarkEntityList ->
+                val toBookmarkList = bookmarkEntityList.toSet().map { it.toExcelData() }
+                viewStateChanged(BookmarkViewState.BookmarkList(toBookmarkList))
+            }
         }
     }
+
+    sealed class BookmarkViewState : ViewState {
+        data class BookmarkList(val bookmarkList: List<ExcelData>) : BookmarkViewState()
+    }
+
 
 }
