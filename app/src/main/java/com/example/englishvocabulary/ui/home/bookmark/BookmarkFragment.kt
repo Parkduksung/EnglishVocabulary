@@ -2,6 +2,7 @@ package com.example.englishvocabulary.ui.home.bookmark
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -60,6 +61,9 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(R.layout.fragment
         when (viewState) {
             is BookmarkViewModel.BookmarkViewState.BookmarkList -> {
                 bookmarkAdapter.addAllBookmarkData(viewState.bookmarkList)
+            }
+            is BookmarkViewModel.BookmarkViewState.Error -> {
+                Toast.makeText(requireContext(), viewState.errorMessage, Toast.LENGTH_SHORT).show()
             }
         }
     }

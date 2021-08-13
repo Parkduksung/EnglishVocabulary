@@ -1,13 +1,12 @@
 package com.example.englishvocabulary.ui.home.bookmark
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.LifecycleObserver
 import com.example.englishvocabulary.base.BaseViewModel
 import com.example.englishvocabulary.base.ViewState
 import com.example.englishvocabulary.data.model.ExcelData
 import com.example.englishvocabulary.data.repository.ExcelVocaRepository
-import com.example.englishvocabulary.ui.home.adapter.BookmarkAdapter
-import com.example.englishvocabulary.ui.home.study.StudyInteractor
+import com.example.englishvocabulary.util.Result
 import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
 
@@ -19,15 +18,21 @@ class BookmarkViewModel(
 
     fun getAllBookmark() {
         viewModelMainScope.launch {
-            excelVocaRepository.getAllBookmarkExcelData { bookmarkEntityList ->
-                val toBookmarkList = bookmarkEntityList.toSet().map { it.toExcelData() }
-                viewStateChanged(BookmarkViewState.BookmarkList(toBookmarkList))
+            when (val resultBookmarkList = excelVocaRepository.getAllBookmarkList()) {
+                is Result.Success -> {
+                    viewStateChanged(BookmarkViewState.BookmarkList(resultBookmarkList.value.map { it.toExcelData() }))
+                }
+
+                is Result.Failure -> {
+                    viewStateChanged(BookmarkViewState.Error(resultBookmarkList.throwable.message!!))
+                }
             }
         }
     }
 
     sealed class BookmarkViewState : ViewState {
         data class BookmarkList(val bookmarkList: List<ExcelData>) : BookmarkViewState()
+        data class Error(val errorMessage: String) : BookmarkViewState()
     }
 
 
