@@ -30,6 +30,12 @@ class ExcelVocaLocalDataSourceImpl : ExcelVocaLocalDataSource {
             return@withContext excelVocaDatabase.excelVocaDao().getDayExcelVocaEntity(wantDay)
         }
 
+    override suspend fun getAllBookmarkList(): Result<List<ExcelVocaEntity>> =
+        withContext(Dispatchers.IO) {
+            return@withContext Result.success(
+                excelVocaDatabase.excelVocaDao().getBookmarkExcelVocaEntity(true)
+            )
+        }
 
     override suspend fun toggleBookmarkExcelData(
         item: ExcelData
@@ -48,21 +54,6 @@ class ExcelVocaLocalDataSourceImpl : ExcelVocaLocalDataSource {
         } else {
             Result.failure(Throwable())
         }
-    }
-
-    override fun getAllBookmarkExcelData(callback: (excelList: List<ExcelVocaEntity>) -> Unit) {
-        val appExecutors = AppExecutors()
-
-        appExecutors.diskIO.execute {
-
-            val getAllBookmarkExcelData =
-                excelVocaDatabase.excelVocaDao().getBookmarkExcelVocaEntity(true)
-
-            appExecutors.mainThread.execute {
-                callback(getAllBookmarkExcelData)
-            }
-        }
-
     }
 
     override fun getExcelData(callback: (excelList: List<ExcelVocaEntity>) -> Unit) {

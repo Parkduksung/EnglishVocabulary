@@ -15,9 +15,7 @@ interface ExcelVocaLocalDataSource {
         item: ExcelData
     ): Result<ExcelVocaEntity>
 
-    fun getAllBookmarkExcelData(
-        callback: (excelList: List<ExcelVocaEntity>) -> Unit
-    )
+    suspend fun getAllBookmarkList() : Result<List<ExcelVocaEntity>>
 
     suspend fun checkExistExcelVoca(): Boolean
 

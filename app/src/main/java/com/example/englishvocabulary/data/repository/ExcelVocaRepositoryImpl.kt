@@ -22,9 +22,10 @@ class ExcelVocaRepositoryImpl : ExcelVocaRepository {
         return@withContext excelVocaLocalDataSource.toggleBookmarkExcelData(item)
     }
 
-    override fun getAllBookmarkExcelData(callback: (excelList: List<ExcelVocaEntity>) -> Unit) {
-        excelVocaLocalDataSource.getAllBookmarkExcelData(callback)
-    }
+    override suspend fun getAllBookmarkList(): Result<List<ExcelVocaEntity>> =
+        withContext(Dispatchers.IO) {
+            return@withContext excelVocaLocalDataSource.getAllBookmarkList()
+        }
 
     override suspend fun checkExistExcelVoca(): Boolean = withContext(Dispatchers.IO) {
         return@withContext excelVocaLocalDataSource.checkExistExcelVoca()
