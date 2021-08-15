@@ -11,6 +11,7 @@ import kotlinx.coroutines.withContext
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
 import org.apache.poi.poifs.filesystem.POIFSFileSystem
 import org.koin.java.KoinJavaComponent.inject
+import java.lang.Exception
 
 class ExcelVocaLocalDataSourceImpl : ExcelVocaLocalDataSource {
 
@@ -32,9 +33,13 @@ class ExcelVocaLocalDataSourceImpl : ExcelVocaLocalDataSource {
 
     override suspend fun getAllBookmarkList(): Result<List<ExcelVocaEntity>> =
         withContext(Dispatchers.IO) {
-            return@withContext Result.success(
-                excelVocaDatabase.excelVocaDao().getBookmarkExcelVocaEntity(true)
-            )
+            return@withContext try {
+                val getAllBookmarkList =
+                    excelVocaDatabase.excelVocaDao().getBookmarkExcelVocaEntity(true)
+                Result.success(getAllBookmarkList)
+            } catch (e: Exception) {
+                Result.failure(Throwable("bookmarkList is Null!"))
+            }
         }
 
     override suspend fun toggleBookmarkExcelData(
