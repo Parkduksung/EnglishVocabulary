@@ -1,7 +1,6 @@
 package com.example.englishvocabulary.ui.home.search
 
 import android.app.Application
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.englishvocabulary.base.BaseViewModel
 import com.example.englishvocabulary.base.ViewState
@@ -19,8 +18,6 @@ class SearchViewModel(
 
     val searchWordLiveData = MutableLiveData<String>()
 
-    private val _translateWordLiveData = MutableLiveData<String>()
-    val translateWordLiveData: LiveData<String> = _translateWordLiveData
 
     //kakao Api 번역.
     fun searchKakaoWord() {
@@ -34,7 +31,8 @@ class SearchViewModel(
                     }
 
                     is Result.Failure -> {
-                        viewStateChanged(SearchViewstate.Error(searchResult.throwable.message!!))
+                        //CustomError 관리 필요.
+                        viewStateChanged(SearchViewstate.Error(searchResult.throwable.toString()))
                     }
                 }
             }

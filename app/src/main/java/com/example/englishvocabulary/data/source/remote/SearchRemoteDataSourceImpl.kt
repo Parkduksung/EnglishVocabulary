@@ -23,10 +23,8 @@ class SearchRemoteDataSourceImpl : SearchRemoteDataSource {
         withContext(Dispatchers.IO) {
             return@withContext try {
                 Result.success(kakaoApi.search("en", "kr", word).execute().body()!!)
-            } catch (e: RuntimeException) {
-                Result.failure(e)
-            } catch (e: IOException) {
-                Result.failure(e)
+            } catch (e: Exception) {
+                Result.failure(Throwable(e))
             }
         }
 
