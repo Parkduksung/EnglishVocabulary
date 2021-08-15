@@ -1,37 +1,34 @@
 package com.example.englishvocabulary.data.source.remote
 
-import android.util.Log
 import com.example.englishvocabulary.network.api.KakaoApi
 import com.example.englishvocabulary.network.api.NaverApi
-import com.example.englishvocabulary.network.api.NaverApi.Companion.CLIENT_ID
-import com.example.englishvocabulary.network.api.NaverApi.Companion.CLIENT_SECRET
 import com.example.englishvocabulary.network.response.KakaoDetachResponse
 import com.example.englishvocabulary.network.response.KakaoSearchResponse
-import com.example.englishvocabulary.network.response.NaverSearchResponse
+import com.example.englishvocabulary.util.Result
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.koin.java.KoinJavaComponent.inject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
 
 class SearchRemoteDataSourceImpl : SearchRemoteDataSource {
 
     private val kakaoApi by inject(KakaoApi::class.java)
     private val naverApi by inject(NaverApi::class.java)
 
-    override fun searchKakaoWord(word: String, callback: (text: KakaoSearchResponse) -> Unit) {
 
-        kakaoApi.search("en", "kr", word).enqueue(object : Callback<KakaoSearchResponse> {
-            override fun onResponse(
-                call: Call<KakaoSearchResponse>,
-                response: Response<KakaoSearchResponse>
-            ) {
-                response.body()?.let(callback)
+    override suspend fun searchKakaoWord(word: String): Result<KakaoSearchResponse> =
+        withContext(Dispatchers.IO) {
+            return@withContext try {
+                Result.success(kakaoApi.search("en", "kr", word).execute().body()!!)
+            } catch (e: RuntimeException) {
+                Result.failure(e)
+            } catch (e: IOException) {
+                Result.failure(e)
             }
-
-            override fun onFailure(call: Call<KakaoSearchResponse>, t: Throwable) {
-            }
-        })
-    }
+        }
 
     override fun detachKakaoWord(word: String, callback: (nation: KakaoDetachResponse) -> Unit) {
 

@@ -2,6 +2,7 @@ package com.example.englishvocabulary.network.api
 
 import com.example.englishvocabulary.network.response.KakaoDetachResponse
 import com.example.englishvocabulary.network.response.KakaoSearchResponse
+import com.example.englishvocabulary.util.Result
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Headers
