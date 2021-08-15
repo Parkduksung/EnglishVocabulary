@@ -33,29 +33,6 @@ class SearchRemoteDataSourceImpl : SearchRemoteDataSource {
         })
     }
 
-
-    override fun searchNaverWord(word: String, callback: (text: NaverSearchResponse) -> Unit) {
-
-        naverApi.search(CLIENT_ID, CLIENT_SECRET, "en", "ko", word)
-            .enqueue(object : Callback<NaverSearchResponse> {
-                override fun onResponse(
-                    call: Call<NaverSearchResponse>,
-                    response: Response<NaverSearchResponse>
-                ) {
-                    Log.d("결과",
-                        response.body()?.naverSearchMessage?.naverSearchResult?.translatedText
-                            ?: "null"
-                    )
-//                    response.body()?.naverSearchMessage?.naverSearchResult?.translatedText
-                    response.body()?.let(callback)
-                }
-
-                override fun onFailure(call: Call<NaverSearchResponse>, t: Throwable) {
-                    Log.d("결과", t.toString())
-                }
-            })
-    }
-
     override fun detachKakaoWord(word: String, callback: (nation: KakaoDetachResponse) -> Unit) {
 
         kakaoApi.detach(word).enqueue(object : Callback<KakaoDetachResponse> {

@@ -14,10 +14,6 @@ class SearchRepositoryImpl : SearchRepository {
         searchRemoteDataSource.searchKakaoWord(word, callback)
     }
 
-    override fun searchNaverWord(word: String, callback: (text: NaverSearchResponse) -> Unit) {
-        searchRemoteDataSource.searchNaverWord(word, callback)
-    }
-
     override fun detachKakaoWord(word: String, callback: (nation: KakaoDetachResponse) -> Unit) {
         searchRemoteDataSource.detachKakaoWord(word, callback)
     }

@@ -29,14 +29,5 @@ class SearchViewModel(
         }
     }
 
-    fun searchNaverWord() {
-        searchWordLiveData.value?.let { searchWord ->
-
-            searchRepository.searchNaverWord(searchWord) {
-                Log.d("결과", searchWord)
-            }
-
-        }
-    }
 
 }
