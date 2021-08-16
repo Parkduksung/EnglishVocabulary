@@ -12,7 +12,7 @@ class SearchRepositoryImpl : SearchRepository {
 
     private val searchRemoteDataSource by inject(SearchRemoteDataSource::class.java)
 
-    override suspend fun searchKakaoWord(word: String): Result<KakaoSearchResponse> =
+    override suspend fun searchKakaoWord(word: String?): Result<KakaoSearchResponse> =
         withContext(Dispatchers.IO) {
             return@withContext searchRemoteDataSource.searchKakaoWord(word)
         }

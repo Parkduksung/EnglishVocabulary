@@ -11,7 +11,6 @@ import org.koin.java.KoinJavaComponent.inject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.IOException
 
 class SearchRemoteDataSourceImpl : SearchRemoteDataSource {
 
@@ -19,12 +18,16 @@ class SearchRemoteDataSourceImpl : SearchRemoteDataSource {
     private val naverApi by inject(NaverApi::class.java)
 
 
-    override suspend fun searchKakaoWord(word: String): Result<KakaoSearchResponse> =
+    override suspend fun searchKakaoWord(word: String?): Result<KakaoSearchResponse> =
         withContext(Dispatchers.IO) {
             return@withContext try {
-                Result.success(kakaoApi.search("en", "kr", word).execute().body()!!)
+                if (!word.isNullOrBlank()) {
+                    Result.success(kakaoApi.search("en", "kr", word).execute().body()!!)
+                } else {
+                    Result.failure(Throwable("Not Search Word"))
+                }
             } catch (e: Exception) {
-                Result.failure(Throwable(e))
+                Result.failure(Throwable("Exception Error"))
             }
         }
 

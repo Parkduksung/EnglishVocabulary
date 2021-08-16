@@ -7,7 +7,7 @@ import com.example.englishvocabulary.util.Result
 interface SearchRepository {
 
     suspend fun searchKakaoWord(
-        word: String
+        word: String?
     ): Result<KakaoSearchResponse>
 
     fun detachKakaoWord(
