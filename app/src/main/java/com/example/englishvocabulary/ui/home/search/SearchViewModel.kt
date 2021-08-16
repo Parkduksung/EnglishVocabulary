@@ -21,19 +21,15 @@ class SearchViewModel(
 
     //kakao Api 번역.
     fun searchKakaoWord() {
-
         viewModelMainScope.launch {
+            when (val searchResult = searchRepository.searchKakaoWord(searchWordLiveData.value)) {
+                is Result.Success -> {
+                    viewStateChanged(SearchViewstate.Translate(searchResult.value.translated_text[0][0]))
+                }
 
-            searchWordLiveData.value?.let { searchWord ->
-                when (val searchResult = searchRepository.searchKakaoWord(searchWord)) {
-                    is Result.Success -> {
-                        viewStateChanged(SearchViewstate.Translate(searchResult.value.translated_text[0][0]))
-                    }
-
-                    is Result.Failure -> {
-                        //CustomError 관리 필요.
-                        viewStateChanged(SearchViewstate.Error(searchResult.throwable.toString()))
-                    }
+                is Result.Failure -> {
+                    //CustomError 관리 필요.
+                    viewStateChanged(SearchViewstate.Error(searchResult.throwable.toString()))
                 }
             }
         }
