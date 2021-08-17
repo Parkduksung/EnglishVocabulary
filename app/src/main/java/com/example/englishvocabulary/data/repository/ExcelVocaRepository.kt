@@ -6,15 +6,13 @@ import com.example.englishvocabulary.util.Result
 
 interface ExcelVocaRepository {
 
-    fun getExcelData(
-        callback: (excelList: List<ExcelVocaEntity>) -> Unit
-    )
+    suspend fun getAllExcelData(): Result<List<ExcelVocaEntity>>
 
     suspend fun toggleBookmarkExcelData(
         item: ExcelData
     ): Result<ExcelVocaEntity>
 
-    suspend fun getAllBookmarkList() : Result<List<ExcelVocaEntity>>
+    suspend fun getAllBookmarkList(): Result<List<ExcelVocaEntity>>
 
     suspend fun getWantDayExcelVocaData(
         wantDay: String

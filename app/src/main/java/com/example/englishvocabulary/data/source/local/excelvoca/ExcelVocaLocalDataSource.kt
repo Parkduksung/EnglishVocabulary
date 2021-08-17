@@ -6,16 +6,13 @@ import com.example.englishvocabulary.util.Result
 
 interface ExcelVocaLocalDataSource {
 
-    fun getExcelData(
-        callback: (excelList: List<ExcelVocaEntity>) -> Unit
-    )
-
+    suspend fun getAllExcelData(): Result<List<ExcelVocaEntity>>
 
     suspend fun toggleBookmarkExcelData(
         item: ExcelData
     ): Result<ExcelVocaEntity>
 
-    suspend fun getAllBookmarkList() : Result<List<ExcelVocaEntity>>
+    suspend fun getAllBookmarkList(): Result<List<ExcelVocaEntity>>
 
     suspend fun checkExistExcelVoca(): Boolean
 
@@ -23,6 +20,6 @@ interface ExcelVocaLocalDataSource {
 
     suspend fun getWantDayExcelVocaData(
         wantDay: String
-    ): List<ExcelVocaEntity>
+    ): Result<List<ExcelVocaEntity>>
 
 }

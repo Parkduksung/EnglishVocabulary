@@ -4,14 +4,12 @@ import com.example.englishvocabulary.App
 import com.example.englishvocabulary.data.model.ExcelData
 import com.example.englishvocabulary.network.room.database.ExcelVocaDatabase
 import com.example.englishvocabulary.network.room.entity.ExcelVocaEntity
-import com.example.englishvocabulary.util.AppExecutors
 import com.example.englishvocabulary.util.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
 import org.apache.poi.poifs.filesystem.POIFSFileSystem
 import org.koin.java.KoinJavaComponent.inject
-import java.lang.Exception
 
 class ExcelVocaLocalDataSourceImpl : ExcelVocaLocalDataSource {
 
@@ -26,9 +24,16 @@ class ExcelVocaLocalDataSourceImpl : ExcelVocaLocalDataSource {
         return@withContext excelVocaDatabase.excelVocaDao().getAll().isNotEmpty()
     }
 
-    override suspend fun getWantDayExcelVocaData(wantDay: String): List<ExcelVocaEntity> =
+    override suspend fun getWantDayExcelVocaData(wantDay: String): Result<List<ExcelVocaEntity>> =
         withContext(Dispatchers.IO) {
-            return@withContext excelVocaDatabase.excelVocaDao().getDayExcelVocaEntity(wantDay)
+            val getWantDayExcelVocaEntityList =
+                excelVocaDatabase.excelVocaDao().getDayExcelVocaEntity(wantDay)
+
+            return@withContext if (!getWantDayExcelVocaEntityList.isNullOrEmpty()) {
+                Result.success(getWantDayExcelVocaEntityList)
+            } else {
+                Result.failure(Throwable("Specific Excel Voca is Empty Or Null"))
+            }
         }
 
     override suspend fun getAllBookmarkList(): Result<List<ExcelVocaEntity>> =
@@ -61,19 +66,14 @@ class ExcelVocaLocalDataSourceImpl : ExcelVocaLocalDataSource {
         }
     }
 
-    override fun getExcelData(callback: (excelList: List<ExcelVocaEntity>) -> Unit) {
-
-        val appExecutors = AppExecutors()
-
-        appExecutors.diskIO.execute {
-
-            val getAllExcelVocaEntity = getAllExcelVocaEntity()
-
-            appExecutors.mainThread.execute {
-                callback(getAllExcelVocaEntity)
+    override suspend fun getAllExcelData(): Result<List<ExcelVocaEntity>> =
+        withContext(Dispatchers.IO) {
+            return@withContext try {
+                Result.success(excelVocaDatabase.excelVocaDao().getAll())
+            } catch (e: Exception) {
+                Result.failure(Throwable("Error GetAllExcelEntity"))
             }
         }
-    }
 
     private fun registerAllReadExcelFileData() {
         getAllReadExcelFileData().forEach { excelData ->

@@ -12,9 +12,10 @@ class ExcelVocaRepositoryImpl : ExcelVocaRepository {
 
     private val excelVocaLocalDataSource by inject(ExcelVocaLocalDataSource::class.java)
 
-    override fun getExcelData(callback: (excelList: List<ExcelVocaEntity>) -> Unit) {
-        excelVocaLocalDataSource.getExcelData(callback)
-    }
+    override suspend fun getAllExcelData(): Result<List<ExcelVocaEntity>> =
+        withContext(Dispatchers.IO) {
+            return@withContext excelVocaLocalDataSource.getAllExcelData()
+        }
 
     override suspend fun toggleBookmarkExcelData(
         item: ExcelData
@@ -35,16 +36,8 @@ class ExcelVocaRepositoryImpl : ExcelVocaRepository {
         return@withContext excelVocaLocalDataSource.registerExcelVocaData()
     }
 
-
     override suspend fun getWantDayExcelVocaData(wantDay: String): Result<List<ExcelVocaEntity>> =
         withContext(Dispatchers.IO) {
-
-            val getWantDayExcelVocaData = excelVocaLocalDataSource.getWantDayExcelVocaData(wantDay)
-
-            if (!getWantDayExcelVocaData.isNullOrEmpty()) {
-                return@withContext Result.success(getWantDayExcelVocaData)
-            } else {
-                return@withContext Result.failure(Throwable("Specific Excel Voca is Empty Or Null"))
-            }
+            return@withContext excelVocaLocalDataSource.getWantDayExcelVocaData(wantDay)
         }
 }
