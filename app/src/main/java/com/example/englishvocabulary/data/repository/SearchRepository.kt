@@ -10,8 +10,4 @@ interface SearchRepository {
         word: String?
     ): Result<KakaoSearchResponse>
 
-    fun detachKakaoWord(
-        word: String,
-        callback: (nation: KakaoDetachResponse) -> Unit
-    )
 }
