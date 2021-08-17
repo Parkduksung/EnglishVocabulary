@@ -2,15 +2,12 @@ package com.example.englishvocabulary.koin
 
 import androidx.room.Room
 import com.example.englishvocabulary.data.repository.*
-import com.example.englishvocabulary.data.source.local.bookmark.BookmarkLocalDataSource
-import com.example.englishvocabulary.data.source.local.bookmark.BookmarkLocalDataSourceImpl
 import com.example.englishvocabulary.data.source.local.excelvoca.ExcelVocaLocalDataSource
 import com.example.englishvocabulary.data.source.local.excelvoca.ExcelVocaLocalDataSourceImpl
 import com.example.englishvocabulary.data.source.remote.SearchRemoteDataSource
 import com.example.englishvocabulary.data.source.remote.SearchRemoteDataSourceImpl
 import com.example.englishvocabulary.network.api.KakaoApi
 import com.example.englishvocabulary.network.api.NaverApi
-import com.example.englishvocabulary.network.room.database.BookmarkDatabase
 import com.example.englishvocabulary.network.room.database.ExcelVocaDatabase
 import com.example.englishvocabulary.ui.home.HomeViewModel
 import com.example.englishvocabulary.ui.home.bookmark.BookmarkViewModel
@@ -44,12 +41,10 @@ class AppKoinSetup : KoinBaseSetup() {
 
     private val repositoryModule = module {
         single<SearchRepository> { SearchRepositoryImpl() }
-        single<BookmarkRepository> { BookmarkRepositoryImpl() }
         single<ExcelVocaRepository> { ExcelVocaRepositoryImpl() }
     }
 
     private val sourceModule = module {
-        single<BookmarkLocalDataSource> { BookmarkLocalDataSourceImpl() }
         single<ExcelVocaLocalDataSource> { ExcelVocaLocalDataSourceImpl() }
         single<SearchRemoteDataSource> { SearchRemoteDataSourceImpl() }
     }
@@ -61,15 +56,6 @@ class AppKoinSetup : KoinBaseSetup() {
                 get(),
                 ExcelVocaDatabase::class.java,
                 "excel_voca_database"
-            )
-                .fallbackToDestructiveMigration()
-                .build()
-        }
-        single {
-            Room.databaseBuilder(
-                get(),
-                BookmarkDatabase::class.java,
-                "bookmark_database"
             )
                 .fallbackToDestructiveMigration()
                 .build()

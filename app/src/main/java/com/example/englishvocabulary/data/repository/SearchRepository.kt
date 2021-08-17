@@ -1,6 +1,5 @@
 package com.example.englishvocabulary.data.repository
 
-import com.example.englishvocabulary.network.response.KakaoDetachResponse
 import com.example.englishvocabulary.network.response.KakaoSearchResponse
 import com.example.englishvocabulary.util.Result
 

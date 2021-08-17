@@ -81,9 +81,6 @@ class ExcelVocaLocalDataSourceImpl : ExcelVocaLocalDataSource {
         }
     }
 
-    private fun getAllExcelVocaEntity(): List<ExcelVocaEntity> {
-        return excelVocaDatabase.excelVocaDao().getAll()
-    }
 
     private fun getAllReadExcelFileData(): List<ExcelData> {
         return mutableListOf<ExcelData>().apply {
