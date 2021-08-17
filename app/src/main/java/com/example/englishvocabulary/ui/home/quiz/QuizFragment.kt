@@ -7,7 +7,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.englishvocabulary.App
 import com.example.englishvocabulary.R
 import com.example.englishvocabulary.base.BaseFragment
 import com.example.englishvocabulary.base.ViewState
@@ -32,23 +31,32 @@ class QuizFragment : BaseFragment<FragmentQuizBinding>(R.layout.fragment_quiz), 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initUi()
+        initViewModel()
+
+    }
+
+    private fun initUi() {
         startQuizAdapter()
+    }
 
-        quizViewModel.quizList.observe(viewLifecycleOwner, {
-            quizAdapter.addAllVocaData(it)
-        })
-
-
-        binding.startTv.setOnClickListener {
-            toggleContentAndQuiz(isStart = true)
+    private fun initViewModel() {
+        quizViewModel.viewStateLiveData.observe(viewLifecycleOwner) { viewState: ViewState? ->
+            (viewState as? QuizViewModel.QuizViewState)?.let { onChangedViewState(it) }
         }
+    }
 
-        binding.backButton.setOnClickListener {
-            toggleContentAndQuiz(isStart = false)
-        }
+    private fun onChangedViewState(viewState: QuizViewModel.QuizViewState) {
+        when (viewState) {
 
-        binding.refreshButton.setOnClickListener {
-            startQuizAdapter()
+            is QuizViewModel.QuizViewState.Error -> {
+                Toast.makeText(requireContext(), viewState.errorMessage, Toast.LENGTH_SHORT).show()
+            }
+
+            is QuizViewModel.QuizViewState.QuizList -> {
+                quizAdapter.addAllVocaData(viewState.quizList)
+            }
+
         }
 
     }
@@ -65,12 +73,25 @@ class QuizFragment : BaseFragment<FragmentQuizBinding>(R.layout.fragment_quiz), 
 
 
     private fun startQuizAdapter() {
+
         binding.quizRv.run {
             adapter = quizAdapter
             quizAdapter.clear()
             layoutManager = LinearLayoutManager(requireContext())
             quizAdapter.setVocaItemClickListener(this@QuizFragment)
-            quizViewModel.getAllExcelVoca()
+            quizViewModel.getQuizList()
+        }
+
+        binding.startTv.setOnClickListener {
+            toggleContentAndQuiz(isStart = true)
+        }
+
+        binding.backButton.setOnClickListener {
+            toggleContentAndQuiz(isStart = false)
+        }
+
+        binding.refreshButton.setOnClickListener {
+            startQuizAdapter()
         }
     }
 }

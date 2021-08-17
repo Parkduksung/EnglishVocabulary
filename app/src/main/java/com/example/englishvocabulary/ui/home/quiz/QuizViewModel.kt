@@ -1,14 +1,11 @@
 package com.example.englishvocabulary.ui.home.quiz
 
 import android.app.Application
-import android.widget.Toast
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.example.englishvocabulary.App
 import com.example.englishvocabulary.base.BaseViewModel
+import com.example.englishvocabulary.base.ViewState
 import com.example.englishvocabulary.data.model.ExcelData
 import com.example.englishvocabulary.data.repository.ExcelVocaRepository
-import com.example.englishvocabulary.ui.home.study.StudyInteractor
+import com.example.englishvocabulary.util.Result
 import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
 
@@ -19,15 +16,28 @@ class QuizViewModel(
 
     private val excelVocaRepository by inject(ExcelVocaRepository::class.java)
 
-    private val _quizList = MutableLiveData<List<List<ExcelData>>>()
-    val quizList: LiveData<List<List<ExcelData>>> = _quizList
 
     //전체 데이터를 가져와 무작위로 섞고 4개에 1쌍인 리스트를 10개로 묶은 결과를 얻는 메서드
-    fun getAllExcelVoca() {
-        excelVocaRepository.getExcelData { excelVocaEntityList ->
-            val getAllExcelData = excelVocaEntityList.map { it.toExcelData() }.shuffled()
-            _quizList.value = getAllExcelData.chunked(4).subList(0, 10)
+    fun getQuizList() {
+        viewModelMainScope.launch {
+            when (val result = excelVocaRepository.getAllExcelData()) {
+                is Result.Success -> {
+                    val quizList =
+                        result.value.map { it.toExcelData() }.shuffled().chunked(4).subList(0, 10)
+
+                    viewStateChanged(QuizViewState.QuizList(quizList))
+                }
+
+                is Result.Failure -> {
+                    viewStateChanged(QuizViewState.Error(result.throwable.message!!))
+                }
+            }
         }
+    }
+
+    sealed class QuizViewState : ViewState {
+        data class QuizList(val quizList: List<List<ExcelData>>) : QuizViewState()
+        data class Error(val errorMessage: String) : QuizViewState()
     }
 
 }
