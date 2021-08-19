@@ -62,7 +62,7 @@ class ExcelVocaLocalDataSourceImpl : ExcelVocaLocalDataSource {
             val updateVocaEntity = item.toExcelVocaEntity().copy(like = !item.like)
             Result.success(updateVocaEntity)
         } else {
-            Result.failure(Throwable())
+            Result.failure(Throwable("Error ToggleBookmark"))
         }
     }
 
