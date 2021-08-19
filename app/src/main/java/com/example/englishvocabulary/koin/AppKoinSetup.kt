@@ -84,6 +84,6 @@ class AppKoinSetup : KoinBaseSetup() {
     }
 
     companion object {
-        private const val KAKAO_URL = "https://dapi.kakao.com/"
+        const val KAKAO_URL = "https://dapi.kakao.com/"
     }
 }
