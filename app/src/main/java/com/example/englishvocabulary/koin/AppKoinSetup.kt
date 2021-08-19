@@ -7,7 +7,6 @@ import com.example.englishvocabulary.data.source.local.excelvoca.ExcelVocaLocalD
 import com.example.englishvocabulary.data.source.remote.SearchRemoteDataSource
 import com.example.englishvocabulary.data.source.remote.SearchRemoteDataSourceImpl
 import com.example.englishvocabulary.network.api.KakaoApi
-import com.example.englishvocabulary.network.api.NaverApi
 import com.example.englishvocabulary.network.room.database.ExcelVocaDatabase
 import com.example.englishvocabulary.ui.home.HomeViewModel
 import com.example.englishvocabulary.ui.home.bookmark.BookmarkViewModel
@@ -70,13 +69,6 @@ class AppKoinSetup : KoinBaseSetup() {
                 .build()
                 .create(KakaoApi::class.java)
         }
-        single<NaverApi> {
-            Retrofit.Builder()
-                .baseUrl(NAVER_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(NaverApi::class.java)
-        }
     }
 
 
@@ -93,7 +85,5 @@ class AppKoinSetup : KoinBaseSetup() {
 
     companion object {
         private const val KAKAO_URL = "https://dapi.kakao.com/"
-        private const val NAVER_URL = "https://openapi.naver.com/"
-
     }
 }
