@@ -5,7 +5,7 @@ import androidx.lifecycle.LifecycleObserver
 import com.example.englishvocabulary.base.BaseViewModel
 import com.example.englishvocabulary.base.ViewState
 import com.example.englishvocabulary.data.model.ExcelData
-import com.example.englishvocabulary.interactor.StudyInteractor
+import com.example.englishvocabulary.interactor.BookmarkInteractor
 import com.example.englishvocabulary.util.Result
 import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
@@ -14,11 +14,11 @@ class StudyViewModel(
     app: Application
 ) : BaseViewModel(app), LifecycleObserver {
 
-    private val studyInteractor by inject(StudyInteractor::class.java)
+    private val bookmarkInteractor by inject(BookmarkInteractor::class.java)
 
     fun getAllExcelVoca(day: String?) {
         viewModelMainScope.launch {
-            when (val result = studyInteractor.getWantExcelVocaData(wantDay = day)) {
+            when (val result = bookmarkInteractor.getWantExcelVocaData(wantDay = day)) {
                 is Result.Success -> {
                     viewStateChanged(StudyViewState.ExcelVoca(result.value.map { it.toExcelData() }))
                 }

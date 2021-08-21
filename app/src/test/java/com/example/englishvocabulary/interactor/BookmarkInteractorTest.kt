@@ -15,13 +15,13 @@ import org.koin.dsl.module
 import org.mockito.Mock
 import org.mockito.Mockito
 
-class StudyInteractorTest : BaseTest() {
+class BookmarkInteractorTest : BaseTest() {
 
 
     @Mock
     lateinit var excelVocaRepository: ExcelVocaRepository
 
-    private lateinit var studyInteractor: StudyInteractor
+    private lateinit var bookmarkInteractor: BookmarkInteractor
 
     override fun createModules(): List<Module> {
         return listOf(
@@ -40,7 +40,7 @@ class StudyInteractorTest : BaseTest() {
     @ExperimentalCoroutinesApi
     override fun setup() {
         super.setup()
-        studyInteractor = StudyInteractor()
+        bookmarkInteractor = BookmarkInteractor()
     }
 
     // 날짜에 대한 ExcelVocaList 가 제대로 나오는지 확인.
@@ -53,7 +53,7 @@ class StudyInteractorTest : BaseTest() {
             )
         )
 
-        val getWantDayExcelVocaDataResult = studyInteractor.getWantExcelVocaData("Day1")
+        val getWantDayExcelVocaDataResult = bookmarkInteractor.getWantExcelVocaData("Day1")
 
         MatcherAssert.assertThat(
             "list 에 있는 ExcelData 가 1개이기 때문에 성공",
@@ -77,7 +77,7 @@ class StudyInteractorTest : BaseTest() {
             )
         )
 
-        val getWantDayExcelVocaDataResult = studyInteractor.toggleBookmarkExcelData(mockData)
+        val getWantDayExcelVocaDataResult = bookmarkInteractor.toggleBookmarkExcelData(mockData)
         MatcherAssert.assertThat(
             "bookmark 상태가 toggle 되므로 성공",
             (getWantDayExcelVocaDataResult as? Result.Success)?.value?.like,
@@ -92,7 +92,7 @@ class StudyInteractorTest : BaseTest() {
     @Test
     fun checkWantDayNullTest() = runBlocking {
 
-        val getWantDayExcelVocaDataResult = studyInteractor.getWantExcelVocaData(null)
+        val getWantDayExcelVocaDataResult = bookmarkInteractor.getWantExcelVocaData(null)
 
         MatcherAssert.assertThat(
             "wantDay 값이 null 이므로",

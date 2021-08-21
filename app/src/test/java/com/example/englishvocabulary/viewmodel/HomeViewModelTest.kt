@@ -1,9 +1,8 @@
 package com.example.englishvocabulary.viewmodel
 
 import base.ViewModelBaseTest
-import com.example.englishvocabulary.interactor.StudyInteractor
+import com.example.englishvocabulary.interactor.BookmarkInteractor
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Assert.*
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.mockito.Mock
@@ -11,14 +10,14 @@ import org.mockito.Mock
 class HomeViewModelTest : ViewModelBaseTest() {
 
     @Mock
-    lateinit var studyInteractor: StudyInteractor
+    lateinit var bookmarkInteractor: BookmarkInteractor
 
     private lateinit var homeViewModel: HomeViewModel
 
     override fun createModules(): List<Module> {
         return listOf(
             module {
-                single { studyInteractor }
+                single { bookmarkInteractor }
             }
         )
     }

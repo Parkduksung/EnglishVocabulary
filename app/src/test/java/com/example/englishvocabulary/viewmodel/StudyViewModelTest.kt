@@ -2,7 +2,7 @@ package com.example.englishvocabulary.viewmodel
 
 import base.ViewModelBaseTest
 import com.example.englishvocabulary.data.model.ExcelData
-import com.example.englishvocabulary.interactor.StudyInteractor
+import com.example.englishvocabulary.interactor.BookmarkInteractor
 import com.example.englishvocabulary.util.Result
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
@@ -16,14 +16,14 @@ import org.mockito.Mockito
 class StudyViewModelTest : ViewModelBaseTest() {
 
     @Mock
-    lateinit var studyInteractor: StudyInteractor
+    lateinit var bookmarkInteractor: BookmarkInteractor
 
     private lateinit var studyViewModel: StudyViewModel
 
     override fun createModules(): List<Module> {
         return listOf(
             module {
-                factory { studyInteractor }
+                factory { bookmarkInteractor }
             }
         )
     }
@@ -47,7 +47,7 @@ class StudyViewModelTest : ViewModelBaseTest() {
     //날짜가 null 일 경우 확인한다.
     @Test
     fun checkDayIsNullTest() = runBlocking {
-        Mockito.`when`(studyInteractor.getWantExcelVocaData(wantDay = null))
+        Mockito.`when`(bookmarkInteractor.getWantExcelVocaData(wantDay = null))
             .thenReturn(Result.failure(Throwable("dayValue is Null or Empty!")))
         studyViewModel.getAllExcelVoca(null)
         Mockito.verify(viewStateObserver)
@@ -57,7 +57,7 @@ class StudyViewModelTest : ViewModelBaseTest() {
     //날짜가 empty 일 경우 확인한다.
     @Test
     fun checkDayIsEmptyTest() = runBlocking {
-        Mockito.`when`(studyInteractor.getWantExcelVocaData(wantDay = ""))
+        Mockito.`when`(bookmarkInteractor.getWantExcelVocaData(wantDay = ""))
             .thenReturn(Result.failure(Throwable("dayValue is Null or Empty!")))
         studyViewModel.getAllExcelVoca("")
         Mockito.verify(viewStateObserver)
@@ -67,7 +67,7 @@ class StudyViewModelTest : ViewModelBaseTest() {
     //날짜가 올바르지 않을 경우 확인한다.
     @Test
     fun checkDayIsNotValidTest() = runBlocking {
-        Mockito.`when`(studyInteractor.getWantExcelVocaData(wantDay = "null"))
+        Mockito.`when`(bookmarkInteractor.getWantExcelVocaData(wantDay = "null"))
             .thenReturn(Result.failure(Throwable("Specific Excel Voca is Empty Or Null")))
 
         studyViewModel.getAllExcelVoca("null")
@@ -89,7 +89,7 @@ class StudyViewModelTest : ViewModelBaseTest() {
 
         val mockList = listOf(mockExcelData.toExcelVocaEntity())
 
-        Mockito.`when`(studyInteractor.getWantExcelVocaData("Day1")).thenReturn(
+        Mockito.`when`(bookmarkInteractor.getWantExcelVocaData("Day1")).thenReturn(
             Result.success(
                 mockList
             )

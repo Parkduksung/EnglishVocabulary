@@ -12,7 +12,7 @@ import com.example.englishvocabulary.viewmodel.HomeViewModel
 import com.example.englishvocabulary.viewmodel.BookmarkViewModel
 import com.example.englishvocabulary.viewmodel.QuizViewModel
 import com.example.englishvocabulary.viewmodel.SearchViewModel
-import com.example.englishvocabulary.interactor.StudyInteractor
+import com.example.englishvocabulary.interactor.BookmarkInteractor
 import com.example.englishvocabulary.viewmodel.StudyViewModel
 import com.example.englishvocabulary.interactor.SplashInteractor
 import com.example.englishvocabulary.viewmodel.SplashViewModel
@@ -26,7 +26,7 @@ class AppKoinSetup : KoinBaseSetup() {
 
     private val interactorModule = module {
         factory { SplashInteractor() }
-        factory { StudyInteractor() }
+        factory { BookmarkInteractor() }
     }
 
     private val viewModelModule = module {

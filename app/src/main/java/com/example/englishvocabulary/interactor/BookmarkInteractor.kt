@@ -8,7 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.koin.java.KoinJavaComponent.inject
 
-class StudyInteractor {
+class BookmarkInteractor {
 
     private val excelVocaRepository by inject(ExcelVocaRepository::class.java)
 

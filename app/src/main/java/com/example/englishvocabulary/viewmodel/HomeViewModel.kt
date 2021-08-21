@@ -4,19 +4,19 @@ import android.app.Application
 import com.example.englishvocabulary.base.BaseViewModel
 import com.example.englishvocabulary.base.ViewState
 import com.example.englishvocabulary.data.model.ExcelData
-import com.example.englishvocabulary.interactor.StudyInteractor
+import com.example.englishvocabulary.interactor.BookmarkInteractor
 import com.example.englishvocabulary.util.Result
 import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
 
 class HomeViewModel(app: Application) : BaseViewModel(app) {
 
-    private val studyInteractor by inject(StudyInteractor::class.java)
+    private val bookmarkInteractor by inject(BookmarkInteractor::class.java)
 
     // 즐겨찾기 On/Off
     fun toggleBookmark(item: ExcelData) {
         viewModelMainScope.launch {
-            when (val bookmarkResult = studyInteractor.toggleBookmarkExcelData(item)) {
+            when (val bookmarkResult = bookmarkInteractor.toggleBookmarkExcelData(item)) {
                 is Result.Success -> {
                     if (bookmarkResult.value.like) {
                         viewStateChanged(HomeViewState.AddBookmark(item))
