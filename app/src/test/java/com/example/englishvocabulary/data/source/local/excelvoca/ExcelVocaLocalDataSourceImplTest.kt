@@ -41,12 +41,14 @@ class ExcelVocaLocalDataSourceImplTest : BaseTest() {
         excelVocaDao = Mockito.mock(ExcelVocaDao::class.java)
     }
 
+    private fun mockExcelVocaList(excelData: ExcelData) =
+        listOf(excelData.toExcelVocaEntity())
 
     @Test
     fun checkGetAllExcelDataSuccessTest() = runBlocking {
 
         val mockExcelVocaEntityList =
-            listOf(ExcelData("day1", "resume", "이력서", false).toExcelVocaEntity())
+            mockExcelVocaList(ExcelData("day1", "resume", "이력서", false))
 
         val successResult = Result.success(mockExcelVocaEntityList)
 
@@ -84,7 +86,7 @@ class ExcelVocaLocalDataSourceImplTest : BaseTest() {
     fun checkExistExcelVocaSuccessTest() = runBlocking {
 
         val mockExcelVocaEntityList =
-            listOf(ExcelData("day1", "resume", "이력서", false).toExcelVocaEntity())
+            mockExcelVocaList(ExcelData("day1", "resume", "이력서", false))
 
         Mockito.`when`(excelVocaDao.getAll()).thenReturn(mockExcelVocaEntityList)
         Mockito.`when`(excelVocaDatabase.excelVocaDao()).thenReturn(excelVocaDao)
@@ -114,7 +116,7 @@ class ExcelVocaLocalDataSourceImplTest : BaseTest() {
     fun checkGetAllBookmarkListSuccessTest() = runBlocking {
 
         val mockExcelVocaEntityList =
-            listOf(ExcelData("day1", "resume", "이력서", true).toExcelVocaEntity())
+            mockExcelVocaList(ExcelData("day1", "resume", "이력서", true))
 
         val successResult = Result.success(mockExcelVocaEntityList)
 
@@ -153,7 +155,7 @@ class ExcelVocaLocalDataSourceImplTest : BaseTest() {
     fun checkGetDayExcelVocaEntitySuccessTest() = runBlocking {
 
         val mockExcelVocaEntity =
-            listOf(ExcelData("day1", "resume", "이력서", false).toExcelVocaEntity())
+            mockExcelVocaList(ExcelData("day1", "resume", "이력서", false))
 
         Mockito.`when`(excelVocaDao.getDayExcelVocaEntity("day1")).thenReturn(mockExcelVocaEntity)
         Mockito.`when`(excelVocaDatabase.excelVocaDao()).thenReturn(excelVocaDao)

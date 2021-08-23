@@ -59,7 +59,7 @@ class SearchRemoteDataSourceImplTest : BaseTest() {
     @Test
     fun checkSearchKakaoWordFailNullTest() = runBlocking {
 
-        val failureResult = Throwable("Not Search Word")
+        val failureResult = failResult("Not Search Word")
 
         MatcherAssert.assertThat(
             (searchRemoteDataSourceImpl.searchKakaoWord(null) as Result.Failure).throwable.message,
@@ -70,7 +70,7 @@ class SearchRemoteDataSourceImplTest : BaseTest() {
     @Test
     fun checkSearchKakaoWordFailBlankTest() = runBlocking {
 
-        val failureResult = Throwable("Not Search Word")
+        val failureResult = failResult("Not Search Word")
 
         MatcherAssert.assertThat(
             (searchRemoteDataSourceImpl.searchKakaoWord("") as Result.Failure).throwable.message,
@@ -82,7 +82,9 @@ class SearchRemoteDataSourceImplTest : BaseTest() {
     @Test
     fun checkSearchKakaoWordFailExceptionTest() = runBlocking {
 
-        val failureResult = Throwable("Exception Error")
+        val failureResult = failResult("Exception Error")
+
+
 
         Mockito.`when`(kakaoApi.search("en", "kr", "hello"))
             .then { failureResult }
@@ -94,6 +96,8 @@ class SearchRemoteDataSourceImplTest : BaseTest() {
 
     }
 
+    private fun failResult(throwableMessage: String) =
+        Throwable(throwableMessage)
 
     private fun mockKakaoApi() {
         Mockito.`when`(kakaoApi.search("en", "kr", "hello"))
