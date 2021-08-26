@@ -7,7 +7,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/study_container"
-        android:name="com.example.englishvocabulary.ui.home.study.StudyContentFragment"
+        android:name="com.example.englishvocabulary.ui.StudyContentFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </layout>
