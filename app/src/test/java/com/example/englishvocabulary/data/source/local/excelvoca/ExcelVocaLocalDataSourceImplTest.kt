@@ -2,19 +2,25 @@ package com.example.englishvocabulary.data.source.local.excelvoca
 
 import base.BaseTest
 import com.example.englishvocabulary.data.model.ExcelData
+import com.example.englishvocabulary.network.api.SheetApi
 import com.example.englishvocabulary.network.room.dao.ExcelVocaDao
 import com.example.englishvocabulary.network.room.database.ExcelVocaDatabase
 import com.example.englishvocabulary.network.room.entity.ExcelVocaEntity
 import com.example.englishvocabulary.util.Result
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
+import okhttp3.Request
 import org.hamcrest.MatcherAssert
 import org.hamcrest.Matchers
+import org.junit.Assert
 import org.junit.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.mockito.Mock
 import org.mockito.Mockito
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ExcelVocaLocalDataSourceImplTest : BaseTest() {
 
@@ -24,12 +30,16 @@ class ExcelVocaLocalDataSourceImplTest : BaseTest() {
     @Mock
     lateinit var excelVocaDao: ExcelVocaDao
 
+    @Mock
+    lateinit var sheetApi: SheetApi
+
     private lateinit var excelVocaLocalDataSourceImpl: ExcelVocaLocalDataSource
 
     override fun createModules(): List<Module> {
         return listOf(
             module {
                 single { excelVocaDatabase }
+                single { sheetApi }
             }
         )
     }
@@ -251,5 +261,75 @@ class ExcelVocaLocalDataSourceImplTest : BaseTest() {
             )
         )
     }
+
+    @Test
+    fun checkRegisterExcelVocaDataSucessTest() = runBlocking {
+
+        mockSheetApi()
+
+        val mockExcelVocaEntityList =
+            mockExcelVocaList(ExcelData("day1", "resume", "이력서", false))
+
+        Assert.assertTrue(sheetApi.getSheetExcelData().execute().code() == 200)
+
+        Mockito.`when`(excelVocaDao.getAll()).thenReturn(mockExcelVocaEntityList)
+        Mockito.`when`(excelVocaDatabase.excelVocaDao()).thenReturn(excelVocaDao)
+
+        MatcherAssert.assertThat(
+            excelVocaLocalDataSourceImpl.registerExcelVocaData(),
+            Matchers.`is`(true)
+        )
+
+    }
+
+
+    @Test
+    fun checkRegisterExcelVocaDataFailTest() = runBlocking {
+
+        Mockito.`when`(sheetApi.getSheetExcelData()).then { Throwable() }
+
+        MatcherAssert.assertThat(
+            excelVocaLocalDataSourceImpl.registerExcelVocaData(),
+            Matchers.`is`(false)
+        )
+
+
+    }
+
+
+    private fun mockSheetApi() {
+        Mockito.`when`(sheetApi.getSheetExcelData())
+            .thenReturn(object : Call<List<ExcelData>> {
+
+                override fun enqueue(callback: Callback<List<ExcelData>>) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun execute(): Response<List<ExcelData>> {
+                    return Response.success((listOf(ExcelData("day1", "resume", "이력서", false))))
+                }
+
+                override fun clone(): Call<List<ExcelData>> {
+                    TODO("Not yet implemented")
+                }
+
+                override fun isExecuted(): Boolean {
+                    TODO("Not yet implemented")
+                }
+
+                override fun cancel() {
+                    TODO("Not yet implemented")
+                }
+
+                override fun isCanceled(): Boolean {
+                    TODO("Not yet implemented")
+                }
+
+                override fun request(): Request {
+                    TODO("Not yet implemented")
+                }
+            })
+    }
+
 
 }
