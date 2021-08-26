@@ -1,21 +1,20 @@
 package com.example.englishvocabulary.koin
 
 import androidx.room.Room
-import com.example.englishvocabulary.data.repository.*
+import com.example.englishvocabulary.data.repository.ExcelVocaRepository
+import com.example.englishvocabulary.data.repository.ExcelVocaRepositoryImpl
+import com.example.englishvocabulary.data.repository.SearchRepository
+import com.example.englishvocabulary.data.repository.SearchRepositoryImpl
 import com.example.englishvocabulary.data.source.local.excelvoca.ExcelVocaLocalDataSource
 import com.example.englishvocabulary.data.source.local.excelvoca.ExcelVocaLocalDataSourceImpl
 import com.example.englishvocabulary.data.source.remote.SearchRemoteDataSource
 import com.example.englishvocabulary.data.source.remote.SearchRemoteDataSourceImpl
-import com.example.englishvocabulary.network.api.KakaoApi
-import com.example.englishvocabulary.network.room.database.ExcelVocaDatabase
-import com.example.englishvocabulary.viewmodel.HomeViewModel
-import com.example.englishvocabulary.viewmodel.BookmarkViewModel
-import com.example.englishvocabulary.viewmodel.QuizViewModel
-import com.example.englishvocabulary.viewmodel.SearchViewModel
 import com.example.englishvocabulary.interactor.BookmarkInteractor
-import com.example.englishvocabulary.viewmodel.StudyViewModel
 import com.example.englishvocabulary.interactor.SplashInteractor
-import com.example.englishvocabulary.viewmodel.SplashViewModel
+import com.example.englishvocabulary.network.api.KakaoApi
+import com.example.englishvocabulary.network.api.SheetApi
+import com.example.englishvocabulary.network.room.database.ExcelVocaDatabase
+import com.example.englishvocabulary.viewmodel.*
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -69,6 +68,14 @@ class AppKoinSetup : KoinBaseSetup() {
                 .build()
                 .create(KakaoApi::class.java)
         }
+
+        single<SheetApi> {
+            Retrofit.Builder()
+                .baseUrl(SHEET_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(SheetApi::class.java)
+        }
     }
 
 
@@ -85,5 +92,6 @@ class AppKoinSetup : KoinBaseSetup() {
 
     companion object {
         const val KAKAO_URL = "https://dapi.kakao.com/"
+        const val SHEET_URL = "https://sheetdb.io/"
     }
 }
